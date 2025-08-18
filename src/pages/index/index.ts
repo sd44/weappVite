@@ -1,5 +1,4 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index";
-import { hello } from "~/utils/util";
 
 const firstGrid = [
   {
@@ -55,16 +54,10 @@ Page({
       await wx.setClipboardData({
         data: e.mark.url,
       });
-      console.log(`复制成功: ${e.mark.url}`);
     }
   },
-  handleSelected(e: WechatMiniprogram.CustomEvent) {
-    console.log(e.detail);
-  },
-  onLoad() {
-    // 页面渲染后 执行
-    console.log(hello());
-  },
+  handleSelected(_e: WechatMiniprogram.CustomEvent) {},
+  onLoad() {},
   handleAction() {
     ActionSheet.show({
       theme: ActionSheetTheme.Grid,

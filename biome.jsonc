@@ -1,17 +1,17 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "files": {
     "includes": [
       "**",
-      "!./node_modules",
-      "!./dist",
-      "!./build",
-      "!./vscode",
-      "!./idea",
+      "!node_modules",
+      "!dist",
+      "!build",
+      "!.vscode",
+      "!idea",
       "!**/*.log",
-      "!./.DS_Store",
-      "!./project.config.json",
-      "!./project.private.config.json",
+      "!.DS_Store",
+      "!project.config.json",
+      "!project.private.config.json",
       "!**/*.wxml",
       "!**/*.wxss"
     ],
@@ -32,13 +32,21 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noEmptyBlockStatements": "off",
+        "noConsole": "info"
+      },
+      "style": {
+        "useFilenamingConvention": "off"
+      }
     }
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "double"
-    }
+    },
+    "globals": ["App", "Component", "Page", "wx"]
   },
   "json": {
     "formatter": {
@@ -57,7 +65,5 @@
       }
     }
   },
-  "extends": [
-    "ultracite"
-  ]
+  "extends": ["ultracite"]
 }
