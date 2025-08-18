@@ -62,6 +62,7 @@ Page({
     console.log(e.detail);
   },
   onLoad() {
+    // 页面渲染后 执行
     console.log(hello());
   },
   handleAction() {

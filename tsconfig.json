@@ -3,17 +3,27 @@
     "forceConsistentCasingInFileNames": true,
     "target": "ES2020",
     "jsx": "preserve",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "useDefineForClassFields": false,
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "~/*": ["./src/*"],
-      "tdesign-miniprogram/*": ["./node_modules/tdesign-miniprogram/miniprogram_dist/*"]
+      "~/*": [
+        "./src/*"
+      ],
+      "tdesign-miniprogram/*": [
+        "./node_modules/tdesign-miniprogram/miniprogram_dist/*"
+      ]
     },
     "resolveJsonModule": true,
-    "types": ["miniprogram-api-typings"],
+    "types": [
+      "miniprogram-api-typings"
+    ],
     "allowImportingTsExtensions": true,
     "allowJs": true,
     "strict": true,
@@ -24,13 +34,20 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   },
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
   ],
-  "include": ["src/**/*.ts", "src/**/*.js"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
