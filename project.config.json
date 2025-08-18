@@ -44,10 +44,10 @@
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "libVersion": "3.8.7",
+  "libVersion": "3.9.0",
   "packOptions": {
     "ignore": [],
     "include": []
   },
-  "appid": "wx6ffee4673b257014"
+  "appid": "touristappid"
 }
