@@ -1,8 +1,8 @@
 {
-	"$schema": "https://vite.icebreaker.top/app.json",
-	"pages": ["pages/index/index", "pages/hello-world/hello-world"],
-	"window": {},
-	"componentFramework": "glass-easel",
-	"sitemapLocation": "sitemap.json",
-	"lazyCodeLoading": "requiredComponents"
+  "$schema": "https://vite.icebreaker.top/app.json",
+  "pages": ["pages/index/index", "pages/hello-world/hello-world"],
+  "window": {},
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }
