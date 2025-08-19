@@ -64,10 +64,9 @@
 .comments-card-item-container-content .hide-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
+  line-clamp: 5;
   text-align: justify;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
 }
 
 .comments-card-item-container-content .showMore {

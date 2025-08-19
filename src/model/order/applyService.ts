@@ -1,4 +1,4 @@
-import { mockIp, mockReqId } from "../../utils/mock";
+import { mockIp, mockReqId } from "~/utils/mock";
 
 const orderResps = [
   {

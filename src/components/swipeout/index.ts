@@ -38,7 +38,7 @@ Component({
    * Component methods
    */
   methods: {
-    open(position) {
+    open(position: string) {
       this.setData({ closed: false });
       this.triggerEvent("close", {
         position,
@@ -51,14 +51,18 @@ Component({
     },
 
     closeOther() {
-      ARRAY.filter((item) => item !== this).forEach((item) => item.close());
+      for (const item of ARRAY) {
+        if (item !== this) {
+          item.close();
+        }
+      }
     },
 
     noop() {
       return;
     },
 
-    onClick(event) {
+    onClick(event: WechatMiniprogram.CustomEvent) {
       const { key: position = "outside" } = event.currentTarget.dataset;
       this.triggerEvent("click", position);
 

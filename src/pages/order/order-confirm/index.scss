@@ -86,8 +86,7 @@
 
 .goods-wrapper .goods-content .goods-title {
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 28rpx;
@@ -143,8 +142,7 @@
 }
 .order-sure .pay-detail .pay-item .pay-item__right .pay-remark {
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   max-width: 400rpx;
   text-overflow: ellipsis;
   overflow: hidden;

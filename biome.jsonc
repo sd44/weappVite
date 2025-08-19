@@ -13,7 +13,8 @@
       "!project.config.json",
       "!project.private.config.json",
       "!**/*.wxml",
-      "!**/*.wxss"
+      "!**/*.wxss",
+      "!**/*.wxs"
     ],
     "ignoreUnknown": false
   },

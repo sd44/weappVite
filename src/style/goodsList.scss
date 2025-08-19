@@ -44,8 +44,7 @@
   overflow: hidden;
   margin-bottom: 24rpx;
   text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   line-clamp: 2;
   display: -webkit-box;
   font-size: 26rpx;
@@ -128,8 +127,7 @@
   box-sizing: border-box;
 }
 .goods-list-wrap.vertical .wr-goods-card .wr-goods-card__content .wr-goods-card__title {
-  -webkit-box-orient: horizontal;
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
   line-clamp: 1;
   height: 36rpx;
   color: #333;
@@ -160,10 +158,9 @@
   margin-bottom: 50rpx;
 }
 .goods-list-wrap .wr-goods-card__twoLine .wr-goods-card__title {
-  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
   line-clamp: 2 !important;
   display: -webkit-box !important;
   white-space: normal !important;
   height: auto !important;
-  -webkit-box-orient: vertical !important;
 }

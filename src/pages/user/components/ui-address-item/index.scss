@@ -72,8 +72,7 @@
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   color: #999999;
 }
 .address-item-wrapper .address .address-content .label-adds .tag {

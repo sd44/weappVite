@@ -48,12 +48,12 @@
 
 .page-container .order-goods-card > wr-goods-card .wr-goods-card__title {
   margin-right: 0;
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 
 .page-container .order-card .header .store-name {
   width: 80%;
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 
 .page-container .order-card .header .store-name > view {

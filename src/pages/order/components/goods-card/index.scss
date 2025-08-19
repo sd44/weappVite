@@ -60,7 +60,6 @@
   line-height: 40rpx;
   font-weight: 400;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
 }
@@ -75,8 +74,7 @@
   color: #f5f5f5;
   line-height: 40rpx;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 .wr-goods-card__specs__desc,
@@ -98,8 +96,7 @@
   word-break: break-all;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 .wr-goods-card__specs__desc-icon {
   line-height: inherit;
@@ -109,8 +106,7 @@
 }
 .wr-goods-card__specs__text {
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;

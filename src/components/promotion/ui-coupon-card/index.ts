@@ -81,7 +81,7 @@ Component({
 
   attached() {
     this.setData({
-      color: `color${this.properties.colorStyle}`,
+      color: `color${this.data.colorStyle}`,
     });
   },
 });

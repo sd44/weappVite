@@ -45,17 +45,6 @@ Component({
       }
     },
   },
-
-  data: {
-    independentID: "",
-    goods: { id: "" },
-    isValidityLinePrice: false,
-  } as {
-    independentID: string;
-    goods: priceData;
-    isValidityLinePrice: boolean;
-  },
-
   lifetimes: {
     ready() {
       this.init();
@@ -63,6 +52,18 @@ Component({
     detached() {
       this.clear();
     },
+  },
+
+  data: {
+    independentID: "",
+    goods: { id: "" },
+    isValidityLinePrice: false,
+    _observer: null, // 用于存储 IntersectionObserver 实例
+  } as {
+    independentID: string;
+    goods: priceData;
+    isValidityLinePrice: boolean;
+    _observer: null | WechatMiniprogram.IntersectionObserver;
   },
 
   methods: {
@@ -102,39 +103,37 @@ Component({
         this.createIntersectionObserverHandle();
       }
     },
-
     clear() {
       this.clearIntersectionObserverHandle();
     },
 
-    intersectionObserverContext: null,
-
     createIntersectionObserverHandle() {
-      if (this.intersectionObserverContext || !this.data.independentID) {
+      if (this.data._observer || !this.data.independentID) {
         return;
       }
-      this.intersectionObserverContext = this.createIntersectionObserver({
+      const _observer = this.createIntersectionObserver({
         thresholds: this.properties.thresholds,
       }).relativeToViewport();
 
-      this.intersectionObserverContext.observe(`#${this.data.independentID}`, (res) => {
-        this.intersectionObserverCB(res);
+      _observer.observe(`#${this.data.independentID}`, () => {
+        this.intersectionObserverCB();
       });
+      this.setData({ _observer });
     },
 
     intersectionObserverCB() {
       this.triggerEvent("ob", {
         goods: this.data.goods,
-        context: this.intersectionObserverContext,
+        context: this.data._observer,
       });
     },
 
     clearIntersectionObserverHandle() {
-      if (this.intersectionObserverContext) {
+      if (this.data._observer) {
         try {
-          this.intersectionObserverContext.disconnect();
-        } catch (e) {}
-        this.intersectionObserverContext = null;
+          this.data._observer.disconnect();
+        } catch (_e) {}
+        this.setData({ _observer: null });
       }
     },
   },

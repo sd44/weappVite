@@ -4,7 +4,7 @@
  * @param {string} str 字符串
  * @returns
  */
-function generateMixed(n, str) {
+export function generateMixed(n, str) {
   let res = "";
   for (let i = 0; i < n; i++) {
     const id = Math.ceil(Math.random() * 35);
@@ -19,7 +19,7 @@ function generateMixed(n, str) {
  * @param {number} max 最大值
  * @returns
  */
-function getRandomNum(min, max) {
+export function getRandomNum(min, max) {
   const range = max - min;
   const rand = Math.random();
   return min + Math.round(rand * range);
@@ -29,11 +29,11 @@ function getRandomNum(min, max) {
  * 生成随机IP
  * @returns
  */
-function mockIp() {
+export function mockIp() {
   return `10.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}`;
 }
 
-function mockReqId() {
+export function mockReqId() {
   return `${getRandomNum(100_000, 999_999)}.${Date.now()}${getRandomNum(
     1000,
     9999

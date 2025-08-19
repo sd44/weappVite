@@ -34,17 +34,16 @@
   color: #ffffff;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
 }
 .order-detail .order-detail__header .title {
-  -webkit-line-clamp: 1;
+  line-clamp: 1;
   font-size: 44rpx;
   line-height: 64rpx;
   margin-bottom: 8rpx;
   font-weight: bold;
 }
 .order-detail .order-detail__header .desc {
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-size: 24rpx;
   line-height: 32rpx;
 }
@@ -136,8 +135,7 @@
 }
 .order-detail .pay-detail .pay-item .pay-item__right .pay-remark {
   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   max-width: 400rpx;
   text-overflow: ellipsis;
   overflow: hidden;

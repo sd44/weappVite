@@ -9,7 +9,7 @@ Component({
     id: {
       type: String,
       value: "",
-      observer: (id) => {
+      observer(id) {
         this.genIndependentID(id);
       },
     },
@@ -30,17 +30,17 @@ Component({
   },
 
   methods: {
-    onClickGoods(e) {
+    onClickGoods(e: WechatMiniprogram.CustomEvent) {
       const { index } = e.currentTarget.dataset;
       this.triggerEvent("click", { ...e.detail, index });
     },
 
-    onAddCart(e) {
+    onAddCart(e: WechatMiniprogram.CustomEvent) {
       const { index } = e.currentTarget.dataset;
       this.triggerEvent("addcart", { ...e.detail, index });
     },
 
-    onClickGoodsThumb(e) {
+    onClickGoodsThumb(e: WechatMiniprogram.CustomEvent) {
       const { index } = e.currentTarget.dataset;
       this.triggerEvent("thumb", { ...e.detail, index });
     },
@@ -49,7 +49,7 @@ Component({
       this.genIndependentID(this.id || "");
     },
 
-    genIndependentID(id) {
+    genIndependentID(id: string) {
       if (id) {
         this.setData({ independentID: id });
       } else {

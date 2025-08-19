@@ -71,7 +71,6 @@
 }
 .wr-coupon__right--title {
   display: flex;
-  -webkit-display: flex;
   flex-direction: column;
   align-items: flex-start;
   color: #999999;
@@ -85,8 +84,7 @@
   line-height: 40rpx;
   font-weight: bold;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  line-clamp: 1;
   overflow: hidden;
   white-space: normal;
 }
