@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['custom-class'],
+  externalClasses: ["custom-class"],
 
   properties: {
     tabList: Array,
@@ -12,7 +12,7 @@ Component({
   attached() {
     wx.createSelectorQuery()
       .in(this)
-      .select('.c-tabbar-more')
+      .select(".c-tabbar-more")
       .boundingClientRect((rect) => {
         this.setData({ boardMaxHeight: rect.height });
       })
@@ -25,12 +25,12 @@ Component({
         unfolded: !this.data.unfolded,
       });
       const { unfolded } = this.data;
-      this.triggerEvent('change', { unfolded });
+      this.triggerEvent("change", { unfolded });
     },
 
     onSelect(event) {
       const activeKey = event.currentTarget.dataset.index;
-      this.triggerEvent('select', activeKey);
+      this.triggerEvent("select", activeKey);
       this.changeFold();
     },
   },

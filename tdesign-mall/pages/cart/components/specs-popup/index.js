@@ -11,31 +11,31 @@ Component({
     },
     value: {
       type: String,
-      value: '',
+      value: "",
     },
     title: {
       type: String,
       observer(newVal) {
-        this.setData({ 'goods.title': newVal });
+        this.setData({ "goods.title": newVal });
       },
     },
     price: {
       type: String,
-      value: '',
+      value: "",
       observer(newVal) {
-        this.setData({ 'goods.price': newVal });
+        this.setData({ "goods.price": newVal });
       },
     },
     thumb: {
       type: String,
-      value: '',
+      value: "",
       observer(newVal) {
-        this.setData({ 'goods.thumb': newVal });
+        this.setData({ "goods.thumb": newVal });
       },
     },
     thumbMode: {
       type: String,
-      value: 'aspectFit',
+      value: "aspectFit",
     },
     zIndex: {
       type: Number,
@@ -49,9 +49,9 @@ Component({
 
   data: {
     goods: {
-      title: '',
-      thumb: '',
-      price: '',
+      title: "",
+      thumb: "",
+      price: "",
       hideKey: {
         originPrice: true,
         tags: true,
@@ -62,11 +62,11 @@ Component({
   },
   methods: {
     onClose() {
-      this.triggerEvent('close');
+      this.triggerEvent("close");
     },
 
     onCloseOver() {
-      this.triggerEvent('closeover');
+      this.triggerEvent("closeover");
     },
   },
 });

@@ -1,11 +1,11 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import { ServiceType, ServiceTypeDesc, ServiceStatus } from '../config';
-import { formatTime, getRightsDetail } from './api';
+import Toast from "tdesign-miniprogram/toast/index";
+import { ServiceStatus, ServiceType, ServiceTypeDesc } from "../config";
+import { formatTime, getRightsDetail } from "./api";
 
 const TitleConfig = {
-  [ServiceType.ORDER_CANCEL]: '退款详情',
-  [ServiceType.ONLY_REFUND]: '退款详情',
-  [ServiceType.RETURN_GOODS]: '退货退款详情',
+  [ServiceType.ORDER_CANCEL]: "退款详情",
+  [ServiceType.ONLY_REFUND]: "退款详情",
+  [ServiceType.RETURN_GOODS]: "退货退款详情",
 };
 
 Page({
@@ -25,13 +25,15 @@ Page({
 
   onLoad(query) {
     this.rightsNo = query.rightsNo;
-    this.inputDialog = this.selectComponent('#input-dialog');
+    this.inputDialog = this.selectComponent("#input-dialog");
     this.init();
   },
 
   onShow() {
     // 当从其他页面返回，并且 backRefresh 被置为 true 时，刷新数据
-    if (!this.data.backRefresh) return;
+    if (!this.data.backRefresh) {
+      return;
+    }
     this.init();
     this.setData({ backRefresh: false });
   },
@@ -39,7 +41,7 @@ Page({
   // 页面刷新，展示下拉刷新
   onPullDownRefresh_(e) {
     const { callback } = e.detail;
-    return this.getService().then(() => callback && callback());
+    return this.getService().then(() => callback?.());
   },
 
   init() {
@@ -54,7 +56,9 @@ Page({
     return getRightsDetail(params).then((res) => {
       const serviceRaw = res.data[0];
       // 滤掉填写运单号、修改运单号按钮，这两个按钮特殊处理，不在底部按钮栏展示
-      if (!serviceRaw.buttonVOs) serviceRaw.buttonVOs = [];
+      if (!serviceRaw.buttonVOs) {
+        serviceRaw.buttonVOs = [];
+      }
       const deliveryButton = {};
       const service = {
         id: serviceRaw.rights.rightsNo,
@@ -71,7 +75,7 @@ Page({
           id: i,
           thumb: item.goodsPictureUrl,
           title: item.goodsName,
-          specs: (item.specInfo || []).map((s) => s.specValues || ''),
+          specs: (item.specInfo || []).map((s) => s.specValues || ""),
           itemRefundAmount: item.itemRefundAmount,
           rightsQuantity: item.rightsQuantity,
         })),
@@ -85,7 +89,10 @@ Page({
         })), // 退款明细
         refundRequestAmount: serviceRaw.rights.refundRequestAmount, // 申请退款金额
         payTraceNo: serviceRaw.rightsRefund.traceNo, // 交易流水号
-        createTime: formatTime(parseFloat(`${serviceRaw.rights.createTime}`), 'YYYY-MM-DD HH:mm'), // 申请时间
+        createTime: formatTime(
+          Number.parseFloat(`${serviceRaw.rights.createTime}`),
+          "YYYY-MM-DD HH:mm"
+        ), // 申请时间
         logisticsNo: serviceRaw.logisticsVO.logisticsNo, // 退货物流单号
         logisticsCompanyName: serviceRaw.logisticsVO.logisticsCompanyName, // 退货物流公司
         logisticsCompanyCode: serviceRaw.logisticsVO.logisticsCompanyCode, // 退货物流公司
@@ -102,7 +109,7 @@ Page({
         serviceRaw,
         service,
         deliveryButton,
-        'gallery.proofs': proofs,
+        "gallery.proofs": proofs,
         showProofs:
           serviceRaw.rights.userRightsStatus === ServiceStatus.PENDING_VERIFY &&
           (service.applyRemark || proofs.length > 0),
@@ -122,7 +129,7 @@ Page({
       service.logisticsVO.receiverAddress,
     ]
       .filter((item) => !!item)
-      .join(' ');
+      .join(" ");
   },
 
   onRefresh() {
@@ -134,12 +141,12 @@ Page({
       inputDialogVisible: true,
     });
     this.inputDialog.setData({
-      cancelBtn: '取消',
-      confirmBtn: '确定',
+      cancelBtn: "取消",
+      confirmBtn: "确定",
     });
     this.inputDialog._onConfirm = () => {
       Toast({
-        message: '确定填写物流单号',
+        message: "确定填写物流单号",
       });
     };
   },
@@ -147,14 +154,14 @@ Page({
   onProofTap(e) {
     if (this.data.gallery.show) {
       this.setData({
-        'gallery.show': false,
+        "gallery.show": false,
       });
       return;
     }
     const { index } = e.currentTarget.dataset;
     this.setData({
-      'gallery.show': true,
-      'gallery.current': index,
+      "gallery.show": true,
+      "gallery.current": index,
     });
   },
 
@@ -182,21 +189,21 @@ Page({
     switch (userRightsStatus) {
       // 退款成功
       case ServiceStatus.REFUNDED: {
-        return 'succeed';
+        return "succeed";
       }
       // 已取消、已关闭
       case ServiceStatus.CLOSED: {
-        return 'indent_close';
+        return "indent_close";
       }
       default: {
         switch (afterSaleRequireType) {
-          case 'REFUND_MONEY': {
-            return 'goods_refund';
+          case "REFUND_MONEY": {
+            return "goods_refund";
           }
-          case 'REFUND_GOODS_MONEY':
-            return 'goods_return';
+          case "REFUND_GOODS_MONEY":
+            return "goods_return";
           default: {
-            return 'goods_return';
+            return "goods_return";
           }
         }
       }

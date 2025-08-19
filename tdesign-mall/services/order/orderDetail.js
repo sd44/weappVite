@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取订单详情mock数据 */
 function mockFetchOrderDetail(params) {
-  const { delay } = require('../_utils/delay');
-  const { genOrderDetail } = require('../../model/order/orderDetail');
+  const { delay } = require("../_utils/delay");
+  const { genOrderDetail } = require("../../model/order/orderDetail");
 
   return delay().then(() => genOrderDetail(params));
 }
@@ -15,14 +15,14 @@ export function fetchOrderDetail(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 获取客服mock数据 */
 function mockFetchBusinessTime(params) {
-  const { delay } = require('../_utils/delay');
-  const { genBusinessTime } = require('../../model/order/orderDetail');
+  const { delay } = require("../_utils/delay");
+  const { genBusinessTime } = require("../../model/order/orderDetail");
 
   return delay().then(() => genBusinessTime(params));
 }
@@ -34,6 +34,6 @@ export function fetchBusinessTime(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

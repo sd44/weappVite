@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取活动列表 */
 function mockFetchActivity(ID = 0) {
-  const { delay } = require('../_utils/delay');
-  const { getActivity } = require('../../model/activity');
+  const { delay } = require("../_utils/delay");
+  const { getActivity } = require("../../model/activity");
 
   return delay().then(() => getActivity(ID));
 }
@@ -15,6 +15,6 @@ export function fetchActivity(ID = 0) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

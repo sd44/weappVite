@@ -10,7 +10,7 @@ Component({
     },
     customIcon: {
       type: String,
-      value: 'edit-1',
+      value: "edit-1",
     },
     extraSpace: {
       type: Boolean,
@@ -22,25 +22,25 @@ Component({
     },
   },
   externalClasses: [
-    'item-wrapper-class',
-    'title-class',
-    'default-tag-class',
-    'normal-tag-class',
-    'address-info-class',
-    'delete-class',
+    "item-wrapper-class",
+    "title-class",
+    "default-tag-class",
+    "normal-tag-class",
+    "address-info-class",
+    "delete-class",
   ],
   methods: {
     onDelete(e) {
       const { item } = e.currentTarget.dataset;
-      this.triggerEvent('onDelete', item);
+      this.triggerEvent("onDelete", item);
     },
     onSelect(e) {
       const { item } = e.currentTarget.dataset;
-      this.triggerEvent('onSelect', item);
+      this.triggerEvent("onSelect", item);
     },
     onEdit(e) {
       const { item } = e.currentTarget.dataset;
-      this.triggerEvent('onEdit', item);
+      this.triggerEvent("onEdit", item);
     },
   },
 });

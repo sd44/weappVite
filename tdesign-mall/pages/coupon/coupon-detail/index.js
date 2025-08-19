@@ -1,17 +1,17 @@
-import { fetchCouponDetail } from '../../../services/coupon/index';
+import { fetchCouponDetail } from "../../../services/coupon/index";
 
 Page({
   data: {
     detail: null,
     storeInfoList: [],
-    storeInfoStr: '',
+    storeInfoStr: "",
     showStoreInfoList: false,
   },
 
-  id: '',
+  id: "",
 
   onLoad(query) {
-    const id = parseInt(query.id);
+    const id = Number.parseInt(query.id, 10);
     this.id = id;
     this.getGoodsList(id);
   },

@@ -7,7 +7,7 @@ Component({
     list: Array,
     title: {
       type: String,
-      value: '促销说明',
+      value: "促销说明",
     },
     show: {
       type: Boolean,
@@ -21,13 +21,13 @@ Component({
   methods: {
     change(e) {
       const { index } = e.currentTarget.dataset;
-      this.triggerEvent('promotionChange', {
+      this.triggerEvent("promotionChange", {
         index,
       });
     },
 
     closePromotionPopup() {
-      this.triggerEvent('closePromotionPopup', {
+      this.triggerEvent("closePromotionPopup", {
         show: false,
       });
     },

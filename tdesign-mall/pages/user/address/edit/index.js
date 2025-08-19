@@ -1,51 +1,51 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchDeliveryAddress } from '../../../../services/address/fetchAddress';
-import { areaData } from '../../../../config/index';
-import { resolveAddress, rejectAddress } from '../../../../services/address/list';
+import Toast from "tdesign-miniprogram/toast/index";
+import { areaData } from "../../../../config/index";
+import { fetchDeliveryAddress } from "../../../../services/address/fetchAddress";
+import { rejectAddress, resolveAddress } from "../../../../services/address/list";
 
-const innerPhoneReg = '^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$';
-const innerNameReg = '^[a-zA-Z\\d\\u4e00-\\u9fa5]+$';
+const innerPhoneReg = "^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$";
+const innerNameReg = "^[a-zA-Z\\d\\u4e00-\\u9fa5]+$";
 const labelsOptions = [
-  { id: 0, name: '家' },
-  { id: 1, name: '公司' },
+  { id: 0, name: "家" },
+  { id: 1, name: "公司" },
 ];
 
 Page({
   options: {
     multipleSlots: true,
   },
-  externalClasses: ['theme-wrapper-class'],
+  externalClasses: ["theme-wrapper-class"],
   data: {
     locationState: {
       labelIndex: null,
-      addressId: '',
-      addressTag: '',
-      cityCode: '',
-      cityName: '',
-      countryCode: '',
-      countryName: '',
-      detailAddress: '',
-      districtCode: '',
-      districtName: '',
+      addressId: "",
+      addressTag: "",
+      cityCode: "",
+      cityName: "",
+      countryCode: "",
+      countryName: "",
+      detailAddress: "",
+      districtCode: "",
+      districtName: "",
       isDefault: false,
-      name: '',
-      phone: '',
-      provinceCode: '',
-      provinceName: '',
+      name: "",
+      phone: "",
+      provinceCode: "",
+      provinceName: "",
       isEdit: false,
       isOrderDetail: false,
       isOrderSure: false,
     },
-    areaData: areaData,
+    areaData,
     labels: labelsOptions,
     areaPickerVisible: false,
     submitActive: false,
     visible: false,
-    labelValue: '',
+    labelValue: "",
     columns: 3,
   },
   privateData: {
-    verifyTips: '',
+    verifyTips: "",
   },
   onLoad(options) {
     const { id } = options;
@@ -78,16 +78,16 @@ Page({
   },
   onInputValue(e) {
     const { item } = e.currentTarget.dataset;
-    if (item === 'address') {
+    if (item === "address") {
       const { selectedOptions = [] } = e.detail;
       this.setData(
         {
-          'locationState.provinceCode': selectedOptions[0].value,
-          'locationState.provinceName': selectedOptions[0].label,
-          'locationState.cityName': selectedOptions[1].label,
-          'locationState.cityCode': selectedOptions[1].value,
-          'locationState.districtCode': selectedOptions[2].value,
-          'locationState.districtName': selectedOptions[2].label,
+          "locationState.provinceCode": selectedOptions[0].value,
+          "locationState.provinceName": selectedOptions[0].label,
+          "locationState.cityName": selectedOptions[1].label,
+          "locationState.cityCode": selectedOptions[1].value,
+          "locationState.districtCode": selectedOptions[2].value,
+          "locationState.districtName": selectedOptions[2].label,
           areaPickerVisible: false,
         },
         () => {
@@ -96,10 +96,10 @@ Page({
             submitActive: isLegal,
           });
           this.privateData.verifyTips = tips;
-        },
+        }
       );
     } else {
-      const { value = '' } = e.detail;
+      const { value = "" } = e.detail;
       this.setData(
         {
           [`locationState.${item}`]: value,
@@ -110,7 +110,7 @@ Page({
             submitActive: isLegal,
           });
           this.privateData.verifyTips = tips;
-        },
+        }
       );
     }
   },
@@ -120,7 +120,7 @@ Page({
   onPickLabels(e) {
     const { item } = e.currentTarget.dataset;
     const {
-      locationState: { labelIndex = undefined },
+      locationState: { labelIndex },
       labels = [],
     } = this.data;
     let payload = {
@@ -128,12 +128,12 @@ Page({
       addressTag: labels[item].name,
     };
     if (item === labelIndex) {
-      payload = { labelIndex: null, addressTag: '' };
+      payload = { labelIndex: null, addressTag: "" };
     }
     this.setData({
-      'locationState.labelIndex': payload.labelIndex,
+      "locationState.labelIndex": payload.labelIndex,
     });
-    this.triggerEvent('triggerUpdateValue', payload);
+    this.triggerEvent("triggerUpdateValue", payload);
   },
   addLabels() {
     this.setData({
@@ -144,20 +144,20 @@ Page({
     const { labels, labelValue } = this.data;
     this.setData({
       visible: false,
-      labels: [...labels, { id: labels[labels.length - 1].id + 1, name: labelValue }],
-      labelValue: '',
+      labels: [...labels, { id: labels.at(-1).id + 1, name: labelValue }],
+      labelValue: "",
     });
   },
   cancelHandle() {
     this.setData({
       visible: false,
-      labelValue: '',
+      labelValue: "",
     });
   },
   onCheckDefaultAddress({ detail }) {
     const { value } = detail;
     this.setData({
-      'locationState.isDefault': value,
+      "locationState.isDefault": value,
     });
   },
 
@@ -168,51 +168,51 @@ Page({
     const nameRegExp = new RegExp(prefixNameReg);
     const phoneRegExp = new RegExp(prefixPhoneReg);
 
-    if (!name || !name.trim()) {
+    if (!name?.trim()) {
       return {
         isLegal: false,
-        tips: '请填写收货人',
+        tips: "请填写收货人",
       };
     }
     if (!nameRegExp.test(name)) {
       return {
         isLegal: false,
-        tips: '收货人仅支持输入中文、英文（区分大小写）、数字',
+        tips: "收货人仅支持输入中文、英文（区分大小写）、数字",
       };
     }
-    if (!phone || !phone.trim()) {
+    if (!phone?.trim()) {
       return {
         isLegal: false,
-        tips: '请填写手机号',
+        tips: "请填写手机号",
       };
     }
     if (!phoneRegExp.test(phone)) {
       return {
         isLegal: false,
-        tips: '请填写正确的手机号',
+        tips: "请填写正确的手机号",
       };
     }
-    if (!districtName || !districtName.trim()) {
+    if (!districtName?.trim()) {
       return {
         isLegal: false,
-        tips: '请选择省市区信息',
+        tips: "请选择省市区信息",
       };
     }
-    if (!detailAddress || !detailAddress.trim()) {
+    if (!detailAddress?.trim()) {
       return {
         isLegal: false,
-        tips: '请完善详细地址',
+        tips: "请完善详细地址",
       };
     }
     if (detailAddress && detailAddress.trim().length > 50) {
       return {
         isLegal: false,
-        tips: '详细地址不能超过50个字符',
+        tips: "详细地址不能超过50个字符",
       };
     }
     return {
       isLegal: true,
-      tips: '添加成功',
+      tips: "添加成功",
     };
   },
 
@@ -224,9 +224,9 @@ Page({
             wx.showModal({
               title: `获取${name}失败`,
               content: `获取${name}失败，请在【右上角】-小程序【设置】项中，将【${name}】开启。`,
-              confirmText: '去设置',
-              confirmColor: '#FA550F',
-              cancelColor: '取消',
+              confirmText: "去设置",
+              confirmColor: "#FA550F",
+              cancelColor: "取消",
               success(res) {
                 if (res.confirm) {
                   wx.openSetting({
@@ -234,7 +234,6 @@ Page({
                       if (settinRes.authSetting[code] === true) {
                         resolve();
                       } else {
-                        console.warn('用户未打开权限', name, code);
                         reject();
                       }
                     },
@@ -259,11 +258,11 @@ Page({
   },
 
   onSearchAddress() {
-    this.builtInSearch({ code: 'scope.userLocation', name: '地址位置' }).then(() => {
+    this.builtInSearch({ code: "scope.userLocation", name: "地址位置" }).then(() => {
       wx.chooseLocation({
         success: (res) => {
           if (res.name) {
-            this.triggerEvent('addressParse', {
+            this.triggerEvent("addressParse", {
               address: res.address,
               name: res.name,
               latitude: res.latitude,
@@ -272,21 +271,20 @@ Page({
           } else {
             Toast({
               context: this,
-              selector: '#t-toast',
-              message: '地点为空，请重新选择',
-              icon: '',
+              selector: "#t-toast",
+              message: "地点为空，请重新选择",
+              icon: "",
               duration: 1000,
             });
           }
         },
-        fail: function (res) {
-          console.warn(`wx.chooseLocation fail: ${JSON.stringify(res)}`);
-          if (res.errMsg !== 'chooseLocation:fail cancel') {
+        fail(res) {
+          if (res.errMsg !== "chooseLocation:fail cancel") {
             Toast({
               context: this,
-              selector: '#t-toast',
-              message: '地点错误，请重新选择',
-              icon: '',
+              selector: "#t-toast",
+              message: "地点错误，请重新选择",
+              icon: "",
               duration: 1000,
             });
           }
@@ -299,9 +297,9 @@ Page({
     if (!submitActive) {
       Toast({
         context: this,
-        selector: '#t-toast',
+        selector: "#t-toast",
         message: this.privateData.verifyTips,
-        icon: '',
+        icon: "",
         duration: 1000,
       });
       return;
@@ -311,8 +309,8 @@ Page({
     this.hasSava = true;
 
     resolveAddress({
-      saasId: '88888888',
-      uid: `88888888205500`,
+      saasId: "88888888",
+      uid: "88888888205500",
       authToken: null,
       id: locationState.addressId,
       addressId: locationState.addressId,
@@ -350,7 +348,7 @@ Page({
           submitActive: isLegal,
         });
         this.privateData.verifyTips = tips;
-      },
+      }
     );
   },
 });

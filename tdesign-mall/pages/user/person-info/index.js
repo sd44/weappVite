@@ -1,28 +1,28 @@
-import { fetchPerson } from '../../../services/usercenter/fetchPerson';
-import { phoneEncryption } from '../../../utils/util';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast from "tdesign-miniprogram/toast/index";
+import { fetchPerson } from "../../../services/usercenter/fetchPerson";
+import { phoneEncryption } from "../../../utils/util";
 
 Page({
   data: {
     personInfo: {
-      avatarUrl: '',
-      nickName: '',
+      avatarUrl: "",
+      nickName: "",
       gender: 0,
-      phoneNumber: '',
+      phoneNumber: "",
     },
     showUnbindConfirm: false,
     pickerOptions: [
       {
-        name: '男',
-        code: '1',
+        name: "男",
+        code: "1",
       },
       {
-        name: '女',
-        code: '2',
+        name: "女",
+        code: "2",
       },
     ],
     typeVisible: false,
-    genderMap: ['', '男', '女'],
+    genderMap: ["", "男", "女"],
   },
   onLoad() {
     this.init();
@@ -34,7 +34,7 @@ Page({
     fetchPerson().then((personInfo) => {
       this.setData({
         personInfo,
-        'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
+        "personInfo.phoneNumber": phoneEncryption(personInfo.phoneNumber),
       });
     });
   },
@@ -43,17 +43,17 @@ Page({
     const { nickName } = this.data.personInfo;
 
     switch (dataset.type) {
-      case 'gender':
+      case "gender":
         this.setData({
           typeVisible: true,
         });
         break;
-      case 'name':
+      case "name":
         wx.navigateTo({
           url: `/pages/user/name-edit/index?name=${nickName}`,
         });
         break;
-      case 'avatarUrl':
+      case "avatarUrl":
         this.toModifyAvatar();
         break;
       default: {
@@ -71,16 +71,16 @@ Page({
     this.setData(
       {
         typeVisible: false,
-        'personInfo.gender': value,
+        "personInfo.gender": value,
       },
       () => {
         Toast({
           context: this,
-          selector: '#t-toast',
-          message: '设置成功',
-          theme: 'success',
+          selector: "#t-toast",
+          message: "设置成功",
+          theme: "success",
         });
-      },
+      }
     );
   },
   async toModifyAvatar() {
@@ -88,34 +88,36 @@ Page({
       const tempFilePath = await new Promise((resolve, reject) => {
         wx.chooseImage({
           count: 1,
-          sizeType: ['compressed'],
-          sourceType: ['album', 'camera'],
+          sizeType: ["compressed"],
+          sourceType: ["album", "camera"],
           success: (res) => {
             const { path, size } = res.tempFiles[0];
-            if (size <= 10485760) {
+            if (size <= 10_485_760) {
               resolve(path);
             } else {
-              reject({ errMsg: '图片大小超出限制，请重新上传' });
+              reject({ errMsg: "图片大小超出限制，请重新上传" });
             }
           },
           fail: (err) => reject(err),
         });
       });
-      const tempUrlArr = tempFilePath.split('/');
-      const tempFileName = tempUrlArr[tempUrlArr.length - 1];
+      const tempUrlArr = tempFilePath.split("/");
+      const tempFileName = tempUrlArr.at(-1);
       Toast({
         context: this,
-        selector: '#t-toast',
+        selector: "#t-toast",
         message: `已选择图片-${tempFileName}`,
-        theme: 'success',
+        theme: "success",
       });
     } catch (error) {
-      if (error.errMsg === 'chooseImage:fail cancel') return;
+      if (error.errMsg === "chooseImage:fail cancel") {
+        return;
+      }
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: error.errMsg || error.msg || '修改头像出错了',
-        theme: 'error',
+        selector: "#t-toast",
+        message: error.errMsg || error.msg || "修改头像出错了",
+        theme: "error",
       });
     }
   },

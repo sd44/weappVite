@@ -1,4 +1,4 @@
-import { areaData } from '../config/index';
+import { areaData } from "../config/index";
 
 const addressParse = (provinceName, cityName, countryName) => {
   return new Promise((resolve, reject) => {
@@ -14,8 +14,8 @@ const addressParse = (provinceName, cityName, countryName) => {
         cityCode,
         districtCode,
       });
-    } catch (error) {
-      reject('地址解析失败');
+    } catch (_error) {
+      reject("地址解析失败");
     }
   });
 };

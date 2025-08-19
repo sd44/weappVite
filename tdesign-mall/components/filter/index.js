@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
 
   options: {
     multipleSlots: true,
@@ -26,7 +26,7 @@ Component({
     },
     sorts: {
       type: String,
-      value: '',
+      value: "",
       observer(sorts) {
         this.setData({
           sorts,
@@ -35,34 +35,34 @@ Component({
     },
     color: {
       type: String,
-      value: '#FA550F',
+      value: "#FA550F",
     },
   },
 
   data: {
     layout: 1,
     overall: 1,
-    sorts: '',
+    sorts: "",
   },
 
   methods: {
     onChangeShowAction() {
       const { layout } = this.data;
       const nextLayout = layout === 1 ? 0 : 1;
-      this.triggerEvent('change', { ...this.properties, layout: nextLayout });
+      this.triggerEvent("change", { ...this.properties, layout: nextLayout });
     },
 
     handlePriseSort() {
       const { sorts } = this.data;
-      this.triggerEvent('change', {
+      this.triggerEvent("change", {
         ...this.properties,
         overall: 0,
-        sorts: sorts === 'desc' ? 'asc' : 'desc',
+        sorts: sorts === "desc" ? "asc" : "desc",
       });
     },
 
     open() {
-      this.triggerEvent('showFilterPopup', {
+      this.triggerEvent("showFilterPopup", {
         show: true,
       });
     },
@@ -71,10 +71,10 @@ Component({
       const { overall } = this.data;
       const nextOverall = overall === 1 ? 0 : 1;
       const nextData = {
-        sorts: '',
+        sorts: "",
         prices: [],
       };
-      this.triggerEvent('change', {
+      this.triggerEvent("change", {
         ...this.properties,
         ...nextData,
         overall: nextOverall,

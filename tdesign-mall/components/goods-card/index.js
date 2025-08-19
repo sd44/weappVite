@@ -6,7 +6,7 @@ Component({
   properties: {
     id: {
       type: String,
-      value: '',
+      value: "",
       observer(id) {
         this.genIndependentID(id);
         if (this.properties.thresholds?.length) {
@@ -29,14 +29,14 @@ Component({
     },
     currency: {
       type: String,
-      value: '¥',
+      value: "¥",
     },
 
     thresholds: {
       type: Array,
       value: [],
       observer(thresholds) {
-        if (thresholds && thresholds.length) {
+        if (thresholds?.length) {
           this.createIntersectionObserverHandle();
         } else {
           this.clearIntersectionObserverHandle();
@@ -46,8 +46,8 @@ Component({
   },
 
   data: {
-    independentID: '',
-    goods: { id: '' },
+    independentID: "",
+    goods: { id: "" },
     isValidityLinePrice: false,
   },
 
@@ -64,17 +64,17 @@ Component({
 
   methods: {
     clickHandle() {
-      this.triggerEvent('click', { goods: this.data.goods });
+      this.triggerEvent("click", { goods: this.data.goods });
     },
 
     clickThumbHandle() {
-      this.triggerEvent('thumb', { goods: this.data.goods });
+      this.triggerEvent("thumb", { goods: this.data.goods });
     },
 
     addCartHandle(e) {
       const { id } = e.currentTarget;
       const { id: cardID } = e.currentTarget.dataset;
-      this.triggerEvent('add-cart', {
+      this.triggerEvent("add-cart", {
         ...e.detail,
         id,
         cardID,
@@ -95,7 +95,7 @@ Component({
     init() {
       const { thresholds, id } = this.properties;
       this.genIndependentID(id);
-      if (thresholds && thresholds.length) {
+      if (thresholds?.length) {
         this.createIntersectionObserverHandle();
       }
     },
@@ -114,16 +114,13 @@ Component({
         thresholds: this.properties.thresholds,
       }).relativeToViewport();
 
-      this.intersectionObserverContext.observe(
-        `#${this.data.independentID}`,
-        (res) => {
-          this.intersectionObserverCB(res);
-        },
-      );
+      this.intersectionObserverContext.observe(`#${this.data.independentID}`, (res) => {
+        this.intersectionObserverCB(res);
+      });
     },
 
     intersectionObserverCB() {
-      this.triggerEvent('ob', {
+      this.triggerEvent("ob", {
         goods: this.data.goods,
         context: this.intersectionObserverContext,
       });
@@ -133,7 +130,7 @@ Component({
       if (this.intersectionObserverContext) {
         try {
           this.intersectionObserverContext.disconnect();
-        } catch (e) {}
+        } catch (_e) {}
         this.intersectionObserverContext = null;
       }
     },

@@ -1,8 +1,8 @@
-import { formatTime } from '../../../utils/util';
-import { OrderStatus, LogisticsIconMap } from '../config';
-import { fetchBusinessTime, fetchOrderDetail } from '../../../services/order/orderDetail';
-import Toast from 'tdesign-miniprogram/toast/index';
-import { getAddressPromise } from '../../../services/address/list';
+import Toast from "tdesign-miniprogram/toast/index";
+import { getAddressPromise } from "../../../services/address/list";
+import { fetchBusinessTime, fetchOrderDetail } from "../../../services/order/orderDetail";
+import { formatTime } from "../../../utils/util";
+import { LogisticsIconMap, OrderStatus } from "../config";
 
 Page({
   data: {
@@ -13,7 +13,7 @@ Page({
     countDownTime: null,
     addressEditable: false,
     backRefresh: false, // 用于接收其他页面back时的状态
-    formatCreateTime: '', //格式化订单创建时间
+    formatCreateTime: "", //格式化订单创建时间
     logisticsNodes: [],
     /** 订单评论状态 */
     orderHasCommented: true,
@@ -22,24 +22,25 @@ Page({
   onLoad(query) {
     this.orderNo = query.orderNo;
     this.init();
-    this.navbar = this.selectComponent('#navbar');
-    this.pullDownRefresh = this.selectComponent('#wr-pull-down-refresh');
+    this.navbar = this.selectComponent("#navbar");
+    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh");
   },
 
   onShow() {
     // 当从其他页面返回，并且 backRefresh 被置为 true 时，刷新数据
-    if (!this.data.backRefresh) return;
+    if (!this.data.backRefresh) {
+      return;
+    }
     this.onRefresh();
     this.setData({ backRefresh: false });
   },
 
   onPageScroll(e) {
-    this.pullDownRefresh && this.pullDownRefresh.onPageScroll(e);
+    this.pullDownRefresh?.onPageScroll(e);
   },
 
   onImgError(e) {
     if (e.detail) {
-      console.error('img 加载失败');
     }
   },
 
@@ -51,9 +52,7 @@ Page({
       .then(() => {
         this.setData({ pageLoading: false });
       })
-      .catch((e) => {
-        console.error(e);
-      });
+      .catch((_e) => {});
   },
 
   // 页面刷新，展示下拉刷新
@@ -61,7 +60,7 @@ Page({
     this.init();
     // 如果上一页为订单列表，通知其刷新数据
     const pages = getCurrentPages();
-    const lastPage = pages[pages.length - 2];
+    const lastPage = pages.at(-2);
     if (lastPage) {
       lastPage.data.backRefresh = true;
     }
@@ -70,7 +69,7 @@ Page({
   // 页面刷新，展示下拉刷新
   onPullDownRefresh_(e) {
     const { callback } = e.detail;
-    return this.getDetail().then(() => callback && callback());
+    return this.getDetail().then(() => callback?.());
   },
 
   getDetail() {
@@ -90,20 +89,19 @@ Page({
         amount: order.paymentAmount,
         totalAmount: order.goodsAmountApp,
         logisticsNo: order.logisticsVO.logisticsNo,
-        goodsList: (order.orderItemVOs || []).map((goods) =>
-          Object.assign({}, goods, {
-            id: goods.id,
-            thumb: goods.goodsPictureUrl,
-            title: goods.goodsName,
-            skuId: goods.skuId,
-            spuId: goods.spuId,
-            specs: (goods.specifications || []).map((s) => s.specValue),
-            price: goods.tagPrice ? goods.tagPrice : goods.actualPrice, // 商品销售单价, 优先取限时活动价
-            num: goods.buyQuantity,
-            titlePrefixTags: goods.tagText ? [{ text: goods.tagText }] : [],
-            buttons: goods.buttonVOs || [],
-          }),
-        ),
+        goodsList: (order.orderItemVOs || []).map((goods) => ({
+          ...goods,
+          id: goods.id,
+          thumb: goods.goodsPictureUrl,
+          title: goods.goodsName,
+          skuId: goods.skuId,
+          spuId: goods.spuId,
+          specs: (goods.specifications || []).map((s) => s.specValue),
+          price: goods.tagPrice ? goods.tagPrice : goods.actualPrice, // 商品销售单价, 优先取限时活动价
+          num: goods.buyQuantity,
+          titlePrefixTags: goods.tagText ? [{ text: goods.tagText }] : [],
+          buttons: goods.buttonVOs || [],
+        })),
         buttons: order.buttonVOs || [],
         createTime: order.createTime,
         receiverAddress: this.composeAddress(order),
@@ -112,7 +110,7 @@ Page({
       this.setData({
         order,
         _order,
-        formatCreateTime: formatTime(parseFloat(`${order.createTime}`), 'YYYY-MM-DD HH:mm'), // 格式化订单创建时间
+        formatCreateTime: formatTime(Number.parseFloat(`${order.createTime}`), "YYYY-MM-DD HH:mm"), // 格式化订单创建时间
         countDownTime: this.computeCountDownTime(order),
         addressEditable:
           [OrderStatus.PENDING_PAYMENT, OrderStatus.PENDING_DELIVERY].includes(order.orderStatus) &&
@@ -120,7 +118,7 @@ Page({
         isPaid: !!order.paymentVO.paySuccessTime,
         invoiceStatus: this.datermineInvoiceStatus(order),
         invoiceDesc: order.invoiceDesc,
-        invoiceType: order.invoiceVO?.invoiceType === 5 ? '电子普通发票' : '不开发票', //是否开票 0-不开 5-电子发票
+        invoiceType: order.invoiceVO?.invoiceType === 5 ? "电子普通发票" : "不开发票", //是否开票 0-不开 5-电子发票
         logisticsNodes: this.flattenNodes(order.trajectoryVos || []),
       });
     });
@@ -131,10 +129,10 @@ Page({
     return (nodes || []).reduce((res, node) => {
       return (node.nodes || []).reduce((res1, subNode, index) => {
         res1.push({
-          title: index === 0 ? node.title : '', // 子节点中仅第一个显示title
+          title: index === 0 ? node.title : "", // 子节点中仅第一个显示title
           desc: subNode.status,
-          date: formatTime(+subNode.timestamp, 'YYYY-MM-DD HH:mm:ss'),
-          icon: index === 0 ? LogisticsIconMap[node.code] || '' : '', // 子节点中仅第一个显示icon
+          date: formatTime(+subNode.timestamp, "YYYY-MM-DD HH:mm:ss"),
+          icon: index === 0 ? LogisticsIconMap[node.code] || "" : "", // 子节点中仅第一个显示icon
         });
         return res1;
       }, res);
@@ -159,14 +157,14 @@ Page({
       order.logisticsVO.receiverAddress,
     ]
       .filter((s) => !!s)
-      .join(' ');
+      .join(" ");
   },
 
   getStoreDetail() {
     fetchBusinessTime().then((res) => {
       const storeDetail = {
         storeTel: res.data.telphone,
-        storeBusiness: res.data.businessTime.join('\n'),
+        storeBusiness: res.data.businessTime.join("\n"),
       };
       this.setData({ storeDetail });
     });
@@ -175,14 +173,18 @@ Page({
   // 仅对待支付状态计算付款倒计时
   // 返回时间若是大于2020.01.01，说明返回的是关闭时间，否则说明返回的直接就是剩余时间
   computeCountDownTime(order) {
-    if (order.orderStatus !== OrderStatus.PENDING_PAYMENT) return null;
-    return order.autoCancelTime > 1577808000000 ? order.autoCancelTime - Date.now() : order.autoCancelTime;
+    if (order.orderStatus !== OrderStatus.PENDING_PAYMENT) {
+      return null;
+    }
+    return order.autoCancelTime > 1_577_808_000_000
+      ? order.autoCancelTime - Date.now()
+      : order.autoCancelTime;
   },
 
   onCountDownFinish() {
     //this.setData({ countDownTime: -1 });
     const { countDownTime, order } = this.data;
-    if (countDownTime > 0 || (order && order.groupInfoVo && order.groupInfoVo.residueTime > 0)) {
+    if (countDownTime > 0 || (order?.groupInfoVo && order.groupInfoVo.residueTime > 0)) {
       this.onRefresh();
     }
   },
@@ -197,15 +199,15 @@ Page({
     getAddressPromise()
       .then((address) => {
         this.setData({
-          'order.logisticsVO.receiverName': address.name,
-          'order.logisticsVO.receiverPhone': address.phone,
-          '_order.receiverAddress': address.address,
+          "order.logisticsVO.receiverName": address.name,
+          "order.logisticsVO.receiverPhone": address.phone,
+          "_order.receiverAddress": address.address,
         });
       })
       .catch(() => {});
 
     wx.navigateTo({
-      url: `/pages/user/address/list/index?selectMode=1`,
+      url: "/pages/user/address/list/index?selectMode=1",
     });
   },
 
@@ -254,14 +256,14 @@ Page({
 
   /** 跳转拼团详情/分享页*/
   toGrouponDetail() {
-    wx.showToast({ title: '点击了拼团' });
+    wx.showToast({ title: "点击了拼团" });
   },
 
   clickService() {
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '您点击了联系客服',
+      selector: "#t-toast",
+      message: "您点击了联系客服",
     });
   },
 

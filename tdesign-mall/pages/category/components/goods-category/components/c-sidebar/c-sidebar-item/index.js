@@ -1,14 +1,14 @@
 Component({
   relations: {
-    '../../c-sidebar/index': {
-      type: 'ancestor',
+    "../../c-sidebar/index": {
+      type: "ancestor",
       linked(target) {
         this.parent = target;
       },
     },
   },
 
-  externalClasses: ['custom-class'],
+  externalClasses: ["custom-class"],
   properties: {
     title: String,
     disabled: Boolean,
@@ -33,8 +33,8 @@ Component({
       const index = parent.children.indexOf(this);
 
       parent.setActive(index).then(() => {
-        this.triggerEvent('click', index);
-        parent.triggerEvent('change', { index });
+        this.triggerEvent("click", index);
+        parent.triggerEvent("change", { index });
       });
     },
     setTopRightRadius(val) {

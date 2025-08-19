@@ -1,20 +1,20 @@
-import { fetchCouponDetail } from '../../../services/coupon/index';
-import { fetchGoodsList } from '../../../services/good/fetchGoods';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast from "tdesign-miniprogram/toast/index";
+import { fetchCouponDetail } from "../../../services/coupon/index";
+import { fetchGoodsList } from "../../../services/good/fetchGoods";
 
 Page({
   data: {
     goods: [],
     detail: {},
-    couponTypeDesc: '',
+    couponTypeDesc: "",
     showStoreInfoList: false,
     cartNum: 2,
   },
 
-  id: '',
+  id: "",
 
   onLoad(query) {
-    const id = parseInt(query.id);
+    const id = Number.parseInt(query.id, 10);
     this.id = id;
 
     this.getCouponDetail(id);
@@ -71,8 +71,8 @@ Page({
   cartClickHandle() {
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '点击加入购物车',
+      selector: "#t-toast",
+      message: "点击加入购物车",
     });
   },
 });

@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取购物车mock数据 */
 function mockFetchCartGroupData(params) {
-  const { delay } = require('../_utils/delay');
-  const { genCartGroupData } = require('../../model/cart');
+  const { delay } = require("../_utils/delay");
+  const { genCartGroupData } = require("../../model/cart");
 
   return delay().then(() => genCartGroupData(params));
 }
@@ -15,6 +15,6 @@ export function fetchCartGroupData(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

@@ -1,12 +1,11 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchGood } from '../../../services/good/fetchGood';
-import { fetchActivityList } from '../../../services/activity/fetchActivityList';
+import Toast from "tdesign-miniprogram/toast/index";
+import { cdnBase } from "../../../config/index";
+import { fetchActivityList } from "../../../services/activity/fetchActivityList";
+import { fetchGood } from "../../../services/good/fetchGood";
 import {
   getGoodsDetailsCommentList,
   getGoodsDetailsCommentsCount,
-} from '../../../services/good/fetchGoodsDetailsComments';
-
-import { cdnBase } from '../../../config/index';
+} from "../../../services/good/fetchGoodsDetailsComments";
 
 const imgPrefix = `${cdnBase}/`;
 
@@ -14,9 +13,11 @@ const recLeftImg = `${imgPrefix}common/rec-left.png`;
 const recRightImg = `${imgPrefix}common/rec-right.png`;
 const obj2Params = (obj = {}, encode = false) => {
   const result = [];
-  Object.keys(obj).forEach((key) => result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`));
+  Object.keys(obj).forEach((key) =>
+    result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`)
+  );
 
-  return result.join('&');
+  return result.join("&");
 };
 
 Page({
@@ -37,26 +38,26 @@ Page({
     details: {},
     goodsTabArray: [
       {
-        name: '商品',
-        value: '', // 空字符串代表置顶
+        name: "商品",
+        value: "", // 空字符串代表置顶
       },
       {
-        name: '详情',
-        value: 'goods-page',
+        name: "详情",
+        value: "goods-page",
       },
     ],
     storeLogo: `${imgPrefix}common/store-logo.png`,
-    storeName: '云mall标准版旗舰店',
+    storeName: "云mall标准版旗舰店",
     jumpArray: [
       {
-        title: '首页',
-        url: '/pages/home/home',
-        iconName: 'home',
+        title: "首页",
+        url: "/pages/home/home",
+        iconName: "home",
       },
       {
-        title: '购物车',
-        url: '/pages/cart/index',
-        iconName: 'cart',
+        title: "购物车",
+        url: "/pages/cart/index",
+        iconName: "cart",
         showCartNum: true,
       },
     ],
@@ -65,10 +66,10 @@ Page({
     soldout: false,
     buttonType: 1,
     buyNum: 1,
-    selectedAttrStr: '',
+    selectedAttrStr: "",
     skuArray: [],
-    primaryImage: '',
-    specImg: '',
+    primaryImage: "",
+    specImg: "",
     isSpuSelectPopupShow: false,
     isAllSelectedSku: false,
     buyType: 0,
@@ -79,8 +80,8 @@ Page({
     minSalePrice: 0,
     maxSalePrice: 0,
     list: [],
-    spuId: '',
-    navigation: { type: 'fraction' },
+    spuId: "",
+    navigation: { type: "fraction" },
     current: 0,
     autoplay: true,
     duration: 500,
@@ -113,7 +114,7 @@ Page({
   toNav(e) {
     const { url } = e.detail;
     wx.switchTab({
-      url: url,
+      url,
     });
   },
 
@@ -127,8 +128,8 @@ Page({
   },
 
   onPageScroll({ scrollTop }) {
-    const goodsTab = this.selectComponent('#goodsTab');
-    goodsTab && goodsTab.onScroll(scrollTop);
+    const goodsTab = this.selectComponent("#goodsTab");
+    goodsTab?.onScroll(scrollTop);
   },
 
   chooseSpecItem(e) {
@@ -148,7 +149,7 @@ Page({
   getSkuItem(specList, selectedSku) {
     const { skuArray, primaryImage } = this.data;
     const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku);
-    let selectedAttrStr = ` 件  `;
+    let selectedAttrStr = " 件  ";
     selectedSkuValues.forEach((item) => {
       selectedAttrStr += `，${item.specValue}  `;
     });
@@ -160,9 +161,11 @@ Page({
           status = false;
         }
       });
-      if (status) return item;
+      if (status) {
+        return item;
+      }
     });
-    this.selectSpecsName(selectedSkuValues.length > 0 ? selectedAttrStr : '');
+    this.selectSpecsName(selectedSkuValues.length > 0 ? selectedAttrStr : "");
     if (skuItem) {
       this.setData({
         selectItem: skuItem,
@@ -175,7 +178,7 @@ Page({
       });
     }
     this.setData({
-      specImg: skuItem && skuItem.skuImage ? skuItem.skuImage : primaryImage,
+      specImg: skuItem?.skuImage ? skuItem.skuImage : primaryImage,
     });
   },
 
@@ -185,7 +188,7 @@ Page({
     return Object.keys(selectedSku).reduce((selectedValues, skuKeyStr) => {
       const skuValues = normalizedTree[skuKeyStr];
       const skuValueId = selectedSku[skuKeyStr];
-      if (skuValueId !== '') {
+      if (skuValueId !== "") {
         const skuValue = skuValues.filter((value) => {
           return value.specValueId === skuValueId;
         })[0];
@@ -210,7 +213,7 @@ Page({
       });
     } else {
       this.setData({
-        selectedAttrStr: '',
+        selectedAttrStr: "",
       });
     }
   },
@@ -219,9 +222,9 @@ Page({
     const { isAllSelectedSku } = this.data;
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: isAllSelectedSku ? '点击加入购物车' : '请选择规格',
-      icon: '',
+      selector: "#t-toast",
+      message: isAllSelectedSku ? "点击加入购物车" : "请选择规格",
+      icon: "",
       duration: 1000,
     });
   },
@@ -231,9 +234,9 @@ Page({
     if (!isAllSelectedSku) {
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '请选择规格',
-        icon: '',
+        selector: "#t-toast",
+        message: "请选择规格",
+        icon: "",
         duration: 1000,
       });
       return;
@@ -241,8 +244,7 @@ Page({
     this.handlePopupHide();
     const query = {
       quantity: buyNum,
-      storeId: '1',
-      spuId: this.data.spuId,
+      storeId: "1",
       goodsName: this.data.details.title,
       skuId: type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
       available: this.data.details.available,
@@ -259,7 +261,7 @@ Page({
     let urlQueryStr = obj2Params({
       goodsRequestList: JSON.stringify([query]),
     });
-    urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : '';
+    urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : "";
     const path = `/pages/order/order-confirm/index${urlQueryStr}`;
     wx.navigateTo({
       url: path,
@@ -305,7 +307,15 @@ Page({
     Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
       const [details, activityList] = res;
       const skuArray = [];
-      const { skuList, primaryImage, isPutOnSale, minSalePrice, maxSalePrice, maxLinePrice, soldNum } = details;
+      const {
+        skuList,
+        primaryImage,
+        isPutOnSale,
+        minSalePrice,
+        maxSalePrice,
+        maxLinePrice,
+        soldNum,
+      } = details;
       skuList.forEach((item) => {
         skuArray.push({
           skuId: item.skuId,
@@ -316,19 +326,19 @@ Page({
       const promotionArray = [];
       activityList.forEach((item) => {
         promotionArray.push({
-          tag: item.promotionSubCode === 'MYJ' ? '满减' : '满折',
-          label: '满100元减99.9元',
+          tag: item.promotionSubCode === "MYJ" ? "满减" : "满折",
+          label: "满100元减99.9元",
         });
       });
       this.setData({
         details,
         activityList,
         isStock: details.spuStockQuantity > 0,
-        maxSalePrice: maxSalePrice ? parseInt(maxSalePrice) : 0,
-        maxLinePrice: maxLinePrice ? parseInt(maxLinePrice) : 0,
-        minSalePrice: minSalePrice ? parseInt(minSalePrice) : 0,
+        maxSalePrice: maxSalePrice ? Number.parseInt(maxSalePrice, 10) : 0,
+        maxLinePrice: maxLinePrice ? Number.parseInt(maxLinePrice, 10) : 0,
+        minSalePrice: minSalePrice ? Number.parseInt(minSalePrice, 10) : 0,
         list: promotionArray,
-        skuArray: skuArray,
+        skuArray,
         primaryImage,
         soldout: isPutOnSale === 0,
         soldNum,
@@ -338,34 +348,34 @@ Page({
 
   async getCommentsList() {
     try {
-      const code = 'Success';
+      const code = "Success";
       const data = await getGoodsDetailsCommentList();
       const { homePageComments } = data;
-      if (code.toUpperCase() === 'SUCCESS') {
+      if (code.toUpperCase() === "SUCCESS") {
         const nextState = {
           commentsList: homePageComments.map((item) => {
             return {
               goodsSpu: item.spuId,
-              userName: item.userName || '',
+              userName: item.userName || "",
               commentScore: item.commentScore,
-              commentContent: item.commentContent || '用户未填写评价',
-              userHeadUrl: item.isAnonymity ? this.anonymityAvatar : item.userHeadUrl || this.anonymityAvatar,
+              commentContent: item.commentContent || "用户未填写评价",
+              userHeadUrl: item.isAnonymity
+                ? this.anonymityAvatar
+                : item.userHeadUrl || this.anonymityAvatar,
             };
           }),
         };
         this.setData(nextState);
       }
-    } catch (error) {
-      console.error('comments error:', error);
-    }
+    } catch (_error) {}
   },
 
   onShareAppMessage() {
     // 自定义的返回信息
     const { selectedAttrStr } = this.data;
-    let shareSubTitle = '';
-    if (selectedAttrStr.indexOf('件') > -1) {
-      const count = selectedAttrStr.indexOf('件');
+    let shareSubTitle = "";
+    if (selectedAttrStr.indexOf("件") > -1) {
+      const count = selectedAttrStr.indexOf("件");
       shareSubTitle = selectedAttrStr.slice(count + 1, selectedAttrStr.length);
     }
     const customInfo = {
@@ -379,26 +389,24 @@ Page({
   /** 获取评价统计 */
   async getCommentsStatistics() {
     try {
-      const code = 'Success';
+      const code = "Success";
       const data = await getGoodsDetailsCommentsCount();
-      if (code.toUpperCase() === 'SUCCESS') {
+      if (code.toUpperCase() === "SUCCESS") {
         const { badCount, commentCount, goodCount, goodRate, hasImageCount, middleCount } = data;
         const nextState = {
           commentsStatistics: {
-            badCount: parseInt(`${badCount}`),
-            commentCount: parseInt(`${commentCount}`),
-            goodCount: parseInt(`${goodCount}`),
+            badCount: Number.parseInt(`${badCount}`, 10),
+            commentCount: Number.parseInt(`${commentCount}`, 10),
+            goodCount: Number.parseInt(`${goodCount}`, 10),
             /** 后端返回百分比后数据但没有限制位数 */
             goodRate: Math.floor(goodRate * 10) / 10,
-            hasImageCount: parseInt(`${hasImageCount}`),
-            middleCount: parseInt(`${middleCount}`),
+            hasImageCount: Number.parseInt(`${hasImageCount}`, 10),
+            middleCount: Number.parseInt(`${middleCount}`, 10),
           },
         };
         this.setData(nextState);
       }
-    } catch (error) {
-      console.error('comments statiistics error:', error);
-    }
+    } catch (_error) {}
   },
 
   /** 跳转到评价列表 */
@@ -411,7 +419,7 @@ Page({
   onLoad(query) {
     const { spuId } = query;
     this.setData({
-      spuId: spuId,
+      spuId,
     });
     this.getDetail(spuId);
     this.getCommentsList(spuId);

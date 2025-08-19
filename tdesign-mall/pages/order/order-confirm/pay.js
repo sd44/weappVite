@@ -1,7 +1,7 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Dialog from "tdesign-miniprogram/dialog/index";
+import Toast from "tdesign-miniprogram/toast/index";
 
-import { dispatchCommitPay } from '../../../services/order/orderConfirm';
+import { dispatchCommitPay } from "../../../services/order/orderConfirm";
 
 // 真实的提交支付
 export const commitPay = (params) => {
@@ -10,7 +10,7 @@ export const commitPay = (params) => {
     invoiceRequest: params.invoiceRequest, // 发票信息
     // isIgnore: params.isIgnore || false, // 删掉 是否忽视库存不足和商品失效,继续结算,true=继续结算 购物车请赋值false
     userAddressReq: params.userAddressReq, // 地址信息(用户在购物选择更换地址)
-    currency: params.currency || 'CNY', // 支付货币: 人民币=CNY，美元=USD
+    currency: params.currency || "CNY", // 支付货币: 人民币=CNY，美元=USD
     logisticsType: params.logisticsType || 1, // 配送方式 0=无需配送 1=快递 2=商家 3=同城 4=自提
     // orderMark: params.orderMark, // 下单备注
     orderType: params.orderType || 0, // 订单类型 0=普通订单 1=虚拟订单
@@ -18,7 +18,7 @@ export const commitPay = (params) => {
     totalAmount: params.totalAmount, // 新增字段"totalAmount"总的支付金额
     userName: params.userName, // 用户名
     payWay: 1,
-    authorizationCode: '', //loginCode, // 登录凭证
+    authorizationCode: "", //loginCode, // 登录凭证
     storeInfoList: params.storeInfoList, //备注信息列表
     couponList: params.couponList,
     groupInfo: params.groupInfo,
@@ -30,10 +30,10 @@ export const paySuccess = (payOrderInfo) => {
   // 支付成功
   Toast({
     context: this,
-    selector: '#t-toast',
-    message: '支付成功',
+    selector: "#t-toast",
+    message: "支付成功",
     duration: 2000,
-    icon: 'check-circle',
+    icon: "check-circle",
   });
 
   const params = {
@@ -48,43 +48,43 @@ export const paySuccess = (payOrderInfo) => {
   }
   const paramsStr = Object.keys(params)
     .map((k) => `${k}=${params[k]}`)
-    .join('&');
+    .join("&");
   // 跳转支付结果页面
   wx.redirectTo({ url: `/pages/order/pay-result/index?${paramsStr}` });
 };
 
 export const payFail = (payOrderInfo, resultMsg) => {
-  if (resultMsg === 'requestPayment:fail cancel') {
+  if (resultMsg === "requestPayment:fail cancel") {
     if (payOrderInfo.dialogOnCancel) {
       //结算页，取消付款，dialog提示
       Dialog.confirm({
-        title: '是否放弃付款',
-        content: '商品可能很快就会被抢空哦，是否放弃付款？',
-        confirmBtn: '放弃',
-        cancelBtn: '继续付款',
+        title: "是否放弃付款",
+        content: "商品可能很快就会被抢空哦，是否放弃付款？",
+        confirmBtn: "放弃",
+        cancelBtn: "继续付款",
       }).then(() => {
-        wx.redirectTo({ url: '/pages/order/order-list/index' });
+        wx.redirectTo({ url: "/pages/order/order-list/index" });
       });
     } else {
       //订单列表页，订单详情页，取消付款，toast提示
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '支付取消',
+        selector: "#t-toast",
+        message: "支付取消",
         duration: 2000,
-        icon: 'close-circle',
+        icon: "close-circle",
       });
     }
   } else {
     Toast({
       context: this,
-      selector: '#t-toast',
+      selector: "#t-toast",
       message: `支付失败：${resultMsg}`,
       duration: 2000,
-      icon: 'close-circle',
+      icon: "close-circle",
     });
     setTimeout(() => {
-      wx.redirectTo({ url: '/pages/order/order-list/index' });
+      wx.redirectTo({ url: "/pages/order/order-list/index" });
     }, 2000);
   }
 };

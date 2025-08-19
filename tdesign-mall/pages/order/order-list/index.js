@@ -1,6 +1,6 @@
-import { OrderStatus } from '../config';
-import { fetchOrders, fetchOrdersCount } from '../../../services/order/orderList';
-import { cosThumb } from '../../../utils/util';
+import { fetchOrders, fetchOrdersCount } from "../../../services/order/orderList";
+import { cosThumb } from "../../../utils/util";
+import { OrderStatus } from "../config";
 
 Page({
   page: {
@@ -10,30 +10,32 @@ Page({
 
   data: {
     tabs: [
-      { key: -1, text: '全部' },
-      { key: OrderStatus.PENDING_PAYMENT, text: '待付款', info: '' },
-      { key: OrderStatus.PENDING_DELIVERY, text: '待发货', info: '' },
-      { key: OrderStatus.PENDING_RECEIPT, text: '待收货', info: '' },
-      { key: OrderStatus.COMPLETE, text: '已完成', info: '' },
+      { key: -1, text: "全部" },
+      { key: OrderStatus.PENDING_PAYMENT, text: "待付款", info: "" },
+      { key: OrderStatus.PENDING_DELIVERY, text: "待发货", info: "" },
+      { key: OrderStatus.PENDING_RECEIPT, text: "待收货", info: "" },
+      { key: OrderStatus.COMPLETE, text: "已完成", info: "" },
     ],
     curTab: -1,
     orderList: [],
     listLoading: 0,
     pullDownRefreshing: false,
-    emptyImg: 'https://tdesign.gtimg.com/miniprogram/template/retail/order/empty-order-list.png',
+    emptyImg: "https://tdesign.gtimg.com/miniprogram/template/retail/order/empty-order-list.png",
     backRefresh: false,
     status: -1,
   },
 
   onLoad(query) {
-    let status = parseInt(query.status);
+    let status = Number.parseInt(query.status, 10);
     status = this.data.tabs.map((t) => t.key).includes(status) ? status : -1;
     this.init(status);
-    this.pullDownRefresh = this.selectComponent('#wr-pull-down-refresh');
+    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh");
   },
 
   onShow() {
-    if (!this.data.backRefresh) return;
+    if (!this.data.backRefresh) {
+      return;
+    }
     this.onRefresh();
     this.setData({ backRefresh: false });
   },
@@ -45,7 +47,7 @@ Page({
   },
 
   onPageScroll(e) {
-    this.pullDownRefresh && this.pullDownRefresh.onPageScroll(e);
+    this.pullDownRefresh?.onPageScroll(e);
   },
 
   onPullDownRefresh_(e) {
@@ -54,7 +56,7 @@ Page({
     this.refreshList(this.data.curTab)
       .then(() => {
         this.setData({ pullDownRefreshing: false });
-        callback && callback();
+        callback?.();
       })
       .catch((err) => {
         this.setData({ pullDownRefreshing: false });
@@ -77,13 +79,15 @@ Page({
         pageNum: this.page.num,
       },
     };
-    if (statusCode !== -1) params.parameter.orderStatus = statusCode;
+    if (statusCode !== -1) {
+      params.parameter.orderStatus = statusCode;
+    }
     this.setData({ listLoading: 1 });
     return fetchOrders(params)
       .then((res) => {
         this.page.num++;
         let orderList = [];
-        if (res && res.data && res.data.orders) {
+        if (res?.data?.orders) {
           orderList = (res.data.orders || []).map((order) => {
             return {
               id: order.orderId,
@@ -117,7 +121,9 @@ Page({
         return new Promise((resolve) => {
           if (reset) {
             this.setData({ orderList: [] }, () => resolve());
-          } else resolve();
+          } else {
+            resolve();
+          }
         }).then(() => {
           this.setData({
             orderList: this.data.orderList.concat(orderList),

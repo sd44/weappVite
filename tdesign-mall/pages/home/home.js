@@ -1,6 +1,6 @@
-import { fetchHome } from '../../services/home/home';
-import { fetchGoodsList } from '../../services/good/fetchGoods';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast from "tdesign-miniprogram/toast/index";
+import { fetchGoodsList } from "../../services/good/fetchGoods";
+import { fetchHome } from "../../services/home/home";
 
 Page({
   data: {
@@ -11,10 +11,10 @@ Page({
     pageLoading: false,
     current: 1,
     autoplay: true,
-    duration: '500',
+    duration: "500",
     interval: 5000,
-    navigation: { type: 'dots' },
-    swiperImageProps: { mode: 'scaleToFill' },
+    navigation: { type: "dots" },
+    swiperImageProps: { mode: "scaleToFill" },
   },
 
   goodListPagination: {
@@ -97,7 +97,7 @@ Page({
 
       this.goodListPagination.index = pageIndex;
       this.goodListPagination.num = pageSize;
-    } catch (err) {
+    } catch (_err) {
       this.setData({ goodsListLoadStatus: 3 });
     }
   },
@@ -113,13 +113,13 @@ Page({
   goodListAddCartHandle() {
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '点击加入购物车',
+      selector: "#t-toast",
+      message: "点击加入购物车",
     });
   },
 
   navToSearchPage() {
-    wx.navigateTo({ url: '/pages/goods/search/index' });
+    wx.navigateTo({ url: "/pages/goods/search/index" });
   },
 
   navToActivityDetail({ detail }) {

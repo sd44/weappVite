@@ -23,12 +23,13 @@ Component({
     },
   },
   data: {
-    defaultAvatarUrl: 'https://tdesign.gtimg.com/miniprogram/template/retail/usercenter/icon-user-center-avatar@2x.png',
+    defaultAvatarUrl:
+      "https://tdesign.gtimg.com/miniprogram/template/retail/usercenter/icon-user-center-avatar@2x.png",
     AuthStepType,
   },
   methods: {
     gotoUserEditPage() {
-      this.triggerEvent('gotoUserEditPage');
+      this.triggerEvent("gotoUserEditPage");
     },
   },
 });

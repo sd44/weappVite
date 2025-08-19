@@ -1,4 +1,5 @@
-import { getCategoryList } from '../../services/good/fetchCategoryList';
+import { getCategoryList } from "../../services/good/fetchCategoryList";
+
 Page({
   data: {
     list: [],
@@ -9,9 +10,7 @@ Page({
       this.setData({
         list: result,
       });
-    } catch (error) {
-      console.error('err:', error);
-    }
+    } catch (_error) {}
   },
 
   onShow() {
@@ -19,7 +18,7 @@ Page({
   },
   onChange() {
     wx.navigateTo({
-      url: '/pages/goods/list/index',
+      url: "/pages/goods/list/index",
     });
   },
   onLoad() {

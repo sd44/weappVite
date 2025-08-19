@@ -1,23 +1,23 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
   properties: {
     position: {
       type: String,
-      value: 'static',
+      value: "static",
     },
     noMask: Boolean,
     type: {
       type: String,
-      value: 'circular',
+      value: "circular",
     },
     vertical: Boolean,
     size: {
       type: String,
-      value: '50rpx',
+      value: "50rpx",
     },
     backgroundColor: {
       type: String,
-      value: 'rgba(0, 0, 0, .6)',
+      value: "rgba(0, 0, 0, .6)",
     },
   },
 });

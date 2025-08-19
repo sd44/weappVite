@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['wr-sold-out', 'wr-class'],
+  externalClasses: ["wr-sold-out", "wr-class"],
 
   options: { multipleSlots: true },
 
@@ -30,11 +30,11 @@ Component({
     },
     minDiscountPrice: {
       type: String,
-      value: '',
+      value: "",
     },
     minSalePrice: {
       type: String,
-      value: '',
+      value: "",
     },
   },
 
@@ -45,19 +45,23 @@ Component({
   methods: {
     toAddCart() {
       const { isStock } = this.properties;
-      if (!isStock) return;
-      this.triggerEvent('toAddCart');
+      if (!isStock) {
+        return;
+      }
+      this.triggerEvent("toAddCart");
     },
 
     toBuyNow(e) {
       const { isStock } = this.properties;
-      if (!isStock) return;
-      this.triggerEvent('toBuyNow', e);
+      if (!isStock) {
+        return;
+      }
+      this.triggerEvent("toBuyNow", e);
     },
 
     toNav(e) {
       const { url } = e.currentTarget.dataset;
-      return this.triggerEvent('toNav', {
+      return this.triggerEvent("toNav", {
         e,
         url,
       });

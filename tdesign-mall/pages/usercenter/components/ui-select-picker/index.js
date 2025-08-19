@@ -3,19 +3,23 @@ Component({
     show: {
       type: Boolean,
       observer(show) {
-        if (!show) return;
+        if (!show) {
+          return;
+        }
         this.updateDivisions();
       },
     },
     title: {
       type: String,
-      value: '',
+      value: "",
     },
     value: {
       type: String,
-      value: '',
+      value: "",
       observer() {
-        if (!this.data.show) return;
+        if (!this.data.show) {
+          return;
+        }
         this.updateDivisions();
       },
     },
@@ -23,7 +27,9 @@ Component({
       type: Array,
       value: [],
       observer() {
-        if (!this.data.show) return;
+        if (!this.data.show) {
+          return;
+        }
         this.updateDivisions();
       },
     },
@@ -38,9 +44,7 @@ Component({
   methods: {
     updateDivisions() {
       const { pickerOptions, value } = this.data;
-      const index = (pickerOptions || []).findIndex(
-        (item) => item.code === value,
-      );
+      const index = (pickerOptions || []).findIndex((item) => item.code === value);
 
       setTimeout(() => {
         this.setData({ pickerValue: index >= 0 ? [index] : [0] });
@@ -55,19 +59,21 @@ Component({
     onChange(e) {
       const currentValue = e.detail.value;
       const target = this.getAreaByIndex(currentValue);
-      if (target === null) return;
+      if (target === null) {
+        return;
+      }
 
       this.setData({ pickerValue: currentValue });
-      this.triggerEvent('change', { value: target.code, target: target });
+      this.triggerEvent("change", { value: target.code, target });
     },
 
     onConfirm() {
       const target = this.getAreaByIndex(this.data.pickerValue);
-      this.triggerEvent('confirm', { value: target?.code, target });
+      this.triggerEvent("confirm", { value: target?.code, target });
     },
 
     onClose() {
-      this.triggerEvent('close');
+      this.triggerEvent("close");
     },
   },
 });

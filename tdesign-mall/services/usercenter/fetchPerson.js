@@ -1,10 +1,10 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取个人中心信息 */
 function mockFetchPerson() {
-  const { delay } = require('../_utils/delay');
-  const { genSimpleUserInfo } = require('../../model/usercenter');
-  const { genAddress } = require('../../model/address');
+  const { delay } = require("../_utils/delay");
+  const { genSimpleUserInfo } = require("../../model/usercenter");
+  const { genAddress } = require("../../model/address");
   const address = genAddress();
   return delay().then(() => ({
     ...genSimpleUserInfo(),
@@ -23,6 +23,6 @@ export function fetchPerson() {
     return mockFetchPerson();
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

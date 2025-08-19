@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取订单列表mock数据 */
 function mockFetchOrders(params) {
-  const { delay } = require('../_utils/delay');
-  const { genOrders } = require('../../model/order/orderList');
+  const { delay } = require("../_utils/delay");
+  const { genOrders } = require("../../model/order/orderList");
 
   return delay(200).then(() => genOrders(params));
 }
@@ -15,14 +15,14 @@ export function fetchOrders(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 获取订单列表mock数据 */
 function mockFetchOrdersCount(params) {
-  const { delay } = require('../_utils/delay');
-  const { genOrdersCount } = require('../../model/order/orderList');
+  const { delay } = require("../_utils/delay");
+  const { genOrdersCount } = require("../../model/order/orderList");
 
   return delay().then(() => genOrdersCount(params));
 }
@@ -34,6 +34,6 @@ export function fetchOrdersCount(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

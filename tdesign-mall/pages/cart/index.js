@@ -1,6 +1,6 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchCartGroupData } from '../../services/cart/cart';
+import Dialog from "tdesign-miniprogram/dialog/index";
+import Toast from "tdesign-miniprogram/toast/index";
+import { fetchCartGroupData } from "../../services/cart/cart";
 
 Page({
   data: {
@@ -174,11 +174,11 @@ Page({
     const { currentGoods } = this.findGoods(spuId, skuId);
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: `${isSelected ? '选择' : '取消'}"${
+      selector: "#t-toast",
+      message: `${isSelected ? "选择" : "取消"}"${
         currentGoods.title.length > 5 ? `${currentGoods.title.slice(0, 5)}...` : currentGoods.title
       }"`,
-      icon: '',
+      icon: "",
     });
     this.selectGoodsService({ spuId, skuId, isSelected }).then(() => this.refreshData());
   },
@@ -204,16 +204,16 @@ Page({
       if (currentGoods.quantity === stockQuantity && quantity - stockQuantity === 1) {
         Toast({
           context: this,
-          selector: '#t-toast',
-          message: '当前商品库存不足',
+          selector: "#t-toast",
+          message: "当前商品库存不足",
         });
         return;
       }
       Dialog.confirm({
-        title: '商品库存不足',
+        title: "商品库存不足",
         content: `当前商品库存不足，最大可购买数量为${stockQuantity}件`,
-        confirmBtn: '修改为最大可购买数量',
-        cancelBtn: '取消',
+        confirmBtn: "修改为最大可购买数量",
+        cancelBtn: "取消",
       })
         .then(() => {
           this.changeQuantityService({
@@ -230,7 +230,7 @@ Page({
 
   goCollect() {
     /** 活动肯定有一个活动ID，用来获取活动banner，活动商品列表等 */
-    const promotionID = '123';
+    const promotionID = "123";
     wx.navigateTo({
       url: `/pages/promotion/promotion-detail/index?promotion_id=${promotionID}`,
     });
@@ -253,12 +253,12 @@ Page({
       goods: { spuId, skuId },
     } = e.detail;
     Dialog.confirm({
-      content: '确认删除该商品吗?',
-      confirmBtn: '确定',
-      cancelBtn: '取消',
+      content: "确认删除该商品吗?",
+      confirmBtn: "确定",
+      cancelBtn: "取消",
     }).then(() => {
       this.deleteGoodsService({ spuId, skuId }).then(() => {
-        Toast({ context: this, selector: '#t-toast', message: '商品删除成功' });
+        Toast({ context: this, selector: "#t-toast", message: "商品删除成功" });
         this.refreshData();
       });
     });
@@ -268,8 +268,8 @@ Page({
     const { isAllSelected } = event?.detail ?? {};
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: `${isAllSelected ? '取消' : '点击'}了全选按钮`,
+      selector: "#t-toast",
+      message: `${isAllSelected ? "取消" : "点击"}了全选按钮`,
     });
     // 调用接口改变全选
   },
@@ -279,16 +279,16 @@ Page({
     this.data.cartGroupData.storeGoods.forEach((store) => {
       store.promotionGoodsList.forEach((promotion) => {
         promotion.goodsPromotionList.forEach((m) => {
-          if (m.isSelected == 1) {
+          if (m.isSelected === 1) {
             goodsRequestList.push(m);
           }
         });
       });
     });
-    wx.setStorageSync('order.goodsRequestList', JSON.stringify(goodsRequestList));
-    wx.navigateTo({ url: '/pages/order/order-confirm/index?type=cart' });
+    wx.setStorageSync("order.goodsRequestList", JSON.stringify(goodsRequestList));
+    wx.navigateTo({ url: "/pages/order/order-confirm/index?type=cart" });
   },
   onGotoHome() {
-    wx.switchTab({ url: '/pages/home/home' });
+    wx.switchTab({ url: "/pages/home/home" });
   },
 });

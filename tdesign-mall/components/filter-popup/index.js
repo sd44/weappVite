@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
 
   options: {
     multipleSlots: true,
@@ -22,13 +22,13 @@ Component({
 
   methods: {
     reset() {
-      this.triggerEvent('reset');
+      this.triggerEvent("reset");
     },
     confirm() {
-      this.triggerEvent('confirm');
+      this.triggerEvent("confirm");
     },
     close() {
-      this.triggerEvent('showFilterPopupClose');
+      this.triggerEvent("showFilterPopupClose");
 
       this.setData({ visible: false });
     },

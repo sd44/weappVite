@@ -1,6 +1,6 @@
 let ARRAY = [];
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
 
   options: {
     multipleSlots: true,
@@ -29,7 +29,7 @@ Component({
    * Component initial data
    */
   data: {
-    wrapperStyle: '',
+    wrapperStyle: "",
     asyncClose: false,
     closed: true,
   },
@@ -40,7 +40,7 @@ Component({
   methods: {
     open(position) {
       this.setData({ closed: false });
-      this.triggerEvent('close', {
+      this.triggerEvent("close", {
         position,
         instance: this,
       });
@@ -59,15 +59,15 @@ Component({
     },
 
     onClick(event) {
-      const { key: position = 'outside' } = event.currentTarget.dataset;
-      this.triggerEvent('click', position);
+      const { key: position = "outside" } = event.currentTarget.dataset;
+      this.triggerEvent("click", position);
 
       if (this.data.closed) {
         return;
       }
 
       if (this.data.asyncClose) {
-        this.triggerEvent('close', {
+        this.triggerEvent("close", {
           position,
           instance: this,
         });

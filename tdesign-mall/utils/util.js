@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 const formatTime = (date, template) => dayjs(date).format(template);
 
@@ -9,18 +9,18 @@ const formatTime = (date, template) => dayjs(date).format(template);
  * @param fill 是否填充小数部分 0-不填充 1-填充第一位小数 2-填充两位小数
  */
 function priceFormat(price, fill = 0) {
-  if (isNaN(price) || price === null || price === Infinity) {
+  if (Number.isNaN(price) || price === null || price === Number.POSITIVE_INFINITY) {
     return price;
   }
 
-  let priceFormatValue = Math.round(parseFloat(`${price}`) * 10 ** 8) / 10 ** 8; // 恢复精度丢失
+  let priceFormatValue = Math.round(Number.parseFloat(`${price}`) * 10 ** 8) / 10 ** 8; // 恢复精度丢失
   priceFormatValue = `${Math.ceil(priceFormatValue) / 100}`; // 向上取整，单位转换为元，转换为字符串
   if (fill > 0) {
     // 补充小数位数
-    if (priceFormatValue.indexOf('.') === -1) {
+    if (priceFormatValue.indexOf(".") === -1) {
       priceFormatValue = `${priceFormatValue}.`;
     }
-    const n = fill - priceFormatValue.split('.')[1]?.length;
+    const n = fill - priceFormatValue.split(".")[1]?.length;
     for (let i = 0; i < n; i++) {
       priceFormatValue = `${priceFormatValue}0`;
     }
@@ -36,24 +36,20 @@ function priceFormat(price, fill = 0) {
  * @param {number} [height] 可选，高度，不填时与width同值
  */
 const cosThumb = (url, width, height = width) => {
-  if (url.indexOf('?') > -1) {
+  if (url.indexOf("?") > -1) {
     return url;
   }
 
-  if (url.indexOf('http://') === 0) {
-    url = url.replace('http://', 'https://');
+  if (url.indexOf("http://") === 0) {
+    url = url.replace("http://", "https://");
   }
 
   return `${url}?imageMogr2/thumbnail/${~~width}x${~~height}`;
 };
 
 const get = (source, paths, defaultValue) => {
-  if (typeof paths === 'string') {
-    paths = paths
-      .replace(/\[/g, '.')
-      .replace(/\]/g, '')
-      .split('.')
-      .filter(Boolean);
+  if (typeof paths === "string") {
+    paths = paths.replace(/\[/g, ".").replace(/\]/g, "").split(".").filter(Boolean);
   }
   const { length } = paths;
   let index = 0;
@@ -71,7 +67,7 @@ export const loadSystemWidth = () => {
 
   try {
     ({ screenWidth: systemWidth, pixelRatio } = wx.getSystemInfoSync());
-  } catch (e) {
+  } catch (_e) {
     systemWidth = 0;
   }
   return systemWidth;
@@ -104,12 +100,11 @@ const rpx2px = (rpx, round = false) => {
  * @returns
  */
 const phoneEncryption = (phone) => {
-  return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
 };
 
 // 内置手机号正则字符串
-const innerPhoneReg =
-  '^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$';
+const innerPhoneReg = "^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$";
 
 /**
  * 手机号正则校验

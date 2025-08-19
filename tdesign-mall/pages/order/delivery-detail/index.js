@@ -1,10 +1,10 @@
 Page({
   data: {
     logisticsData: {
-      logisticsNo: '',
+      logisticsNo: "",
       nodes: [],
-      company: '',
-      phoneNumber: '',
+      company: "",
+      phoneNumber: "",
     },
     active: 0,
   },
@@ -12,10 +12,8 @@ Page({
   onLoad(query) {
     let data;
     try {
-      data = JSON.parse(decodeURIComponent(query.data || '{}'));
-    } catch (e) {
-      console.warn('物流节点数据解析失败', e);
-    }
+      data = JSON.parse(decodeURIComponent(query.data || "{}"));
+    } catch (_e) {}
     if (Number(query.source) === 2) {
       const service = {
         company: data.logisticsCompanyName,

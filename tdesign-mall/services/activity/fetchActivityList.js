@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取活动列表 */
 function mockFetchActivityList(pageIndex = 1, pageSize = 20) {
-  const { delay } = require('../_utils/delay');
-  const { getActivityList } = require('../../model/activities');
+  const { delay } = require("../_utils/delay");
+  const { getActivityList } = require("../../model/activities");
 
   return delay().then(() => getActivityList(pageIndex, pageSize));
 }
@@ -15,6 +15,6 @@ export function fetchActivityList(pageIndex = 1, pageSize = 20) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

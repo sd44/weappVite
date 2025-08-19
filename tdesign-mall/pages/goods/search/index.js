@@ -1,23 +1,20 @@
-import {
-  getSearchHistory,
-  getSearchPopular,
-} from '../../../services/good/fetchSearchHistory';
+import { getSearchHistory, getSearchPopular } from "../../../services/good/fetchSearchHistory";
 
 Page({
   data: {
     historyWords: [],
     popularWords: [],
-    searchValue: '',
+    searchValue: "",
     dialog: {
-      title: '确认删除当前历史记录',
+      title: "确认删除当前历史记录",
       showCancelButton: true,
-      message: '',
+      message: "",
     },
     dialogShow: false,
   },
 
   deleteType: 0,
-  deleteIndex: '',
+  deleteIndex: "",
 
   onShow() {
     this.queryHistory();
@@ -27,31 +24,27 @@ Page({
   async queryHistory() {
     try {
       const data = await getSearchHistory();
-      const code = 'Success';
-      if (String(code).toUpperCase() === 'SUCCESS') {
+      const code = "Success";
+      if (String(code).toUpperCase() === "SUCCESS") {
         const { historyWords = [] } = data;
         this.setData({
           historyWords,
         });
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (_error) {}
   },
 
   async queryPopular() {
     try {
       const data = await getSearchPopular();
-      const code = 'Success';
-      if (String(code).toUpperCase() === 'SUCCESS') {
+      const code = "Success";
+      if (String(code).toUpperCase() === "SUCCESS") {
         const { popularWords = [] } = data;
         this.setData({
           popularWords,
         });
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (_error) {}
   },
 
   confirm() {
@@ -78,7 +71,7 @@ Page({
     this.setData({
       dialog: {
         ...dialog,
-        message: '确认删除所有历史记录',
+        message: "确认删除所有历史记录",
       },
       dialogShow: true,
     });
@@ -91,7 +84,7 @@ Page({
     this.setData({
       dialog: {
         ...dialog,
-        message: '确认删除当前历史记录',
+        message: "确认删除当前历史记录",
         deleteType: 0,
       },
       dialogShow: true,
@@ -101,7 +94,7 @@ Page({
   handleHistoryTap(e) {
     const { historyWords } = this.data;
     const { dataset } = e.currentTarget;
-    const _searchValue = historyWords[dataset.index || 0] || '';
+    const _searchValue = historyWords[dataset.index || 0] || "";
     if (_searchValue) {
       wx.navigateTo({
         url: `/pages/goods/result/index?searchValue=${_searchValue}`,
@@ -111,7 +104,9 @@ Page({
 
   handleSubmit(e) {
     const { value } = e.detail.value;
-    if (value.length === 0) return;
+    if (value.length === 0) {
+      return;
+    }
     wx.navigateTo({
       url: `/pages/goods/result/index?searchValue=${value}`,
     });

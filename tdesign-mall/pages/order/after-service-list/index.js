@@ -1,5 +1,5 @@
-import { getRightsList } from './api';
-import { AfterServiceStatus, ServiceType, ServiceTypeDesc } from '../config';
+import { AfterServiceStatus, ServiceType, ServiceTypeDesc } from "../config";
+import { getRightsList } from "./api";
 
 Page({
   page: {
@@ -11,43 +11,45 @@ Page({
     tabs: [
       {
         key: -1,
-        text: '全部',
+        text: "全部",
       },
       {
         key: AfterServiceStatus.TO_AUDIT,
-        text: '待审核',
+        text: "待审核",
       },
       {
         key: AfterServiceStatus.THE_APPROVED,
-        text: '已审核',
+        text: "已审核",
       },
       {
         key: AfterServiceStatus.COMPLETE,
-        text: '已完成',
+        text: "已完成",
       },
       {
         key: AfterServiceStatus.CLOSED,
-        text: '已关闭',
+        text: "已关闭",
       },
     ],
     curTab: -1,
     dataList: [],
     listLoading: 0, // 0-未加载，1-加载中，2-已全部加载
     pullDownRefreshing: false, // 下拉刷新时不显示load-more
-    emptyImg: 'https://tdesign.gtimg.com/miniprogram/template/retail/order/empty-order-list.png',
+    emptyImg: "https://tdesign.gtimg.com/miniprogram/template/retail/order/empty-order-list.png",
     backRefresh: false,
   },
 
   onLoad(query) {
-    let status = parseInt(query.status);
+    let status = Number.parseInt(query.status, 10);
     status = this.data.tabs.map((t) => t.key).includes(status) ? status : -1;
     this.init(status);
-    this.pullDownRefresh = this.selectComponent('#wr-pull-down-refresh');
+    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh");
   },
 
   onShow() {
     // 当从其他页面返回，并且 backRefresh 被置为 true 时，刷新数据
-    if (!this.data.backRefresh) return;
+    if (!this.data.backRefresh) {
+      return;
+    }
     this.onRefresh();
     this.setData({
       backRefresh: false,
@@ -61,7 +63,7 @@ Page({
   },
 
   onPageScroll(e) {
-    this.pullDownRefresh && this.pullDownRefresh.onPageScroll(e);
+    this.pullDownRefresh?.onPageScroll(e);
   },
 
   onPullDownRefresh_(e) {
@@ -74,7 +76,7 @@ Page({
         this.setData({
           pullDownRefreshing: false,
         });
-        callback && callback();
+        callback?.();
       })
       .catch((err) => {
         this.setData({
@@ -96,7 +98,9 @@ Page({
         pageNum: this.page.num,
       },
     };
-    if (statusCode !== -1) params.parameter.afterServiceStatus = statusCode;
+    if (statusCode !== -1) {
+      params.parameter.afterServiceStatus = statusCode;
+    }
     this.setData({
       listLoading: 1,
     });
@@ -105,7 +109,7 @@ Page({
         this.page.num++;
         let dataList = [];
         let { tabs } = this.data;
-        if (res && res.data && res.data.states) {
+        if (res?.data?.states) {
           tabs = this.data.tabs.map((item) => {
             switch (item.key) {
               case AfterServiceStatus.TO_AUDIT:
@@ -124,7 +128,7 @@ Page({
             return item;
           });
         }
-        if (res && res.data && res.data.dataList) {
+        if (res?.data?.dataList) {
           dataList = (res.data.dataList || []).map((_data) => {
             return {
               id: _data.rights.rightsNo,
@@ -132,7 +136,8 @@ Page({
               storeName: _data.rights.storeName,
               type: _data.rights.rightsType,
               typeDesc: ServiceTypeDesc[_data.rights.rightsType],
-              typeDescIcon: _data.rightsType === ServiceType.ONLY_REFUND ? 'money-circle' : 'return-goods-1',
+              typeDescIcon:
+                _data.rightsType === ServiceType.ONLY_REFUND ? "money-circle" : "return-goods-1",
               status: _data.rights.rightsStatus,
               statusName: _data.rights.userRightsStatusName,
               statusDesc: _data.rights.userRightsStatusDesc,
@@ -141,7 +146,7 @@ Page({
                 id: i,
                 thumb: item.goodsPictureUrl,
                 title: item.goodsName,
-                specs: (item.specInfo || []).map((s) => s.specValues || ''),
+                specs: (item.specInfo || []).map((s) => s.specValues || ""),
                 itemRefundAmount: item.itemRefundAmount,
                 rightsQuantity: item.itemRefundAmount,
               })),
@@ -161,9 +166,11 @@ Page({
               {
                 dataList: [],
               },
-              () => resolve(),
+              () => resolve()
             );
-          } else resolve();
+          } else {
+            resolve();
+          }
         }).then(() => {
           this.setData({
             tabs,
@@ -187,7 +194,9 @@ Page({
   onTabChange(e) {
     const { value } = e.detail;
     const tab = this.data.tabs.find((v) => v.key === value);
-    if (!tab) return;
+    if (!tab) {
+      return;
+    }
     this.refreshList(value);
   },
 

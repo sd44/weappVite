@@ -1,5 +1,6 @@
 // import { getCommentDetail } from '../../../../services/good/comments/fetchCommentDetail';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast from "tdesign-miniprogram/toast/index";
+
 Page({
   data: {
     serviceRateValue: 1,
@@ -13,11 +14,11 @@ Page({
       column: 3,
     },
     isAllowedSubmit: false,
-    imgUrl: '',
-    title: '',
-    goodsDetail: '',
+    imgUrl: "",
+    title: "",
+    goodsDetail: "",
     imageProps: {
-      mode: 'aspectFit',
+      mode: "aspectFit",
     },
   },
 
@@ -69,17 +70,21 @@ Page({
     const { serviceRateValue, goodRateValue, conveyRateValue, isAllowedSubmit } = this.data;
     const { textAreaValue } = this;
     const temp = serviceRateValue && goodRateValue && conveyRateValue && textAreaValue;
-    if (temp !== isAllowedSubmit) this.setData({ isAllowedSubmit: temp });
+    if (temp !== isAllowedSubmit) {
+      this.setData({ isAllowedSubmit: temp });
+    }
   },
 
   onSubmitBtnClick() {
     const { isAllowedSubmit } = this.data;
-    if (!isAllowedSubmit) return;
+    if (!isAllowedSubmit) {
+      return;
+    }
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '评价提交成功',
-      icon: 'check-circle',
+      selector: "#t-toast",
+      message: "评价提交成功",
+      icon: "check-circle",
     });
     wx.navigateBack();
   },

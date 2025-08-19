@@ -5,19 +5,19 @@ Component({
   },
 
   externalClasses: [
-    'title-class',
-    'desc-class',
-    'num-class',
-    'thumb-class',
-    'specs-class',
-    'price-class',
-    'origin-price-class',
-    'price-prefix-class',
+    "title-class",
+    "desc-class",
+    "num-class",
+    "thumb-class",
+    "specs-class",
+    "price-class",
+    "origin-price-class",
+    "price-prefix-class",
   ],
 
   relations: {
-    '../order-card/index': {
-      type: 'ancestor',
+    "../order-card/index": {
+      type: "ancestor",
       linked(target) {
         this.parent = target;
       },
@@ -39,11 +39,11 @@ Component({
     data: Object,
     layout: {
       type: String,
-      value: 'horizontal',
+      value: "horizontal",
     },
     thumbMode: {
       type: String,
-      value: 'aspectFill',
+      value: "aspectFill",
     },
     thumbWidth: Number,
     thumbHeight: Number,
@@ -55,7 +55,7 @@ Component({
     },
     currency: {
       type: String,
-      value: '¥',
+      value: "¥",
     },
     lazyLoad: Boolean,
     centered: Boolean,
@@ -67,7 +67,7 @@ Component({
     },
     cartColor: {
       type: String,
-      value: '#FA550F',
+      value: "#FA550F",
     },
     disablePopup: Boolean,
   },
@@ -94,14 +94,14 @@ Component({
   methods: {
     closeSpecsPopup() {
       this.setData({
-        'specsPopup.show': false,
+        "specsPopup.show": false,
       });
-      this.triggerEvent('specsclose', { good: this.properties.data });
+      this.triggerEvent("specsclose", { good: this.properties.data });
     },
 
     removeSpecsPopup() {
       this.setData({
-        'specsPopup.insert': false,
+        "specsPopup.insert": false,
       });
     },
 
@@ -110,19 +110,19 @@ Component({
         this.currentInTapSpecs = false;
         return;
       }
-      this.triggerEvent('click', e.detail);
+      this.triggerEvent("click", e.detail);
     },
 
     onClickThumb(e) {
-      this.triggerEvent('thumb', e.detail);
+      this.triggerEvent("thumb", e.detail);
     },
 
     onClickTag(e) {
-      this.triggerEvent('tag', e.detail);
+      this.triggerEvent("tag", e.detail);
     },
 
     onClickCart(e) {
-      this.triggerEvent('add-cart', e.detail);
+      this.triggerEvent("add-cart", e.detail);
     },
 
     setHidden(hidden) {

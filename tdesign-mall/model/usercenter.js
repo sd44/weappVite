@@ -1,20 +1,20 @@
 const userInfo = {
   avatarUrl:
-    'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
-  nickName: 'TDesign 🌟',
-  phoneNumber: '13438358888',
+    "https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg",
+  nickName: "TDesign 🌟",
+  phoneNumber: "13438358888",
   gender: 2,
 };
 const countsData = [
   {
     num: 2,
-    name: '积分',
-    type: 'point',
+    name: "积分",
+    type: "point",
   },
   {
     num: 10,
-    name: '优惠券',
-    type: 'coupon',
+    name: "优惠券",
+    type: "coupon",
   },
 ];
 
@@ -38,8 +38,8 @@ const orderTagInfos = [
 ];
 
 const customerServiceInfo = {
-  servicePhone: '4006336868',
-  serviceTimeDuration: '每周三至周五 9:00-12:00  13:00-15:00',
+  servicePhone: "4006336868",
+  serviceTimeDuration: "每周三至周五 9:00-12:00  13:00-15:00",
 };
 
 export const genSimpleUserInfo = () => ({ ...userInfo });

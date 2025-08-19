@@ -1,17 +1,17 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchPromotion } from '../../../services/promotion/detail';
+import Toast from "tdesign-miniprogram/toast/index";
+import { fetchPromotion } from "../../../services/promotion/detail";
 
 Page({
   data: {
     list: [],
-    banner: '',
+    banner: "",
     time: 0,
     showBannerDesc: false,
-    statusTag: '',
+    statusTag: "",
   },
 
   onLoad(query) {
-    const promotionID = parseInt(query.promotion_id);
+    const promotionID = Number.parseInt(query.promotion_id, 10);
     this.getGoodsList(promotionID);
   },
 
@@ -40,16 +40,16 @@ Page({
   cardClickHandle() {
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '点击加购',
+      selector: "#t-toast",
+      message: "点击加购",
     });
   },
 
   bannerClickHandle() {
     Toast({
       context: this,
-      selector: '#t-toast',
-      message: '点击规则详情',
+      selector: "#t-toast",
+      message: "点击规则详情",
     });
   },
 });

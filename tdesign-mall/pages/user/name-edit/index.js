@@ -1,6 +1,6 @@
 Page({
   data: {
-    nameValue: '',
+    nameValue: "",
   },
   onLoad(options) {
     const { name } = options;
@@ -13,7 +13,7 @@ Page({
   },
   clearContent() {
     this.setData({
-      nameValue: '',
+      nameValue: "",
     });
   },
 });

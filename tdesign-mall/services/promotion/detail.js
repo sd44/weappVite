@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取商品列表 */
 function mockFetchPromotion(ID = 0) {
-  const { delay } = require('../_utils/delay');
-  const { getPromotion } = require('../../model/promotion');
+  const { delay } = require("../_utils/delay");
+  const { getPromotion } = require("../../model/promotion");
   return delay().then(() => getPromotion(ID));
 }
 
@@ -13,6 +13,6 @@ export function fetchPromotion(ID = 0) {
     return mockFetchPromotion(ID);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

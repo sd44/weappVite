@@ -1,8 +1,8 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Dialog from "tdesign-miniprogram/dialog/index";
+import Toast from "tdesign-miniprogram/toast/index";
 
-import { cancelRights } from '../../after-service-detail/api';
-import { ServiceButtonTypes } from '../../config';
+import { cancelRights } from "../../after-service-detail/api";
+import { ServiceButtonTypes } from "../../config";
 
 Component({
   properties: {
@@ -57,7 +57,7 @@ Component({
     viewDelivery(service) {
       wx.navigateTo({
         url: `/pages/order/delivery-detail/index?data=${JSON.stringify(
-          service.logistics || service.logisticsVO,
+          service.logistics || service.logisticsVO
         )}&source=2`,
       });
     },
@@ -68,25 +68,23 @@ Component({
           service.id
         }&logisticsNo=${service.logisticsNo}&logisticsCompanyName=${
           service.logisticsCompanyName
-        }&logisticsCompanyCode=${service.logisticsCompanyCode}&remark=${
-          service.remark || ''
-        }`,
+        }&logisticsCompanyCode=${service.logisticsCompanyCode}&remark=${service.remark || ""}`,
       });
     },
 
     onConfirm() {
       Dialog.confirm({
-        title: '是否撤销退货申请？',
-        content: '',
-        confirmBtn: '撤销申请',
-        cancelBtn: '不撤销',
+        title: "是否撤销退货申请？",
+        content: "",
+        confirmBtn: "撤销申请",
+        cancelBtn: "不撤销",
       }).then(() => {
         const params = { rightsNo: this.data.service.id };
         return cancelRights(params).then(() => {
           Toast({
             context: this,
-            selector: '#t-toast',
-            message: '你确认撤销申请',
+            selector: "#t-toast",
+            message: "你确认撤销申请",
           });
         });
       });

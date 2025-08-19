@@ -27,9 +27,9 @@ export const ServiceType = {
 };
 
 export const ServiceTypeDesc = {
-  [ServiceType.RETURN_GOODS]: '退货',
-  [ServiceType.ONLY_REFUND]: '退款',
-  [ServiceType.ORDER_CANCEL]: '支付后取消',
+  [ServiceType.RETURN_GOODS]: "退货",
+  [ServiceType.ONLY_REFUND]: "退款",
+  [ServiceType.ORDER_CANCEL]: "支付后取消",
 };
 
 // 订单按钮类型
@@ -74,21 +74,21 @@ export const ServiceReceiptStatus = {
 
 // 物流节点
 export const LogisticsNodeTypes = {
-  SUBMITTED: 200001, // 已提交订单
-  PAYMENTED: 200002, // 已付款/已下单
-  SHIPPED: 200003, // 已发货
-  CANCELED: 200004, // 已取消
-  RECEIVED: 200005, // 已签收
-  ADDRESS_CHANGED: 200006, // 已修改地址
-  IN_TRANSIT: 200007, // 运输中
+  SUBMITTED: 200_001, // 已提交订单
+  PAYMENTED: 200_002, // 已付款/已下单
+  SHIPPED: 200_003, // 已发货
+  CANCELED: 200_004, // 已取消
+  RECEIVED: 200_005, // 已签收
+  ADDRESS_CHANGED: 200_006, // 已修改地址
+  IN_TRANSIT: 200_007, // 运输中
 };
 
 export const LogisticsIconMap = {
-  [LogisticsNodeTypes.SUBMITTED]: '',
-  [LogisticsNodeTypes.PAYMENTED]: 'credit_card',
-  [LogisticsNodeTypes.SHIPPED]: 'deliver',
-  [LogisticsNodeTypes.CANCELED]: '',
-  [LogisticsNodeTypes.RECEIVED]: 'check',
-  [LogisticsNodeTypes.ADDRESS_CHANGED]: '',
-  [LogisticsNodeTypes.IN_TRANSIT]: 'yunshuzhong',
+  [LogisticsNodeTypes.SUBMITTED]: "",
+  [LogisticsNodeTypes.PAYMENTED]: "credit_card",
+  [LogisticsNodeTypes.SHIPPED]: "deliver",
+  [LogisticsNodeTypes.CANCELED]: "",
+  [LogisticsNodeTypes.RECEIVED]: "check",
+  [LogisticsNodeTypes.ADDRESS_CHANGED]: "",
+  [LogisticsNodeTypes.IN_TRANSIT]: "yunshuzhong",
 };

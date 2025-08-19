@@ -4,7 +4,7 @@ Component({
     multipleSlots: true,
   },
 
-  externalClasses: ['coupon-class'],
+  externalClasses: ["coupon-class"],
 
   properties: {
     mask: {
@@ -17,43 +17,43 @@ Component({
     },
     type: {
       type: String,
-      value: '', // 优惠券类型：CouponType
+      value: "", // 优惠券类型：CouponType
     },
     value: {
       type: String,
-      value: '', // 优惠金额
+      value: "", // 优惠金额
     },
     tag: {
       type: String,
-      value: '', // 优惠标签，优惠券名字标签，img
+      value: "", // 优惠标签，优惠券名字标签，img
     },
     desc: {
       type: String,
-      value: '', // 优惠金额描述，金额下方
+      value: "", // 优惠金额描述，金额下方
     },
     title: {
       type: String, // 优惠券名称
-      value: '',
+      value: "",
     },
     timeLimit: {
       type: String, // 优惠券时限
-      value: '',
+      value: "",
     },
     ruleDesc: {
       type: String, // 优惠券适用规则描述
-      value: '',
+      value: "",
     },
     currency: {
       type: String,
-      value: '¥', // 优惠货币
+      value: "¥", // 优惠货币
     },
     status: {
       type: String,
-      value: 'default',
+      value: "default",
     },
     image: {
       type: String,
-      value: '',
+      value: "",
     },
   },
 
@@ -64,15 +64,15 @@ Component({
       MJF_COUPON: 3,
       GIFT_COUPON: 4,
     },
-    theme: 'primary',
+    theme: "primary",
   },
 
   observers: {
-    status: function (value) {
-      let theme = 'primary';
+    status(value) {
+      let theme = "primary";
       // 已过期或已使用的券 颜色置灰
-      if (value === 'useless' || value === 'disabled') {
-        theme = 'weak';
+      if (value === "useless" || value === "disabled") {
+        theme = "weak";
       }
 
       this.setData({ theme });

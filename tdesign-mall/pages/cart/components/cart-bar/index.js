@@ -18,7 +18,7 @@ Component({
       type: Number,
       value: 0,
       observer(num) {
-        const isDisabled = num == 0;
+        const isDisabled = num === 0;
         setTimeout(() => {
           this.setData({
             isDisabled,
@@ -46,14 +46,16 @@ Component({
       this.setData({
         isAllSelected: !isAllSelected,
       });
-      this.triggerEvent('handleSelectAll', {
-        isAllSelected: isAllSelected,
+      this.triggerEvent("handleSelectAll", {
+        isAllSelected,
       });
     },
 
     handleToSettle() {
-      if (this.data.isDisabled) return;
-      this.triggerEvent('handleToSettle');
+      if (this.data.isDisabled) {
+        return;
+      }
+      this.triggerEvent("handleToSettle");
     },
   },
 });

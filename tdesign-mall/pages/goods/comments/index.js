@@ -1,8 +1,9 @@
-import { fetchComments } from '../../../services/comments/fetchComments';
-import { fetchCommentsCount } from '../../../services/comments/fetchCommentsCount';
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
+import { fetchComments } from "../../../services/comments/fetchComments";
+import { fetchCommentsCount } from "../../../services/comments/fetchCommentsCount";
+
 const layoutMap = {
-  0: 'vertical',
+  0: "vertical",
 };
 Page({
   data: {
@@ -17,18 +18,18 @@ Page({
     layoutText: layoutMap[0],
     loadMoreStatus: 0,
     myLoadStatus: 0,
-    spuId: '1060004',
-    commentLevel: '',
-    hasImage: '',
-    commentType: '',
+    spuId: "1060004",
+    commentLevel: "",
+    hasImage: "",
+    commentType: "",
     totalCount: 0,
     countObj: {
-      badCount: '0',
-      commentCount: '0',
-      goodCount: '0',
-      middleCount: '0',
-      hasImageCount: '0',
-      uidCount: '0',
+      badCount: "0",
+      commentCount: "0",
+      goodCount: "0",
+      middleCount: "0",
+      hasImageCount: "0",
+      uidCount: "0",
     },
   },
   onLoad(options) {
@@ -42,8 +43,8 @@ Page({
           spuId: options.spuId,
         },
         {
-          method: 'POST',
-        },
+          method: "POST",
+        }
       );
       this.setData({
         countObj: result,
@@ -61,7 +62,7 @@ Page({
       //     title: '查询失败，请稍候重试',
       //     });
       // }
-    } catch (error) {}
+    } catch (_error) {}
   },
   generalQueryData(reset) {
     const { hasImage, pageNum, pageSize, spuId, commentLevel } = this.data;
@@ -72,20 +73,18 @@ Page({
         spuId,
       },
     };
-    if (
-      Number(commentLevel) === 3 ||
-      Number(commentLevel) === 2 ||
-      Number(commentLevel) === 1
-    ) {
+    if (Number(commentLevel) === 3 || Number(commentLevel) === 2 || Number(commentLevel) === 1) {
       params.queryParameter.commentLevel = Number(commentLevel);
     }
-    if (hasImage && hasImage === '1') {
+    if (hasImage && hasImage === "1") {
       params.queryParameter.hasImage = true;
     } else {
-      delete params.queryParameter.hasImage;
+      params.queryParameter.hasImage = undefined;
     }
     // 重置请求
-    if (reset) return params;
+    if (reset) {
+      return params;
+    }
 
     return {
       ...params,
@@ -98,7 +97,9 @@ Page({
     const params = this.generalQueryData(reset);
 
     // 在加载中或者无更多数据，直接返回
-    if (loadMoreStatus !== 0) return;
+    if (loadMoreStatus !== 0) {
+      return;
+    }
 
     this.setData({
       loadMoreStatus: 1,
@@ -106,16 +107,14 @@ Page({
 
     try {
       const data = await fetchComments(params, {
-        method: 'POST',
+        method: "POST",
       });
-      const code = 'SUCCESS';
-      if (code.toUpperCase() === 'SUCCESS') {
+      const code = "SUCCESS";
+      if (code.toUpperCase() === "SUCCESS") {
         const { pageList, totalCount = 0 } = data;
         pageList.forEach((item) => {
           // eslint-disable-next-line no-param-reassign
-          item.commentTime = dayjs(Number(item.commentTime)).format(
-            'YYYY/MM/DD HH:mm',
-          );
+          item.commentTime = dayjs(Number(item.commentTime)).format("YYYY/MM/DD HH:mm");
         });
 
         if (Number(totalCount) === 0 && reset) {
@@ -128,8 +127,7 @@ Page({
           return;
         }
         const _commentList = reset ? pageList : commentList.concat(pageList);
-        const _loadMoreStatus =
-          _commentList.length === Number(totalCount) ? 2 : 0;
+        const _loadMoreStatus = _commentList.length === Number(totalCount) ? 2 : 0;
         this.setData({
           commentList: _commentList,
           pageNum: params.pageNum || 1,
@@ -138,16 +136,16 @@ Page({
         });
       } else {
         wx.showToast({
-          title: '查询失败，请稍候重试',
+          title: "查询失败，请稍候重试",
         });
       }
-    } catch (error) {}
+    } catch (_error) {}
     this.setData({
       hasLoaded: true,
     });
   },
   getScoreArray(score) {
-    var array = [];
+    const array = [];
     for (let i = 0; i < 5; i++) {
       if (i < score) {
         array.push(2);
@@ -158,23 +156,25 @@ Page({
     return array;
   },
   getComments(options) {
-    const { commentLevel = -1, spuId, hasImage = '' } = options;
+    const { commentLevel = -1, spuId, hasImage = "" } = options;
     if (commentLevel !== -1) {
       this.setData({
-        commentLevel: commentLevel,
+        commentLevel,
       });
     }
     this.setData({
-      hasImage: hasImage,
-      commentType: hasImage ? '4' : '',
-      spuId: spuId,
+      hasImage,
+      commentType: hasImage ? "4" : "",
+      spuId,
     });
     this.init(true);
   },
   changeTag(e) {
-    var { commenttype } = e.currentTarget.dataset;
-    var { commentType } = this.data;
-    if (commentType === commenttype) return;
+    const { commenttype } = e.currentTarget.dataset;
+    const { commentType } = this.data;
+    if (commentType === commenttype) {
+      return;
+    }
     this.setData({
       loadMoreStatus: 0,
       commentList: [],
@@ -183,23 +183,23 @@ Page({
       myPageNum: 1,
       pageNum: 1,
     });
-    if (commenttype === '' || commenttype === '5') {
+    if (commenttype === "" || commenttype === "5") {
       this.setData({
-        hasImage: '',
-        commentLevel: '',
+        hasImage: "",
+        commentLevel: "",
       });
-    } else if (commenttype === '4') {
+    } else if (commenttype === "4") {
       this.setData({
-        hasImage: '1',
-        commentLevel: '',
+        hasImage: "1",
+        commentLevel: "",
       });
     } else {
       this.setData({
-        hasImage: '',
+        hasImage: "",
         commentLevel: commenttype,
       });
     }
-    if (commenttype === '5') {
+    if (commenttype === "5") {
       this.setData({
         myLoadStatus: 1,
         commentType: commenttype,

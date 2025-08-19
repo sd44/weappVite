@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
 
   properties: {
     phoneNumber: String,
@@ -31,7 +31,7 @@ Component({
     },
     onCallOnlineService() {
       wx.showToast({
-        title: '你点击了在线客服',
+        title: "你点击了在线客服",
       });
     },
   },

@@ -21,15 +21,15 @@ Component({
     showCloseButton: Boolean,
     confirmButtonText: {
       type: String,
-      value: '确定',
+      value: "确定",
     },
     cancelButtonText: {
       type: String,
-      value: '取消',
+      value: "取消",
     },
     emptyTip: {
       type: String,
-      value: '请选择',
+      value: "请选择",
     },
   },
 
@@ -40,7 +40,7 @@ Component({
 
   methods: {
     attached() {
-      this.toast = this.selectComponent('#t-toast');
+      this.toast = this.selectComponent("#t-toast");
     },
 
     init() {
@@ -48,8 +48,11 @@ Component({
       const _options = this.properties.options.map((opt, i) => {
         const checked = !!opt.checked;
         if (checked) {
-          if (this.properties.multiple) checkedIndexes[0] = i;
-          else checkedIndexes.push(i);
+          if (this.properties.multiple) {
+            checkedIndexes[0] = i;
+          } else {
+            checkedIndexes.push(i);
+          }
         }
         return {
           title: opt.title,
@@ -85,32 +88,32 @@ Component({
         }
       }
       this.setData(data);
-      this.triggerEvent('select', { index });
-      this._onOptionTap && this._onOptionTap(index);
-      if (!this.properties.showConfirmButton && !this.properties.multiple) {
+      this.triggerEvent("select", { index });
+      this._onOptionTap?.(index);
+      if (!(this.properties.showConfirmButton || this.properties.multiple)) {
         // 没有确认按钮且是单选的情况下，选择选项则自动确定
-        this._onConfirm && this._onConfirm([index]);
+        this._onConfirm?.([index]);
         this.setData({ show: false });
       }
     },
 
     onCancel() {
-      this.triggerEvent('cancel');
-      this._onCancel && this._onCancel();
+      this.triggerEvent("cancel");
+      this._onCancel?.();
       this.setData({ show: false });
     },
 
     onConfirm() {
       if (this.data.checkedIndexes.length === 0) {
         this.toast.show({
-          icon: '',
+          icon: "",
           text: this.properties.emptyTip,
         });
         return;
       }
       const indexed = this.data.checkedIndexes;
-      this.triggerEvent('confirm', { indexed });
-      this._onConfirm && this._onConfirm(indexed);
+      this.triggerEvent("confirm", { indexed });
+      this._onConfirm?.(indexed);
       this.setData({ show: false });
     },
   },

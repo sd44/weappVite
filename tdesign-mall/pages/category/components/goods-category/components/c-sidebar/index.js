@@ -1,7 +1,7 @@
 Component({
   relations: {
-    './c-sidebar-item/index': {
-      type: 'descendant',
+    "./c-sidebar-item/index": {
+      type: "descendant",
       linked(target) {
         this.children.push(target);
         this.setActive(this.properties.activeKey, true);
@@ -13,7 +13,7 @@ Component({
     },
   },
 
-  externalClasses: ['custom-class'],
+  externalClasses: ["custom-class"],
 
   properties: {
     activeKey: {
@@ -87,13 +87,21 @@ Component({
     },
     getTopRightRadiusItemIndexs(activeKey, children) {
       const { length } = children;
-      if (activeKey !== 0 && activeKey < length - 1) return [0, activeKey + 1];
-      if (activeKey !== 0) return [0];
-      if (activeKey < length - 1) return [activeKey + 1];
+      if (activeKey !== 0 && activeKey < length - 1) {
+        return [0, activeKey + 1];
+      }
+      if (activeKey !== 0) {
+        return [0];
+      }
+      if (activeKey < length - 1) {
+        return [activeKey + 1];
+      }
       return [];
     },
     getBottomRightRadiusItemIndexs(activeKey) {
-      if (activeKey !== 0) return [activeKey - 1];
+      if (activeKey !== 0) {
+        return [activeKey - 1];
+      }
       return [];
     },
   },

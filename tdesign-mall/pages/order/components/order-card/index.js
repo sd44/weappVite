@@ -1,13 +1,13 @@
 Component({
-  externalClasses: ['wr-class', 'header-class', 'title-class'],
+  externalClasses: ["wr-class", "header-class", "title-class"],
 
   options: {
     multipleSlots: true,
   },
 
   relations: {
-    '../order-goods-card/index': {
-      type: 'descendant',
+    "../order-goods-card/index": {
+      type: "descendant",
       linked(target) {
         this.children.push(target);
         this.setHidden();
@@ -16,8 +16,8 @@ Component({
         this.children = this.children.filter((item) => item !== target);
       },
     },
-    '../goods-card/index': {
-      type: 'descendant',
+    "../goods-card/index": {
+      type: "descendant",
       linked(target) {
         this.children.push(target);
         this.setHidden();
@@ -26,8 +26,8 @@ Component({
         this.children = this.children.filter((item) => item !== target);
       },
     },
-    '../specs-goods-card/index': {
-      type: 'descendant',
+    "../specs-goods-card/index": {
+      type: "descendant",
       linked(target) {
         this.children.push(target);
         this.setHidden();
@@ -46,7 +46,9 @@ Component({
     order: {
       type: Object,
       observer(order) {
-        if (!order?.goodsList) return;
+        if (!order?.goodsList) {
+          return;
+        }
         const goodsCount = order.goodsList.length;
         this.setData({
           goodsCount,
@@ -73,18 +75,16 @@ Component({
   methods: {
     setHidden() {
       const isHidden = !this.data.showAll;
-      this.children.forEach(
-        (c, i) => i >= this.properties.defaultShowNum && c.setHidden(isHidden),
-      );
+      this.children.forEach((c, i) => i >= this.properties.defaultShowNum && c.setHidden(isHidden));
     },
 
     onOrderCardTap() {
-      this.triggerEvent('cardtap');
+      this.triggerEvent("cardtap");
     },
 
     onShowMoreTap() {
       this.setData({ showAll: true }, () => this.setHidden());
-      this.triggerEvent('showall');
+      this.triggerEvent("showall");
     },
   },
 });

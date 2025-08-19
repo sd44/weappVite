@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
 
   properties: {
     goodsList: {
@@ -8,7 +8,7 @@ Component({
     },
     id: {
       type: String,
-      value: '',
+      value: "",
       observer: (id) => {
         this.genIndependentID(id);
       },
@@ -20,7 +20,7 @@ Component({
   },
 
   data: {
-    independentID: '',
+    independentID: "",
   },
 
   lifetimes: {
@@ -32,21 +32,21 @@ Component({
   methods: {
     onClickGoods(e) {
       const { index } = e.currentTarget.dataset;
-      this.triggerEvent('click', { ...e.detail, index });
+      this.triggerEvent("click", { ...e.detail, index });
     },
 
     onAddCart(e) {
       const { index } = e.currentTarget.dataset;
-      this.triggerEvent('addcart', { ...e.detail, index });
+      this.triggerEvent("addcart", { ...e.detail, index });
     },
 
     onClickGoodsThumb(e) {
       const { index } = e.currentTarget.dataset;
-      this.triggerEvent('thumb', { ...e.detail, index });
+      this.triggerEvent("thumb", { ...e.detail, index });
     },
 
     init() {
-      this.genIndependentID(this.id || '');
+      this.genIndependentID(this.id || "");
     },
 
     genIndependentID(id) {

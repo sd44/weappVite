@@ -6,20 +6,20 @@ Component({
   intersectionObserverContext: null,
 
   externalClasses: [
-    'card-class',
-    'title-class',
-    'desc-class',
-    'num-class',
-    'thumb-class',
-    'specs-class',
-    'price-class',
-    'origin-price-class',
-    'price-prefix-class',
+    "card-class",
+    "title-class",
+    "desc-class",
+    "num-class",
+    "thumb-class",
+    "specs-class",
+    "price-class",
+    "origin-price-class",
+    "price-prefix-class",
   ],
 
   relations: {
-    '../order-card/index': {
-      type: 'ancestor',
+    "../order-card/index": {
+      type: "ancestor",
       linked(target) {
         this.parent = target;
       },
@@ -42,7 +42,7 @@ Component({
       type: String,
       // `goods-card-88888888`
       // 不能在这里写生成逻辑，如果在这里写，那么假设有多个goods-list时，他们将共享这个值
-      value: '',
+      value: "",
       observer: (id) => {
         this.genIndependentID(id);
         if (this.properties.thresholds?.length) {
@@ -61,11 +61,7 @@ Component({
         /** 划线价是否有效 */
         let isValidityLinePrice = true;
         // 判断一次划线价格是否合理
-        if (
-          goods.originPrice &&
-          goods.price &&
-          goods.originPrice < goods.price
-        ) {
+        if (goods.originPrice && goods.price && goods.originPrice < goods.price) {
           isValidityLinePrice = false;
         }
 
@@ -85,11 +81,11 @@ Component({
     },
     layout: {
       type: String,
-      value: 'horizontal',
+      value: "horizontal",
     },
     thumbMode: {
       type: String,
-      value: 'aspectFill',
+      value: "aspectFill",
     },
     thumbWidth: Number,
     thumbHeight: Number,
@@ -99,7 +95,7 @@ Component({
     },
     currency: {
       type: String,
-      value: '¥',
+      value: "¥",
     },
     lazyLoad: {
       type: Boolean,
@@ -115,7 +111,7 @@ Component({
     },
     pricePrefix: {
       type: String,
-      value: '',
+      value: "",
     },
     cartSize: {
       type: Number,
@@ -123,14 +119,14 @@ Component({
     },
     cartColor: {
       type: String,
-      value: '#FA550F',
+      value: "#FA550F",
     },
     /** 元素可见监控阈值, 数组长度大于0就创建 */
     thresholds: {
       type: Array,
       value: [],
       observer(current) {
-        if (current && current.length) {
+        if (current?.length) {
           this.createIntersectionObserverHandle();
         } else {
           this.clearIntersectionObserverHandle();
@@ -139,26 +135,26 @@ Component({
     },
     specsIconClassPrefix: {
       type: String,
-      value: 'wr',
+      value: "wr",
     },
     specsIcon: {
       type: String,
-      value: 'expand_more',
+      value: "expand_more",
     },
     addCartIconClassPrefix: {
       type: String,
-      value: 'wr',
+      value: "wr",
     },
     addCartIcon: {
       type: String,
-      value: 'cart',
+      value: "cart",
     },
   },
 
   data: {
     hiddenInData: false,
-    independentID: '',
-    goods: { id: '' },
+    independentID: "",
+    goods: { id: "" },
     /** 保证划线价格不小于原价，否则不渲染划线价 */
     isValidityLinePrice: false,
   },
@@ -174,20 +170,20 @@ Component({
 
   methods: {
     clickHandle() {
-      this.triggerEvent('click', { goods: this.data.goods });
+      this.triggerEvent("click", { goods: this.data.goods });
     },
     clickThumbHandle() {
-      this.triggerEvent('thumb', { goods: this.data.goods });
+      this.triggerEvent("thumb", { goods: this.data.goods });
     },
     clickTagHandle(evt) {
       const { index } = evt.currentTarget.dataset;
-      this.triggerEvent('tag', { goods: this.data.goods, index });
+      this.triggerEvent("tag", { goods: this.data.goods, index });
     },
     // 加入购物车
     addCartHandle(e) {
       const { id } = e.currentTarget;
       const { id: cardID } = e.currentTarget.dataset;
-      this.triggerEvent('add-cart', {
+      this.triggerEvent("add-cart", {
         ...e.detail,
         id,
         cardID,
@@ -211,8 +207,8 @@ Component({
         this.setHidden(!!hidden);
       }
 
-      this.genIndependentID(id || '', () => {
-        if (thresholds && thresholds.length) {
+      this.genIndependentID(id || "", () => {
+        if (thresholds?.length) {
           this.createIntersectionObserverHandle();
         }
       });
@@ -237,15 +233,12 @@ Component({
         })
         .relativeToViewport();
 
-      this.intersectionObserverContext.observe(
-        `#${this.data.independentID}`,
-        (res) => {
-          this.intersectionObserverCB(res);
-        },
-      );
+      this.intersectionObserverContext.observe(`#${this.data.independentID}`, (res) => {
+        this.intersectionObserverCB(res);
+      });
     },
     intersectionObserverCB(ob) {
-      this.triggerEvent('ob', {
+      this.triggerEvent("ob", {
         goods: this.data.goods,
         context: this.intersectionObserverContext,
         ob,
@@ -255,7 +248,7 @@ Component({
       if (this.intersectionObserverContext) {
         try {
           this.intersectionObserverContext.disconnect();
-        } catch (e) {}
+        } catch (_e) {}
 
         this.intersectionObserverContext = null;
       }

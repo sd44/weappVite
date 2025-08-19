@@ -14,17 +14,17 @@ Component({
    * 组件的初始数据
    */
   data: {
-    classType: 'single',
+    classType: "single",
   },
 
   observers: {
-    resources: function (newVal) {
+    resources(newVal) {
       if (newVal.length <= 1) {
-        this.setData({ classType: 'single' });
+        this.setData({ classType: "single" });
       } else if (newVal.length === 2) {
-        this.setData({ classType: 'double' });
+        this.setData({ classType: "double" });
       } else {
-        this.setData({ classType: 'multiple' });
+        this.setData({ classType: "multiple" });
       }
     },
   },

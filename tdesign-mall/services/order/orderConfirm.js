@@ -1,31 +1,31 @@
-import { config } from '../../config/index';
-import { mockIp, mockReqId } from '../../utils/mock';
+import { config } from "../../config/index";
+import { mockIp, mockReqId } from "../../utils/mock";
 
 /** 获取结算mock数据 */
 function mockFetchSettleDetail(params) {
-  const { delay } = require('../_utils/delay');
-  const { genSettleDetail } = require('../../model/order/orderConfirm');
+  const { delay } = require("../_utils/delay");
+  const { genSettleDetail } = require("../../model/order/orderConfirm");
 
   return delay().then(() => genSettleDetail(params));
 }
 
 /** 提交mock订单 */
 function mockDispatchCommitPay() {
-  const { delay } = require('../_utils/delay');
+  const { delay } = require("../_utils/delay");
 
   return delay().then(() => ({
     data: {
       isSuccess: true,
-      tradeNo: '350930961469409099',
-      payInfo: '{}',
+      tradeNo: "350930961469409099",
+      payInfo: "{}",
       code: null,
-      transactionId: 'E-200915180100299000',
+      transactionId: "E-200915180100299000",
       msg: null,
-      interactId: '15145',
-      channel: 'wechat',
+      interactId: "15145",
+      channel: "wechat",
       limitGoodsList: null,
     },
-    code: 'Success',
+    code: "Success",
     msg: null,
     requestId: mockReqId(),
     clientIp: mockIp(),
@@ -41,7 +41,7 @@ export function fetchSettleDetail(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
@@ -52,18 +52,18 @@ export function dispatchCommitPay(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 开发票 */
 export function dispatchSupplementInvoice() {
   if (config.useMock) {
-    const { delay } = require('../_utils/delay');
+    const { delay } = require("../_utils/delay");
     return delay();
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

@@ -1,14 +1,14 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import Toast from 'tdesign-miniprogram/toast/index';
-import { priceFormat } from '../../../utils/util';
-import { OrderStatus, ServiceType, ServiceReceiptStatus } from '../config';
-import reasonSheet from '../components/reason-sheet/reasonSheet';
+import Dialog from "tdesign-miniprogram/dialog/index";
+import Toast from "tdesign-miniprogram/toast/index";
 import {
-  fetchRightsPreview,
+  dispatchApplyService,
   dispatchConfirmReceived,
   fetchApplyReasonList,
-  dispatchApplyService,
-} from '../../../services/order/applyService';
+  fetchRightsPreview,
+} from "../../../services/order/applyService";
+import { priceFormat } from "../../../utils/util";
+import reasonSheet from "../components/reason-sheet/reasonSheet";
+import { OrderStatus, ServiceReceiptStatus, ServiceType } from "../config";
 
 Page({
   query: {},
@@ -17,26 +17,26 @@ Page({
     canApplyReturn: true, // 是否可退货
     goodsInfo: {},
     receiptStatusList: [
-      { desc: '未收到货', status: ServiceReceiptStatus.NOT_RECEIPTED },
-      { desc: '已收到货', status: ServiceReceiptStatus.RECEIPTED },
+      { desc: "未收到货", status: ServiceReceiptStatus.NOT_RECEIPTED },
+      { desc: "已收到货", status: ServiceReceiptStatus.RECEIPTED },
     ],
     applyReasons: [],
     serviceType: null, // 20-仅退款，10-退货退款
     serviceFrom: {
       returnNum: 1,
-      receiptStatus: { desc: '请选择', status: null },
-      applyReason: { desc: '请选择', type: null },
+      receiptStatus: { desc: "请选择", status: null },
+      applyReason: { desc: "请选择", type: null },
       // max-填写上限(单位分)，current-当前值(单位分)，temp输入框中的值(单位元)
       amount: { max: 0, current: 0, temp: 0, focus: false },
-      remark: '',
+      remark: "",
       rightsImageUrls: [],
     },
     maxApplyNum: 2, // 最大可申请售后的商品数
-    amountTip: '',
+    amountTip: "",
     showReceiptStatusDialog: false,
     validateRes: {
       valid: false,
-      msg: '',
+      msg: "",
     },
     submitting: false,
     inputDialogVisible: false,
@@ -45,16 +45,16 @@ Page({
       width: 212,
       height: 212,
     },
-    serviceRequireType: '',
+    serviceRequireType: "",
   },
 
   setWatcher(key, callback) {
     let lastData = this.data;
-    const keys = key.split('.');
+    const keys = key.split(".");
     keys.slice(0, -1).forEach((k) => {
       lastData = lastData[k];
     });
-    const lastKey = keys[keys.length - 1];
+    const lastKey = keys.at(-1);
     this.observe(lastData, lastKey, callback);
   },
 
@@ -75,55 +75,57 @@ Page({
 
   validate() {
     let valid = true;
-    let msg = '';
+    let msg = "";
     // 检查必填项
     if (!this.data.serviceFrom.applyReason.type) {
       valid = false;
-      msg = '请填写退款原因';
+      msg = "请填写退款原因";
     } else if (!this.data.serviceFrom.amount.current) {
       valid = false;
-      msg = '请填写退款金额';
+      msg = "请填写退款金额";
     }
     if (this.data.serviceFrom.amount.current <= 0) {
       valid = false;
-      msg = '退款金额必须大于0';
+      msg = "退款金额必须大于0";
     }
     this.setData({ validateRes: { valid, msg } });
   },
 
   onLoad(query) {
     this.query = query;
-    if (!this.checkQuery()) return;
+    if (!this.checkQuery()) {
+      return;
+    }
     this.setData({
-      canApplyReturn: query.canApplyReturn === 'true',
+      canApplyReturn: query.canApplyReturn === "true",
     });
     this.init();
-    this.inputDialog = this.selectComponent('#input-dialog');
-    this.setWatcher('serviceFrom.returnNum', this.validate.bind(this));
-    this.setWatcher('serviceFrom.applyReason', this.validate.bind(this));
-    this.setWatcher('serviceFrom.amount', this.validate.bind(this));
-    this.setWatcher('serviceFrom.rightsImageUrls', this.validate.bind(this));
+    this.inputDialog = this.selectComponent("#input-dialog");
+    this.setWatcher("serviceFrom.returnNum", this.validate.bind(this));
+    this.setWatcher("serviceFrom.applyReason", this.validate.bind(this));
+    this.setWatcher("serviceFrom.amount", this.validate.bind(this));
+    this.setWatcher("serviceFrom.rightsImageUrls", this.validate.bind(this));
   },
 
   async init() {
     try {
       await this.refresh();
-    } catch (e) {}
+    } catch (_e) {}
   },
 
   checkQuery() {
     const { orderNo, skuId } = this.query;
     if (!orderNo) {
       Dialog.alert({
-        content: '请先选择订单',
+        content: "请先选择订单",
       }).then(() => {
-        wx.redirectTo({ url: 'pages/order/order-list/index' });
+        wx.redirectTo({ url: "pages/order/order-list/index" });
       });
       return false;
     }
     if (!skuId) {
       Dialog.alert({
-        content: '请先选择商品',
+        content: "请先选择商品",
       }).then(() => {
         wx.redirectTo(`pages/order/order-detail/index?orderNo=${orderNo}`);
       });
@@ -133,30 +135,30 @@ Page({
   },
 
   async refresh() {
-    wx.showLoading({ title: 'loading' });
+    wx.showLoading({ title: "loading" });
     try {
       const res = await this.getRightsPreview();
       wx.hideLoading();
       const goodsInfo = {
         id: res.data.skuId,
-        thumb: res.data.goodsInfo && res.data.goodsInfo.skuImage,
-        title: res.data.goodsInfo && res.data.goodsInfo.goodsName,
+        thumb: res.data.goodsInfo?.skuImage,
+        title: res.data.goodsInfo?.goodsName,
         spuId: res.data.spuId,
         skuId: res.data.skuId,
-        specs: ((res.data.goodsInfo && res.data.goodsInfo.specInfo) || []).map((s) => s.specValue),
+        specs: (res.data.goodsInfo?.specInfo || []).map((s) => s.specValue),
         paidAmountEach: res.data.paidAmountEach,
         boughtQuantity: res.data.boughtQuantity,
       };
       this.setData({
         goodsInfo,
-        'serviceFrom.amount': {
+        "serviceFrom.amount": {
           max: res.data.refundableAmount,
           current: res.data.refundableAmount,
         },
-        'serviceFrom.returnNum': res.data.numOfSku,
+        "serviceFrom.returnNum": res.data.numOfSku,
         amountTip: `最多可申请退款¥ ${priceFormat(res.data.refundableAmount, 2)}，含发货运费¥ ${priceFormat(
           res.data.shippingFeeIncluded,
-          2,
+          2
         )}`,
         maxApplyNum: res.data.numOfSkuAvailable,
       });
@@ -179,23 +181,23 @@ Page({
   },
 
   onApplyOnlyRefund() {
-    wx.setNavigationBarTitle({ title: '申请退款' });
-    this.setData({ serviceRequireType: 'REFUND_MONEY' });
+    wx.setNavigationBarTitle({ title: "申请退款" });
+    this.setData({ serviceRequireType: "REFUND_MONEY" });
     this.switchReceiptStatus(0);
   },
 
   onApplyReturnGoods() {
-    wx.setNavigationBarTitle({ title: '申请退货退款' });
-    this.setData({ serviceRequireType: 'REFUND_GOODS' });
-    const orderStatus = parseInt(this.query.orderStatus);
+    wx.setNavigationBarTitle({ title: "申请退货退款" });
+    this.setData({ serviceRequireType: "REFUND_GOODS" });
+    const orderStatus = Number.parseInt(this.query.orderStatus, 10);
     Promise.resolve()
       .then(() => {
         if (orderStatus === OrderStatus.PENDING_RECEIPT) {
           return Dialog.confirm({
-            title: '订单商品是否已经收到货',
-            content: '',
-            confirmBtn: '确认收货，并申请退货',
-            cancelBtn: '未收到货',
+            title: "订单商品是否已经收到货",
+            content: "",
+            confirmBtn: "确认收货，并申请退货",
+            cancelBtn: "未收到货",
           }).then(() => {
             return dispatchConfirmReceived({
               parameter: {
@@ -216,16 +218,16 @@ Page({
   onApplyReturnGoodsStatus() {
     reasonSheet({
       show: true,
-      title: '选择退款原因',
+      title: "选择退款原因",
       options: this.data.applyReasons.map((r) => ({
         title: r.desc,
       })),
       showConfirmButton: true,
       showCancelButton: true,
-      emptyTip: '请选择退款原因',
+      emptyTip: "请选择退款原因",
     }).then((indexes) => {
       this.setData({
-        'serviceFrom.applyReason': this.data.applyReasons[indexes[0]],
+        "serviceFrom.applyReason": this.data.applyReasons[indexes[0]],
       });
     });
   },
@@ -233,22 +235,22 @@ Page({
   onChangeReturnNum(e) {
     const { value } = e.detail;
     this.setData({
-      'serviceFrom.returnNum': value,
+      "serviceFrom.returnNum": value,
     });
   },
 
   onApplyGoodsStatus() {
     reasonSheet({
       show: true,
-      title: '请选择收货状态',
+      title: "请选择收货状态",
       options: this.data.receiptStatusList.map((r) => ({
         title: r.desc,
       })),
       showConfirmButton: true,
-      emptyTip: '请选择收货状态',
+      emptyTip: "请选择收货状态",
     }).then((indexes) => {
       this.setData({
-        'serviceFrom.receiptStatus': this.data.receiptStatusList[indexes[0]],
+        "serviceFrom.receiptStatus": this.data.receiptStatusList[indexes[0]],
       });
     });
   },
@@ -259,8 +261,8 @@ Page({
     if (!statusItem) {
       this.setData({
         showReceiptStatusDialog: false,
-        'serviceFrom.receiptStatus': { desc: '请选择', status: null },
-        'serviceFrom.applyReason': { desc: '请选择', type: null }, // 收货状态改变时，初始化申请原因
+        "serviceFrom.receiptStatus": { desc: "请选择", status: null },
+        "serviceFrom.applyReason": { desc: "请选择", type: null }, // 收货状态改变时，初始化申请原因
         applyReasons: [],
       });
       return;
@@ -273,8 +275,8 @@ Page({
     this.getApplyReasons(statusItem.status).then((reasons) => {
       this.setData({
         showReceiptStatusDialog: false,
-        'serviceFrom.receiptStatus': statusItem,
-        'serviceFrom.applyReason': { desc: '请选择', type: null }, // 收货状态改变时，重置申请原因
+        "serviceFrom.receiptStatus": statusItem,
+        "serviceFrom.applyReason": { desc: "请选择", type: null }, // 收货状态改变时，重置申请原因
         applyReasons: reasons,
       });
     });
@@ -301,17 +303,17 @@ Page({
 
   onAmountTap() {
     this.setData({
-      'serviceFrom.amount.temp': priceFormat(this.data.serviceFrom.amount.current),
-      'serviceFrom.amount.focus': true,
+      "serviceFrom.amount.temp": priceFormat(this.data.serviceFrom.amount.current),
+      "serviceFrom.amount.focus": true,
       inputDialogVisible: true,
     });
     this.inputDialog.setData({
-      cancelBtn: '取消',
-      confirmBtn: '确定',
+      cancelBtn: "取消",
+      confirmBtn: "确定",
     });
     this.inputDialog._onConfirm = () => {
       this.setData({
-        'serviceFrom.amount.current': this.data.serviceFrom.amount.temp * 100,
+        "serviceFrom.amount.current": this.data.serviceFrom.amount.temp * 100,
       });
     };
     this.inputDialog._onCancel = () => {};
@@ -321,33 +323,33 @@ Page({
   onAmountInput(e) {
     let { value } = e.detail;
     const regRes = value.match(/\d+(\.?\d*)?/); // 输入中，允许末尾为小数点
-    value = regRes ? regRes[0] : '';
-    this.setData({ 'serviceFrom.amount.temp': value });
+    value = regRes ? regRes[0] : "";
+    this.setData({ "serviceFrom.amount.temp": value });
   },
 
   // 失去焦点时，更严格的过滤并转化为float
   onAmountBlur(e) {
     let { value } = e.detail;
     const regRes = value.match(/\d+(\.?\d+)?/); // 失去焦点时，不允许末尾为小数点
-    value = regRes ? regRes[0] : '0';
-    value = parseFloat(value) * 100;
+    value = regRes ? regRes[0] : "0";
+    value = Number.parseFloat(value) * 100;
     if (value > this.data.serviceFrom.amount.max) {
       value = this.data.serviceFrom.amount.max;
     }
     this.setData({
-      'serviceFrom.amount.temp': priceFormat(value),
-      'serviceFrom.amount.focus': false,
+      "serviceFrom.amount.temp": priceFormat(value),
+      "serviceFrom.amount.focus": false,
     });
   },
 
   onAmountFocus() {
-    this.setData({ 'serviceFrom.amount.focus': true });
+    this.setData({ "serviceFrom.amount.focus": true });
   },
 
   onRemarkChange(e) {
     const { value } = e.detail;
     this.setData({
-      'serviceFrom.remark': value,
+      "serviceFrom.remark": value,
     });
   },
 
@@ -379,9 +381,9 @@ Page({
         .then((res) => {
           Toast({
             context: this,
-            selector: '#t-toast',
-            message: '申请成功',
-            icon: '',
+            selector: "#t-toast",
+            message: "申请成功",
+            icon: "",
           });
 
           wx.redirectTo({
@@ -399,9 +401,9 @@ Page({
       if (!valid) {
         Toast({
           context: this,
-          selector: '#t-toast',
+          selector: "#t-toast",
           message: msg,
-          icon: '',
+          icon: "",
         });
         return;
       }
@@ -412,7 +414,7 @@ Page({
   handleSuccess(e) {
     const { files } = e.detail;
     this.setData({
-      'sessionFrom.rightsImageUrls': files,
+      "sessionFrom.rightsImageUrls": files,
     });
   },
 
@@ -423,7 +425,7 @@ Page({
     } = this.data;
     rightsImageUrls.splice(index, 1);
     this.setData({
-      'sessionFrom.rightsImageUrls': rightsImageUrls,
+      "sessionFrom.rightsImageUrls": rightsImageUrls,
     });
   },
 

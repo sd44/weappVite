@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['title-class', 'icon-class', 'number-class'],
+  externalClasses: ["title-class", "icon-class", "number-class"],
   options: {
     multipleSlots: true,
   },
@@ -10,11 +10,11 @@ Component({
     },
     title: {
       type: String,
-      value: '我的订单',
+      value: "我的订单",
     },
     desc: {
       type: String,
-      value: '全部订单',
+      value: "全部订单",
     },
     isTop: {
       type: Boolean,
@@ -22,16 +22,16 @@ Component({
     },
     classPrefix: {
       type: String,
-      value: 'wr',
+      value: "wr",
     },
   },
   methods: {
     onClickItem(e) {
-      this.triggerEvent('onClickItem', e.currentTarget.dataset.item);
+      this.triggerEvent("onClickItem", e.currentTarget.dataset.item);
     },
 
     onClickTop() {
-      this.triggerEvent('onClickTop', {});
+      this.triggerEvent("onClickTop", {});
     },
   },
 });

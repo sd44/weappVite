@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取收货地址 */
 function mockFetchDeliveryAddress(id) {
-  const { delay } = require('../_utils/delay');
-  const { genAddress } = require('../../model/address');
+  const { delay } = require("../_utils/delay");
+  const { genAddress } = require("../../model/address");
 
   return delay().then(() => genAddress(id));
 }
@@ -15,14 +15,14 @@ export function fetchDeliveryAddress(id = 0) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 获取收货地址列表 */
 function mockFetchDeliveryAddressList(len = 0) {
-  const { delay } = require('../_utils/delay');
-  const { genAddressList } = require('../../model/address');
+  const { delay } = require("../_utils/delay");
+  const { genAddressList } = require("../../model/address");
 
   return delay().then(() =>
     genAddressList(len).map((address) => {
@@ -32,7 +32,7 @@ function mockFetchDeliveryAddressList(len = 0) {
         address: `${address.provinceName}${address.cityName}${address.districtName}${address.detailAddress}`,
         tag: address.addressTag,
       };
-    }),
+    })
   );
 }
 
@@ -43,6 +43,6 @@ export function fetchDeliveryAddressList(len = 10) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

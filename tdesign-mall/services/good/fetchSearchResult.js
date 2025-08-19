@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取搜索历史 */
 function mockSearchResult(params) {
-  const { delay } = require('../_utils/delay');
-  const { getSearchResult } = require('../../model/search');
+  const { delay } = require("../_utils/delay");
+  const { getSearchResult } = require("../../model/search");
 
   const data = getSearchResult(params);
 
@@ -33,6 +33,6 @@ export function getSearchResult(params) {
     return mockSearchResult(params);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

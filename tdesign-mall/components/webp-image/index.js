@@ -1,22 +1,22 @@
 const systemInfo = wx.getSystemInfoSync();
 Component({
-  externalClasses: ['t-class', 't-class-load'],
+  externalClasses: ["t-class", "t-class-load"],
   properties: {
     loadFailed: {
       type: String,
-      value: 'default',
+      value: "default",
     },
     loading: {
       type: String,
-      value: 'default',
+      value: "default",
     },
     src: {
       type: String,
-      value: '',
+      value: "",
     },
     mode: {
       type: String,
-      value: 'aspectFill',
+      value: "aspectFill",
     },
     webp: {
       type: Boolean,
@@ -40,17 +40,17 @@ Component({
     ready() {
       const { mode } = this.properties;
       // 获取容器的真实宽高，设置图片的裁剪宽度
-      this.getRect('.J-image').then((res) => {
+      this.getRect(".J-image").then((res) => {
         if (res) {
           const { width, height } = res;
           this.setData(
-            mode === 'heightFix'
+            mode === "heightFix"
               ? {
                   thumbHeight: this.px2rpx(height) || 375,
                 }
               : {
                   thumbWidth: this.px2rpx(width) || 375,
-                },
+                }
           );
         }
       });
@@ -69,10 +69,10 @@ Component({
       });
     },
     onLoad(e) {
-      this.triggerEvent('load', e.detail);
+      this.triggerEvent("load", e.detail);
     },
     onError(e) {
-      this.triggerEvent('error', e.detail);
+      this.triggerEvent("error", e.detail);
     },
   },
 });

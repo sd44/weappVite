@@ -1,8 +1,9 @@
-import { config } from '../../../config/index';
-import { queryCommentDetail } from '../../../model/comments/queryDetail';
+import { config } from "../../../config/index";
+import { queryCommentDetail } from "../../../model/comments/queryDetail";
+
 /** 获取商品评价数据 */
 function mockQueryCommentDetail(params) {
-  const { delay } = require('../../_utils/delay');
+  const { delay } = require("../../_utils/delay");
   const data = queryCommentDetail(params);
   return delay().then(() => {
     return data;
@@ -15,6 +16,6 @@ export function getCommentDetail(params) {
     return mockQueryCommentDetail(params);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

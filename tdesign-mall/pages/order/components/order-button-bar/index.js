@@ -1,6 +1,6 @@
-import Toast from 'tdesign-miniprogram/toast/index';
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import { OrderButtonTypes } from '../../config';
+import Dialog from "tdesign-miniprogram/dialog/index";
+import Toast from "tdesign-miniprogram/toast/index";
+import { OrderButtonTypes } from "../../config";
 
 Component({
   options: {
@@ -16,7 +16,7 @@ Component({
           this.setData({
             buttons: {
               left: [],
-              right: (goods.buttons || []).filter((b) => b.type == OrderButtonTypes.APPLY_REFUND),
+              right: (goods.buttons || []).filter((b) => b.type === OrderButtonTypes.APPLY_REFUND),
             },
           });
           return;
@@ -31,11 +31,11 @@ Component({
                 groupInfoVo: { groupId, promotionId, remainMember, groupPrice },
                 goodsList,
               } = order;
-              const goodsImg = goodsList[0] && goodsList[0].imgUrl;
-              const goodsName = goodsList[0] && goodsList[0].name;
+              const goodsImg = goodsList[0]?.imgUrl;
+              const goodsName = goodsList[0]?.name;
               return {
                 ...button,
-                openType: 'share',
+                openType: "share",
                 dataShare: {
                   goodsImg,
                   goodsName,
@@ -118,33 +118,33 @@ Component({
     onCancel() {
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '你点击了取消订单',
-        icon: 'check-circle',
+        selector: "#t-toast",
+        message: "你点击了取消订单",
+        icon: "check-circle",
       });
     },
 
     onConfirm() {
       Dialog.confirm({
-        title: '确认是否已经收到货？',
-        content: '',
-        confirmBtn: '确认收货',
-        cancelBtn: '取消',
+        title: "确认是否已经收到货？",
+        content: "",
+        confirmBtn: "确认收货",
+        cancelBtn: "取消",
       })
         .then(() => {
           Toast({
             context: this,
-            selector: '#t-toast',
-            message: '你确认了确认收货',
-            icon: 'check-circle',
+            selector: "#t-toast",
+            message: "你确认了确认收货",
+            icon: "check-circle",
           });
         })
         .catch(() => {
           Toast({
             context: this,
-            selector: '#t-toast',
-            message: '你取消了确认收货',
-            icon: 'check-circle',
+            selector: "#t-toast",
+            message: "你取消了确认收货",
+            icon: "check-circle",
           });
         });
     },
@@ -152,18 +152,18 @@ Component({
     onPay() {
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '你点击了去支付',
-        icon: 'check-circle',
+        selector: "#t-toast",
+        message: "你点击了去支付",
+        icon: "check-circle",
       });
     },
 
     onBuyAgain() {
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '你点击了再次购买',
-        icon: 'check-circle',
+        selector: "#t-toast",
+        message: "你点击了再次购买",
+        icon: "check-circle",
       });
     },
 
@@ -171,8 +171,8 @@ Component({
       const goods = order.goodsList[this.properties.goodsIndex];
       const params = {
         orderNo: order.orderNo,
-        skuId: goods?.skuId ?? '19384938948343',
-        spuId: goods?.spuId ?? '28373847384343',
+        skuId: goods?.skuId ?? "19384938948343",
+        spuId: goods?.spuId ?? "28373847384343",
         orderStatus: order.status,
         logisticsNo: order.logisticsNo,
         price: goods?.price ?? 89,
@@ -184,16 +184,16 @@ Component({
       };
       const paramsStr = Object.keys(params)
         .map((k) => `${k}=${params[k]}`)
-        .join('&');
+        .join("&");
       wx.navigateTo({ url: `/pages/order/apply-service/index?${paramsStr}` });
     },
 
     onViewRefund() {
       Toast({
         context: this,
-        selector: '#t-toast',
-        message: '你点击了查看退款',
-        icon: '',
+        selector: "#t-toast",
+        message: "你点击了查看退款",
+        icon: "",
       });
     },
 

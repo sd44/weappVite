@@ -1,7 +1,7 @@
 const statusMap = {
-  default: { text: '去使用', theme: 'primary' },
-  useless: { text: '已使用', theme: 'default' },
-  disabled: { text: '已过期', theme: 'default' },
+  default: { text: "去使用", theme: "primary" },
+  useless: { text: "已使用", theme: "default" },
+  disabled: { text: "已过期", theme: "default" },
 };
 Component({
   options: {
@@ -9,7 +9,7 @@ Component({
     multipleSlots: true, // 在组件定义时的选项中启用多slot支持
   },
 
-  externalClasses: ['coupon-class'],
+  externalClasses: ["coupon-class"],
 
   properties: {
     couponDTO: {
@@ -19,12 +19,12 @@ Component({
   },
 
   data: {
-    btnText: '',
-    btnTheme: '',
+    btnText: "",
+    btnTheme: "",
   },
 
   observers: {
-    couponDTO: function (couponDTO) {
+    couponDTO(couponDTO) {
       if (!couponDTO) {
         return;
       }

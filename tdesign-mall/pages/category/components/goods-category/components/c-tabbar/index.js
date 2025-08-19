@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['custom-class'],
+  externalClasses: ["custom-class"],
 
   properties: {
     activeKey: {
@@ -15,9 +15,7 @@ Component({
   observers: {
     activeKey(newVal) {
       if (this.properties.tabList && newVal) {
-        this.setActive(newVal).catch((e) => {
-          console.error(e);
-        });
+        this.setActive(newVal).catch((_e) => {});
       }
     },
   },
@@ -26,28 +24,26 @@ Component({
     currentActive: -1,
   },
   attached() {
-    this.setActive(this.properties.activeKey).catch((e) => {
-      console.error(e);
-    });
+    this.setActive(this.properties.activeKey).catch((_e) => {});
   },
 
   methods: {
     setActive(activeKey) {
       if (!this.properties.tabList[activeKey] || this.properties.tabList[activeKey].disabled) {
-        return Promise.reject('数据异常或不可操作');
+        return Promise.reject("数据异常或不可操作");
       }
       return new Promise((resolve) => {
         this.setData(
           {
             currentActive: activeKey,
           },
-          () => resolve(),
+          () => resolve()
         );
       });
     },
     onClick(event) {
       let activeKey;
-      if (event.type === 'select') {
+      if (event.type === "select") {
         activeKey = event.detail;
       } else {
         activeKey = event.currentTarget.dataset.index;
@@ -55,11 +51,9 @@ Component({
       this.setActive(activeKey)
         .then(() => {
           const { currentActive } = this.data;
-          this.triggerEvent('change', { index: currentActive });
+          this.triggerEvent("change", { index: currentActive });
         })
-        .catch((e) => {
-          console.error(e);
-        });
+        .catch((_e) => {});
     },
   },
 });

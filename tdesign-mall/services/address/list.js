@@ -27,5 +27,5 @@ export const rejectAddress = () => {
   const allAddress = [...addressPromise];
   addressPromise = [];
 
-  allAddress.forEach(({ rejecter }) => rejecter(new Error('cancel')));
+  allAddress.forEach(({ rejecter }) => rejecter(new Error("cancel")));
 };

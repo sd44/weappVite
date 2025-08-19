@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取售后单mock数据 */
 function mockFetchRightsPreview(params) {
-  const { delay } = require('../_utils/delay');
-  const { genRightsPreview } = require('../../model/order/applyService');
+  const { delay } = require("../_utils/delay");
+  const { genRightsPreview } = require("../../model/order/applyService");
 
   return delay().then(() => genRightsPreview(params));
 }
@@ -15,26 +15,26 @@ export function fetchRightsPreview(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 确认收货 */
 export function dispatchConfirmReceived() {
   if (config.useMock) {
-    const { delay } = require('../_utils/delay');
+    const { delay } = require("../_utils/delay");
     return delay();
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 获取可选的mock售后原因列表 */
 function mockFetchApplyReasonList(params) {
-  const { delay } = require('../_utils/delay');
-  const { genApplyReasonList } = require('../../model/order/applyService');
+  const { delay } = require("../_utils/delay");
+  const { genApplyReasonList } = require("../../model/order/applyService");
 
   return delay().then(() => genApplyReasonList(params));
 }
@@ -46,14 +46,14 @@ export function fetchApplyReasonList(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }
 
 /** 发起mock售后申请 */
 function mockDispatchApplyService(params) {
-  const { delay } = require('../_utils/delay');
-  const { applyService } = require('../../model/order/applyService');
+  const { delay } = require("../_utils/delay");
+  const { applyService } = require("../../model/order/applyService");
 
   return delay().then(() => applyService(params));
 }
@@ -65,6 +65,6 @@ export function dispatchApplyService(params) {
   }
 
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

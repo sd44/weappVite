@@ -1,28 +1,28 @@
 Component({
-  externalClasses: ['wr-class'],
+  externalClasses: ["wr-class"],
   options: {
     multipleSlots: true,
   },
   properties: {
     goodsDetailInfo: {
       type: String,
-      value: '',
+      value: "",
     },
     sellerReply: {
       type: String,
-      value: '',
+      value: "",
     },
     userHeadUrl: {
       type: String,
-      value: '',
+      value: "",
     },
     userName: {
       type: String,
-      default: '',
+      default: "",
     },
     commentContent: {
       type: String,
-      value: '',
+      value: "",
     },
     commentScore: {
       type: Number,
@@ -30,7 +30,7 @@ Component({
     },
     commentTime: {
       type: String,
-      value: '',
+      value: "",
     },
     commentResources: {
       type: Array,
@@ -45,7 +45,7 @@ Component({
     eleHeight: null,
     overText: false,
     isDisabled: true,
-    startColors: ['#FFC51C', '#DDDDDD'],
+    startColors: ["#FFC51C", "#DDDDDD"],
   },
   methods: {},
 });

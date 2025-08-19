@@ -1,9 +1,9 @@
-import { config } from '../../config/index';
+import { config } from "../../config/index";
 
 /** 获取评价商品 */
 function mockGetGoods(parameter) {
-  const { delay } = require('../_utils/delay');
-  const { getGoods } = require('../../model/submitComment');
+  const { delay } = require("../_utils/delay");
+  const { getGoods } = require("../../model/submitComment");
   const data = getGoods(parameter);
 
   return delay().then(() => {
@@ -17,6 +17,6 @@ export function getGoods(parameter) {
     return mockGetGoods(parameter);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    resolve("real api");
   });
 }

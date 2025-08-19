@@ -1,5 +1,5 @@
 Component({
-  externalClasses: ['custom-class'],
+  externalClasses: ["custom-class"],
 
   properties: {
     category: {
@@ -38,17 +38,17 @@ Component({
   methods: {
     onParentChange(event) {
       this.setActiveKey(event.detail.index, 0).then(() => {
-        this.triggerEvent('change', [this.data.activeKey, this.data.subActiveKey]);
+        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey]);
       });
     },
     onChildChange(event) {
       this.setActiveKey(this.data.activeKey, event.detail.index).then(() => {
-        this.triggerEvent('change', [this.data.activeKey, this.data.subActiveKey]);
+        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey]);
       });
     },
     changCategory(event) {
       const { item } = event.currentTarget.dataset;
-      this.triggerEvent('changeCategory', {
+      this.triggerEvent("changeCategory", {
         item,
       });
     },
@@ -61,7 +61,7 @@ Component({
           },
           () => {
             resolve();
-          },
+          }
         );
       });
     },

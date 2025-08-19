@@ -1,19 +1,19 @@
-import { fetchCouponList } from '../../../services/coupon/index';
+import { fetchCouponList } from "../../../services/coupon/index";
 
 Page({
   data: {
     status: 0,
     list: [
       {
-        text: '可使用',
+        text: "可使用",
         key: 0,
       },
       {
-        text: '已使用',
+        text: "已使用",
         key: 1,
       },
       {
-        text: '已失效',
+        text: "已失效",
         key: 2,
       },
     ],
@@ -30,18 +30,18 @@ Page({
   },
 
   fetchList(status = this.data.status) {
-    let statusInFetch = '';
+    let statusInFetch = "";
     switch (Number(status)) {
       case 0: {
-        statusInFetch = 'default';
+        statusInFetch = "default";
         break;
       }
       case 1: {
-        statusInFetch = 'useless';
+        statusInFetch = "useless";
         break;
       }
       case 2: {
-        statusInFetch = 'disabled';
+        statusInFetch = "disabled";
         break;
       }
       default: {
@@ -61,7 +61,7 @@ Page({
   },
 
   goCouponCenterHandle() {
-    wx.showToast({ title: '去领券中心', icon: 'none' });
+    wx.showToast({ title: "去领券中心", icon: "none" });
   },
 
   onPullDownRefresh_() {
@@ -71,7 +71,7 @@ Page({
       },
       () => {
         this.fetchList();
-      },
+      }
     );
   },
 });
