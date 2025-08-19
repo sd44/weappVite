@@ -21,9 +21,9 @@ export function getCoupon(id = 0, status = "default", type = (id % 2) + 1) {
     /** 标签 */
     tag: "",
     /** 描述 */
-    desc: Number.parseInt(id, 10) > 0 ? `满${Number.parseInt(id, 10) * 100}元可用` : "无门槛使用",
+    desc: id > 0 ? `满${id * 100}元可用` : "无门槛使用",
     /** 订单底价,满n元 */
-    base: 10_000 * (Number.parseInt(id, 10) || 0),
+    base: 10_000 * (id || 0),
     /** 标题 */
     title: type === 2 ? `生鲜折扣券 - ${id}` : `生鲜满减券 - ${id}`,
     /** 有效时间限制 */

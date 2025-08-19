@@ -1,10 +1,9 @@
+import { genAddress, genAddressList } from "~/model/address";
+import { delay } from "~/services/_utils/delay";
 import { config } from "../../config/index";
 
 /** 获取收货地址 */
-function mockFetchDeliveryAddress(id) {
-  const { delay } = require("../_utils/delay");
-  const { genAddress } = require("../../model/address");
-
+function mockFetchDeliveryAddress(id: number) {
   return delay().then(() => genAddress(id));
 }
 
@@ -21,9 +20,6 @@ export function fetchDeliveryAddress(id = 0) {
 
 /** 获取收货地址列表 */
 function mockFetchDeliveryAddressList(len = 0) {
-  const { delay } = require("../_utils/delay");
-  const { genAddressList } = require("../../model/address");
-
   return delay().then(() =>
     genAddressList(len).map((address) => {
       return {

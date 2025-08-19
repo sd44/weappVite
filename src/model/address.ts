@@ -1,5 +1,29 @@
+export type AddressModel = {
+  saasId: string;
+  uid: string;
+  authToken: null | string;
+  id: string;
+  addressId: string;
+  phone: string;
+  name: string;
+  countryName: string;
+  countryCode: string;
+  provinceName: string;
+  provinceCode: string;
+  cityName: string;
+  cityCode: string;
+  districtName: string;
+  districtCode: string;
+  detailAddress: string;
+  isDefault: 0 | 1;
+  addressTag: string;
+  latitude: string;
+  longitude: string;
+  storeId: null | string;
+};
+
 /** 地址 */
-export function genAddress(id) {
+export function genAddress(id: number): AddressModel {
   return {
     saasId: "88888888",
     uid: `8888888820550${id}`,
@@ -17,7 +41,7 @@ export function genAddress(id) {
     districtName: "碌曲县",
     districtCode: "623026",
     detailAddress: `松日鼎盛大厦${id}层${id}号`,
-    isDefault: `${id}` === "0" ? 1 : 0,
+    isDefault: id === 0 ? 1 : 0,
     addressTag: id === 0 ? "" : "公司",
     latitude: "34.59103",
     longitude: "102.48699",

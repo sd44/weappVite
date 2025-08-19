@@ -1,7 +1,7 @@
 /**
- * @param {string|number} key 唯一值
+ * @param {number} key 唯一值
  */
-export function getActivity(key) {
+export function getActivity(key: number) {
   return {
     promotionId: `${key}`,
     title: `满减满折回归${key}`,
