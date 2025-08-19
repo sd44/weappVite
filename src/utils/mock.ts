@@ -4,7 +4,7 @@
  * @param {string} str 字符串
  * @returns
  */
-export function generateMixed(n, str) {
+export function generateMixed(n: number, str: string) {
   let res = "";
   for (let i = 0; i < n; i++) {
     const id = Math.ceil(Math.random() * 35);
@@ -19,7 +19,7 @@ export function generateMixed(n, str) {
  * @param {number} max 最大值
  * @returns
  */
-export function getRandomNum(min, max) {
+export function getRandomNum(min: number, max: number) {
   const range = max - min;
   const rand = Math.random();
   return min + Math.round(rand * range);
@@ -39,10 +39,3 @@ export function mockReqId() {
     9999
   )}.${getRandomNum(10_000_000, 99_999_999)}`;
 }
-
-module.exports = {
-  generateMixed,
-  mockIp,
-  mockReqId,
-  getRandomNum,
-};

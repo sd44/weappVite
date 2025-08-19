@@ -1,31 +1,43 @@
-let addressPromise = [];
+type AddressInfo = {
+  receiverName: string;
+  tel_number: string;
+  country: string;
+  province: string;
+  city: string;
+  county: string;
+  detail_address: string;
+};
+
+type AddressPromise = {
+  resolver: (address: AddressInfo) => void;
+  rejecter: (reason?: Error) => void;
+};
+
+const addressPromise: AddressPromise[] = [];
 
 /** 地址编辑Promise */
-export const getAddressPromise = () => {
-  let resolver;
-  let rejecter;
-  const nextPromise = new Promise((resolve, reject) => {
-    resolver = resolve;
-    rejecter = reject;
+export const getAddressPromise = (): Promise<AddressInfo> => {
+  return new Promise<AddressInfo>((resolve, reject) => {
+    addressPromise.push({ resolver: resolve, rejecter: reject });
   });
-
-  addressPromise.push({ resolver, rejecter });
-
-  return nextPromise;
 };
 
 /** 用户保存了一个地址 */
-export const resolveAddress = (address) => {
+export const resolveAddress = (address: AddressInfo): void => {
   const allAddress = [...addressPromise];
-  addressPromise = [];
+  addressPromise.length = 0;
 
-  allAddress.forEach(({ resolver }) => resolver(address));
+  for (const { resolver } of allAddress) {
+    resolver(address);
+  }
 };
 
 /** 取消编辑 */
-export const rejectAddress = () => {
+export const rejectAddress = (): void => {
   const allAddress = [...addressPromise];
-  addressPromise = [];
+  addressPromise.length = 0;
 
-  allAddress.forEach(({ rejecter }) => rejecter(new Error("cancel")));
+  for (const { rejecter } of allAddress) {
+    rejecter(new Error("cancel"));
+  }
 };
