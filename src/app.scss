@@ -1,3 +1,11 @@
 @use 'tailwindcss/base';
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
+
+
+@use 'style/iconfont.scss';
+@use 'style/theme.scss';
+
+.cell--noborder .t-cell::after {
+  border-bottom: none !important;
+}

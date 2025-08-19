@@ -1,0 +1,9 @@
+{
+  "$schema": "https://vite.icebreaker.top/component.json",
+  "component": true,
+  "usingComponents": {
+    "price": "/components/price/index",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-image": "/components/webp-image/index"
+  }
+}

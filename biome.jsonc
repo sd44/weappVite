@@ -33,36 +33,28 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "correctness": {
-        "noSelfAssign": "off",
-        "noUndeclaredVariables": "info",
-        "noUnsafeOptionalChaining": "info"
-      },
       "suspicious": {
         "noEmptyBlockStatements": "off",
-        "noConsole": "off",
+        "noConsole": "info",
         "noBitwiseOperators": "off",
-        "useIterableCallbackReturn": "off",
-        "useAwait": "info",
-        "useGuardForIn": "info"
+        "useIterableCallbackReturn": "info"
       },
       "style": {
         "useFilenamingConvention": "off",
         "noMagicNumbers": "off",
-        "noParameterAssign": "off",
-        "noNestedTernary": "off",
-        "noParameterProperties": "off",
-        "useDefaultSwitchClause": "off"
+        "noParameterAssign": "info",
+        "noNestedTernary": "info",
+        "noParameterProperties": "info"
       },
       "nursery": {
-        "noShadow": "off",
-        "noUnnecessaryConditions": "off"
+        "noShadow": "info",
+        "noUnnecessaryConditions": "info"
       },
       "complexity": {
-        "noForEach": "off",
-        "noExcessiveCognitiveComplexity": "off"
+        "noForEach": "info",
+        "noExcessiveCognitiveComplexity": "info"
       },
-      "performance": { "useTopLevelRegex": "off" }
+      "performance": { "useTopLevelRegex": "info" }
     }
   },
   "javascript": {
@@ -75,8 +67,7 @@
       "Page",
       "wx",
       "getCurrentPages",
-      "pixelRatio",
-      "__wxConfig"
+      "pixelRatio"
     ]
   },
   "json": {

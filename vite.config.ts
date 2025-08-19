@@ -16,7 +16,7 @@ export default defineConfig({
     generate: {
       extensions: {
         js: "ts",
-        wxss: "sass",
+        scss: "sass",
         json: "jsonc",
       },
       dirs: {
