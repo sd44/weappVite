@@ -1,9 +1,10 @@
 import { config } from "../../config/index"
 import { getGoodsList } from "../../model/goods"
+import type { GoodsListItem } from "../../model/someTypes"
 import { delay } from "../_utils/delay"
 
 /** 获取商品列表 */
-function mockFetchGoodsList(pageIndex = 1, pageSize = 20) {
+function mockFetchGoodsList(pageIndex = 1, pageSize = 20): Promise<GoodsListItem[]> {
   return delay().then(() =>
     getGoodsList(pageIndex, pageSize).map((item) => {
       return {
@@ -19,7 +20,7 @@ function mockFetchGoodsList(pageIndex = 1, pageSize = 20) {
 }
 
 /** 获取商品列表 */
-export function fetchGoodsList(pageIndex = 1, pageSize = 20) {
+export function fetchGoodsList(pageIndex = 1, pageSize = 20): Promise<GoodsListItem[] | string> {
   if (config.useMock) {
     return mockFetchGoodsList(pageIndex, pageSize)
   }

@@ -84,7 +84,7 @@
     },
     "parser": {
       "allowComments": true,
-      "allowTrailingCommas": true
+      "allowTrailingCommas": false
     }
   },
   "assist": {

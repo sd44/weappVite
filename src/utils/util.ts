@@ -162,12 +162,4 @@ const phoneRegCheck = (phone: string) => {
   return phoneRegExp.test(phone)
 }
 
-module.exports = {
-  formatTime,
-  priceFormat,
-  cosThumb,
-  get,
-  rpx2px,
-  phoneEncryption,
-  phoneRegCheck,
-}
+export { formatTime, priceFormat, cosThumb, get, rpx2px, phoneEncryption, phoneRegCheck }

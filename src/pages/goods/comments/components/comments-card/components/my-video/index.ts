@@ -5,6 +5,12 @@ Component({
   },
   data: {
     isShow: true,
+    videoContext: null,
+    fullScreen: false,
+  } as {
+    isShow: boolean
+    videoContext: WechatMiniprogram.VideoContext | null
+    fullScreen: boolean
   },
 
   options: {
@@ -12,22 +18,22 @@ Component({
   },
 
   attached() {
-    this.videoContext = wx.createVideoContext("myVideo", this)
+    this.setData({
+      videoContext: wx.createVideoContext("myVideo", this),
+    })
   },
-
-  fullScreen: false,
 
   methods: {
     // 点击封面自定义播放按钮时触发
-    bindplay(e) {
+    bindplay(e: WechatMiniprogram.CustomEvent) {
       this.setData({
         isShow: false,
       })
-      this.videoContext.play()
+      this.data.videoContext?.play()
       this.triggerEvent("play", e)
     },
 
-    bindplayByVideo(e) {
+    bindplayByVideo(e: WechatMiniprogram.CustomEvent) {
       this.setData({
         isShow: false,
       })
@@ -35,8 +41,8 @@ Component({
     },
 
     // 监听播放到末尾时触发
-    bindended(e) {
-      if (!this.fullScreen) {
+    bindended(e: WechatMiniprogram.CustomEvent) {
+      if (!this.data.fullScreen) {
         this.setData({
           isShow: true,
         })
@@ -44,12 +50,14 @@ Component({
       this.triggerEvent("ended", e)
     },
     // 监听暂停播放时触发
-    bindpause(e) {
+    bindpause(e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("pause", e)
     },
-    bindfullscreenchange(e) {
+    bindfullscreenchange(e: WechatMiniprogram.CustomEvent) {
       const fullScreen = e?.detail?.fullScreen
-      this.fullScreen = fullScreen
+      this.setData({
+        fullScreen,
+      })
     },
   },
 })

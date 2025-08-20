@@ -1,3 +1,7 @@
+import { delay } from "~/services/_utils/delay"
+import type { AddressModel } from "./address"
+import { getCouponList } from "./coupon"
+
 export type SpecInfo = {
   specId: string
   specTitle: string
@@ -398,4 +402,120 @@ export type OrdersCountResponse = {
   clientIp: string
   rt: number
   success: boolean
+}
+export type CouponCardStatus = "default" | "useless" | "disabled"
+export type CouponCardType = "discount" | "price"
+
+// 商品相关类型定义
+export type SpecValue = {
+  specValueId: string
+  specId: string | null
+  saasId: string | null
+  specValue: string
+  image: string | null
+}
+
+export type Spec = {
+  specId: string
+  title: string
+  specValueList: SpecValue[]
+}
+
+export type PriceInfo = {
+  priceType: number
+  price: string
+  priceTypeName: string | null
+}
+
+export type StockInfo = {
+  stockQuantity: number
+  safeStockQuantity: number
+  soldQuantity: number
+}
+
+export type SkuInfo = {
+  skuId: string
+  skuImage: string | null
+  specInfo: Array<{
+    specId: string
+    specTitle: string | null
+    specValueId: string
+    specValue: string | null
+  }>
+  priceInfo: PriceInfo[]
+  stockInfo: StockInfo
+  weight: { value: number | null; unit: string } | null
+  volume: any | null
+  profitPrice: number | null
+}
+
+export type SpuTag = {
+  id: string | null
+  title: string
+  image: string | null
+}
+
+export type LimitInfo = {
+  text: string
+}
+
+export type GoodsListItem = {
+  spuId: string
+  thumb: string
+  title: string
+  price: number | string
+  originPrice: number | string
+  tags: string[]
+}
+
+export type Good = {
+  saasId: string
+  storeId: string
+  spuId: string
+  title: string
+  primaryImage: string
+  images: string[]
+  video?: any
+  available?: number
+  minSalePrice: number | string
+  minLinePrice: number | string
+  maxSalePrice: number | string
+  maxLinePrice: number | string
+  spuStockQuantity: number
+  soldNum: number
+  isPutOnSale: number
+  categoryIds?: string[]
+  specList: Spec[]
+  skuList: SkuInfo[]
+  spuTagList: SpuTag[]
+  limitInfo?: LimitInfo[]
+  desc: string[]
+  etitle: string
+  isSoldOut?: boolean
+  groupIdList?: string[]
+  promotionList?: any | null
+  minProfitPrice?: number | null
+  spuLimitList?: any | null
+}
+type CouponDetail = {
+  key: string
+  status: CouponCardStatus
+  type: number
+  value: number
+  tag: string
+  desc: string
+  base: number
+  title: string
+  timeLimit: string
+  currency: string
+  useNotes: string
+  storeAdapt: string
+}
+export type CouponDetailResponse = {
+  detail: CouponDetail
+  storeInfoList: AddressModel[]
+}
+/** 获取优惠券列表 */
+export function mockFetchCoupon(status: CouponCardStatus) {
+  return delay().then(() => getCouponList(status))
 }

@@ -36,23 +36,23 @@ Component({
     }
   },
   methods: {
-    onParentChange(event) {
-      this.setActiveKey(event.detail.index, 0).then(() => {
+    onParentChange(e: WechatMiniprogram.CustomEvent) {
+      this.setActiveKey(e.detail.index, 0).then(() => {
         this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey])
       })
     },
-    onChildChange(event) {
-      this.setActiveKey(this.data.activeKey, event.detail.index).then(() => {
+    onChildChange(e: WechatMiniprogram.CustomEvent) {
+      this.setActiveKey(this.data.activeKey, e.detail.index).then(() => {
         this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey])
       })
     },
-    changCategory(event) {
-      const { item } = event.currentTarget.dataset
+    changCategory(e: WechatMiniprogram.CustomEvent) {
+      const { item } = e.currentTarget.dataset
       this.triggerEvent("changeCategory", {
         item,
       })
     },
-    setActiveKey(key, subKey) {
+    setActiveKey(key: number, subKey: number) {
       return new Promise((resolve) => {
         this.setData(
           {
@@ -60,7 +60,7 @@ Component({
             subActiveKey: subKey,
           },
           () => {
-            resolve()
+            resolve(null)
           }
         )
       })

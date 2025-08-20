@@ -1,3 +1,5 @@
+import type { CouponCardStatus } from "./someTypes"
+
 /**
  * 优惠券
  *
@@ -8,7 +10,8 @@
  * @param {CouponCardStatus} [status]
  * @param {CouponCardType} [type]
  */
-export function getCoupon(id = 0, status = "default", type = (id % 2) + 1) {
+export function getCoupon(id = 0, status: CouponCardStatus = "default") {
+  const type = (id % 2) + 1
   return {
     /** key */
     key: `${id}`,
@@ -30,10 +33,12 @@ export function getCoupon(id = 0, status = "default", type = (id % 2) + 1) {
     timeLimit: "2019.11.18-2023.12.18",
     /** 货币符号 */
     currency: "¥",
+    useNotes: "",
+    storeAdapt: "",
   }
 }
 
 /** 优惠券列表 */
-export function getCouponList(status = "default", length = 10) {
+export function getCouponList(status: CouponCardStatus = "default", length = 10) {
   return new Array(length).fill(0).map((_, idx) => getCoupon(idx, status))
 }

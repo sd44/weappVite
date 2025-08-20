@@ -11,9 +11,9 @@ Page({
     cartNum: 2,
   },
 
-  id: "",
+  id: 0,
 
-  onLoad(query) {
+  onLoad(query: { id: string }) {
     const id = Number.parseInt(query.id, 10)
     this.id = id
 
@@ -21,7 +21,7 @@ Page({
     this.getGoodsList(id)
   },
 
-  getCouponDetail(id) {
+  getCouponDetail(id: number) {
     fetchCouponDetail(id).then(({ detail }) => {
       this.setData({ detail })
       if (detail.type === 2) {
@@ -44,7 +44,7 @@ Page({
     })
   },
 
-  getGoodsList(id) {
+  getGoodsList(id: number) {
     fetchGoodsList(id).then((goods) => {
       this.setData({ goods })
     })

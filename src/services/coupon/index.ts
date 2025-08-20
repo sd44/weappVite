@@ -1,15 +1,15 @@
+import {
+  type CouponCardStatus,
+  type CouponDetailResponse,
+  mockFetchCoupon,
+} from "~/model/someTypes"
 import { config } from "../../config/index"
 import { genAddressList } from "../../model/address"
-import { getCoupon, getCouponList } from "../../model/coupon"
+import { getCoupon } from "../../model/coupon"
 import { delay } from "../_utils/delay"
 
 /** 获取优惠券列表 */
-function mockFetchCoupon(status: string) {
-  return delay().then(() => getCouponList(status))
-}
-
-/** 获取优惠券列表 */
-export function fetchCouponList(status = "default") {
+export function fetchCouponList(status: CouponCardStatus = "default") {
   if (config.useMock) {
     return mockFetchCoupon(status)
   }
@@ -19,7 +19,10 @@ export function fetchCouponList(status = "default") {
 }
 
 /** 获取优惠券 详情 */
-function mockFetchCouponDetail(id: number, status: string) {
+function mockFetchCouponDetail(
+  id: number,
+  status: CouponCardStatus
+): Promise<CouponDetailResponse> {
   return delay().then(() => {
     const result = {
       detail: getCoupon(id, status),
@@ -55,7 +58,7 @@ function mockFetchCouponDetail(id: number, status: string) {
 }
 
 /** 获取优惠券 详情 */
-export function fetchCouponDetail(id: number, status = "default") {
+export function fetchCouponDetail(id: number, status: CouponCardStatus = "default") {
   if (config.useMock) {
     return mockFetchCouponDetail(id, status)
   }

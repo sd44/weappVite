@@ -1,5 +1,3 @@
- 
- 
 import Toast from "tdesign-miniprogram/toast/index"
 
 Component({
@@ -81,8 +79,8 @@ Component({
 
   methods: {
     initData() {
-      const { skuList } = this.properties
-      const { specList } = this.properties
+      const skuList = this.data.skuList
+      const specList = this.data.specList
       specList.forEach((item) => {
         if (item.specValueList.length > 0) {
           item.specValueList.forEach((subItem) => {

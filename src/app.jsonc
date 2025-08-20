@@ -1,6 +1,8 @@
 {
   "$schema": "https://vite.icebreaker.top/app.json",
-  "componentFramework": "glass-easel",
+
+  // "renderer": "skyline", // skyline 默认启用 glass-easel
+  "componentFramework": "glass-easel", // 仅可用于 skyline
   "pages": [
     "pages/home/home",
     "pages/category/index",
@@ -102,4 +104,19 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   }
+  // 配置网络超市
+  //  "networkTimeout": {
+  //     "request": 6000,
+  //     "downloadFile": 10000
+  //   },
+
+  // 支持手机屏幕旋转，从小程序基础库版本 2.5.0 开始， pageOrientation 还可以被设置为 landscape ，表示固定为横屏显示。
+  // "pageOrientation": "auto",
+
+  // 支持 ipad、车机等大屏设备屏幕旋转
+  //  "resizable": true,
+
+  // pc 等大屏设备分栏
+  // "resizable": true,
+  // "frameset": true,
 }

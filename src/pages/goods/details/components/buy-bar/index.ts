@@ -51,7 +51,7 @@ Component({
       this.triggerEvent("toAddCart")
     },
 
-    toBuyNow(e) {
+    toBuyNow(e: WechatMiniprogram.CustomEvent) {
       const { isStock } = this.properties
       if (!isStock) {
         return
@@ -59,7 +59,7 @@ Component({
       this.triggerEvent("toBuyNow", e)
     },
 
-    toNav(e) {
+    toNav(e: WechatMiniprogram.CustomEvent) {
       const { url } = e.currentTarget.dataset
       return this.triggerEvent("toNav", {
         e,

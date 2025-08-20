@@ -30,20 +30,20 @@ Page({
     })
   },
 
-  onRateChange(e) {
-    const { value } = e?.detail
+  onRateChange(e: WechatMiniprogram.CustomEvent) {
+    const { value } = e.detail
     const item = e?.currentTarget?.dataset?.item
     this.setData({ [item]: value }, () => {
       this.updateButtonStatus()
     })
   },
 
-  onAnonymousChange(e) {
+  onAnonymousChange(e: WechatMiniprogram.CustomEvent) {
     const status = !!e?.detail?.checked
     this.setData({ isAnonymous: status })
   },
 
-  handleSuccess(e) {
+  handleSuccess(e: WechatMiniprogram.CustomEvent) {
     const { files } = e.detail
 
     this.setData({
@@ -51,7 +51,7 @@ Page({
     })
   },
 
-  handleRemove(e) {
+  handleRemove(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { uploadFiles } = this.data
     uploadFiles.splice(index, 1)
@@ -60,7 +60,7 @@ Page({
     })
   },
 
-  onTextAreaChange(e) {
+  onTextAreaChange(e: WechatMiniprogram.CustomEvent) {
     const value = e?.detail?.value
     this.textAreaValue = value
     this.updateButtonStatus()

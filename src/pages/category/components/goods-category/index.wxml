@@ -1,7 +1,7 @@
 <view class="goods-category custom-class">
-  <c-sidebar custom-class="custom-sidebar" bindchange="onParentChange" activeKey="{{activeKey}}">
-    <c-sidebar-item wx:for="{{ category }}" wx:key="index" title="{{ item.name }}" disabled="{{ item.disabled }}" />
-  </c-sidebar>
+  <t-sidebar bind:change="onParentChange" value="{{activeKey}}">
+    <t-sidebar-item wx:for="{{ category }}" wx:key="index" label="{{ item.name }}" disabled="{{ item.disabled }}" />
+  </t-sidebar>
   <view class="goods-category__right">
     <c-tabbar wx:if="{{isSlotRight}}" activeKey="{{subActiveKey}}" bindchange="onChildChange" showMore>
       <slot />

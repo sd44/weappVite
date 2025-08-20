@@ -1,4 +1,5 @@
 import { cdnBase } from "../config/index"
+import { Good } from "./someTypes"
 
 const imgPrefix = cdnBase
 
@@ -1889,7 +1890,7 @@ const allGoods = [
  * @param {number} id
  * @param {number} [available] 库存, 默认1
  */
-export function genGood(id: number, available = 1) {
+export function genGood(id: number, available = 1): Good {
   const specID = ["135681624", "135681628"]
   if (specID.indexOf(id.toString()) > -1) {
     return allGoods.filter((good) => Number.parseInt(good.spuId, 10) === id)[0]

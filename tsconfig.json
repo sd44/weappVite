@@ -34,6 +34,6 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  "include": ["src/**/*.ts", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.js", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
