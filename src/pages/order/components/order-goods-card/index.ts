@@ -8,7 +8,7 @@ Component({
     "../order-card/index": {
       type: "ancestor",
       linked(target) {
-        this.parent = target;
+        this.parent = target
       },
     },
   },
@@ -32,14 +32,14 @@ Component({
   methods: {
     setHidden(hidden) {
       if (this.data.hidden === hidden) {
-        return;
+        return
       }
-      this.setData({ hidden });
+      this.setData({ hidden })
     },
 
     onNumChange(e) {
-      const { value } = e.detail;
-      this.triggerEvent("num-change", { value });
+      const { value } = e.detail
+      this.triggerEvent("num-change", { value })
     },
   },
-});
+})

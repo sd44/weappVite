@@ -2,7 +2,7 @@ const AuthStepType = {
   ONE: 1,
   TWO: 2,
   THREE: 3,
-};
+}
 
 Component({
   options: {
@@ -29,7 +29,7 @@ Component({
   },
   methods: {
     gotoUserEditPage() {
-      this.triggerEvent("gotoUserEditPage");
+      this.triggerEvent("gotoUserEditPage")
     },
   },
-});
+})

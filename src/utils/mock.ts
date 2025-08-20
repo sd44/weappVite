@@ -5,12 +5,12 @@
  * @returns
  */
 export function generateMixed(n: number, str: string) {
-  let res = "";
+  let res = ""
   for (let i = 0; i < n; i++) {
-    const id = Math.ceil(Math.random() * 35);
-    res += str[id];
+    const id = Math.ceil(Math.random() * 35)
+    res += str[id]
   }
-  return res;
+  return res
 }
 
 /**
@@ -20,9 +20,9 @@ export function generateMixed(n: number, str: string) {
  * @returns
  */
 export function getRandomNum(min: number, max: number) {
-  const range = max - min;
-  const rand = Math.random();
-  return min + Math.round(rand * range);
+  const range = max - min
+  const rand = Math.random()
+  return min + Math.round(rand * range)
 }
 
 /**
@@ -30,12 +30,12 @@ export function getRandomNum(min: number, max: number) {
  * @returns
  */
 export function mockIp() {
-  return `10.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}`;
+  return `10.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}.${getRandomNum(1, 254)}`
 }
 
 export function mockReqId() {
   return `${getRandomNum(100_000, 999_999)}.${Date.now()}${getRandomNum(
     1000,
     9999
-  )}.${getRandomNum(10_000_000, 99_999_999)}`;
+  )}.${getRandomNum(10_000_000, 99_999_999)}`
 }

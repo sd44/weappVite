@@ -1,7 +1,7 @@
 type GetPermissionOptions = {
-  code: keyof WechatMiniprogram.AuthSetting;
-  names: string;
-};
+  code: keyof WechatMiniprogram.AuthSetting
+  names: string
+}
 
 export const getPermission = ({ code, names }: GetPermissionOptions): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -21,31 +21,31 @@ export const getPermission = ({ code, names }: GetPermissionOptions): Promise<vo
                 wx.openSetting({
                   success(settingRes) {
                     if (settingRes.authSetting[code] === true) {
-                      resolve();
+                      resolve()
                     } else {
-                      reject(new Error(`Permission ${code} not granted`));
+                      reject(new Error(`Permission ${code} not granted`))
                     }
                   },
                   fail() {
-                    reject(new Error("Failed to open setting"));
+                    reject(new Error("Failed to open setting"))
                   },
-                });
+                })
               } else {
-                reject(new Error("User canceled permission request"));
+                reject(new Error("User canceled permission request"))
               }
             },
             fail() {
-              reject(new Error("Failed to show modal"));
+              reject(new Error("Failed to show modal"))
             },
-          });
+          })
         } else {
           // 权限已授予或未请求过，直接resolve
-          resolve();
+          resolve()
         }
       },
       fail() {
-        reject(new Error("Failed to get setting"));
+        reject(new Error("Failed to get setting"))
       },
-    });
-  });
-};
+    })
+  })
+}

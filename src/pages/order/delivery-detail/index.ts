@@ -10,32 +10,32 @@ Page({
   },
 
   onLoad(query) {
-    let data;
+    let data
     try {
-      data = JSON.parse(decodeURIComponent(query.data || "{}"));
+      data = JSON.parse(decodeURIComponent(query.data || "{}"))
     } catch (_e) {}
     if (Number(query.source) === 2) {
       const service = {
         company: data.logisticsCompanyName,
         logisticsNo: data.logisticsNo,
         nodes: data.nodes,
-      };
+      }
       this.setData({
         logisticsData: service,
-      });
+      })
     } else if (data) {
-      this.setData({ logisticsData: data });
+      this.setData({ logisticsData: data })
     }
   },
 
   onLogisticsNoCopy() {
-    wx.setClipboardData({ data: this.data.logisticsData.logisticsNo });
+    wx.setClipboardData({ data: this.data.logisticsData.logisticsNo })
   },
 
   onCall() {
-    const { phoneNumber } = this.data.logisticsData;
+    const { phoneNumber } = this.data.logisticsData
     wx.makePhoneCall({
       phoneNumber,
-    });
+    })
   },
-});
+})

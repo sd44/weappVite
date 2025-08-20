@@ -1,24 +1,24 @@
-import Toast from "tdesign-miniprogram/toast/index";
-import { cdnBase } from "../../../config/index";
-import { fetchActivityList } from "../../../services/activity/fetchActivityList";
-import { fetchGood } from "../../../services/good/fetchGood";
+import Toast from "tdesign-miniprogram/toast/index"
+import { cdnBase } from "../../../config/index"
+import { fetchActivityList } from "../../../services/activity/fetchActivityList"
+import { fetchGood } from "../../../services/good/fetchGood"
 import {
   getGoodsDetailsCommentList,
   getGoodsDetailsCommentsCount,
-} from "../../../services/good/fetchGoodsDetailsComments";
+} from "../../../services/good/fetchGoodsDetailsComments"
 
-const imgPrefix = `${cdnBase}/`;
+const imgPrefix = `${cdnBase}/`
 
-const recLeftImg = `${imgPrefix}common/rec-left.png`;
-const recRightImg = `${imgPrefix}common/rec-right.png`;
+const recLeftImg = `${imgPrefix}common/rec-left.png`
+const recRightImg = `${imgPrefix}common/rec-right.png`
 const obj2Params = (obj = {}, encode = false) => {
-  const result = [];
+  const result = []
   Object.keys(obj).forEach((key) =>
     result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`)
-  );
+  )
 
-  return result.join("&");
-};
+  return result.join("&")
+}
 
 Page({
   data: {
@@ -92,7 +92,7 @@ Page({
   handlePopupHide() {
     this.setData({
       isSpuSelectPopupShow: false,
-    });
+    })
   },
 
   showSkuSelectPopup(type) {
@@ -100,137 +100,137 @@ Page({
       buyType: type || 0,
       outOperateStatus: type >= 1,
       isSpuSelectPopupShow: true,
-    });
+    })
   },
 
   buyItNow() {
-    this.showSkuSelectPopup(1);
+    this.showSkuSelectPopup(1)
   },
 
   toAddCart() {
-    this.showSkuSelectPopup(2);
+    this.showSkuSelectPopup(2)
   },
 
   toNav(e) {
-    const { url } = e.detail;
+    const { url } = e.detail
     wx.switchTab({
       url,
-    });
+    })
   },
 
   showCurImg(e) {
-    const { index } = e.detail;
-    const { images } = this.data.details;
+    const { index } = e.detail
+    const { images } = this.data.details
     wx.previewImage({
       current: images[index],
       urls: images, // 需要预览的图片http链接列表
-    });
+    })
   },
 
   onPageScroll({ scrollTop }) {
-    const goodsTab = this.selectComponent("#goodsTab");
-    goodsTab?.onScroll(scrollTop);
+    const goodsTab = this.selectComponent("#goodsTab")
+    goodsTab?.onScroll(scrollTop)
   },
 
   chooseSpecItem(e) {
-    const { specList } = this.data.details;
-    const { selectedSku, isAllSelectedSku } = e.detail;
+    const { specList } = this.data.details
+    const { selectedSku, isAllSelectedSku } = e.detail
     if (!isAllSelectedSku) {
       this.setData({
         selectSkuSellsPrice: 0,
-      });
+      })
     }
     this.setData({
       isAllSelectedSku,
-    });
-    this.getSkuItem(specList, selectedSku);
+    })
+    this.getSkuItem(specList, selectedSku)
   },
 
   getSkuItem(specList, selectedSku) {
-    const { skuArray, primaryImage } = this.data;
-    const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku);
-    let selectedAttrStr = " 件  ";
+    const { skuArray, primaryImage } = this.data
+    const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku)
+    let selectedAttrStr = " 件  "
     selectedSkuValues.forEach((item) => {
-      selectedAttrStr += `，${item.specValue}  `;
-    });
-    // eslint-disable-next-line array-callback-return
+      selectedAttrStr += `，${item.specValue}  `
+    })
+     
     const skuItem = skuArray.filter((item) => {
-      let status = true;
-      (item.specInfo || []).forEach((subItem) => {
+      let status = true
+      ;(item.specInfo || []).forEach((subItem) => {
         if (!selectedSku[subItem.specId] || selectedSku[subItem.specId] !== subItem.specValueId) {
-          status = false;
+          status = false
         }
-      });
+      })
       if (status) {
-        return item;
+        return item
       }
-    });
-    this.selectSpecsName(selectedSkuValues.length > 0 ? selectedAttrStr : "");
+    })
+    this.selectSpecsName(selectedSkuValues.length > 0 ? selectedAttrStr : "")
     if (skuItem) {
       this.setData({
         selectItem: skuItem,
         selectSkuSellsPrice: skuItem.price || 0,
-      });
+      })
     } else {
       this.setData({
         selectItem: null,
         selectSkuSellsPrice: 0,
-      });
+      })
     }
     this.setData({
       specImg: skuItem?.skuImage ? skuItem.skuImage : primaryImage,
-    });
+    })
   },
 
   // 获取已选择的sku名称
   getSelectedSkuValues(skuTree, selectedSku) {
-    const normalizedTree = this.normalizeSkuTree(skuTree);
+    const normalizedTree = this.normalizeSkuTree(skuTree)
     return Object.keys(selectedSku).reduce((selectedValues, skuKeyStr) => {
-      const skuValues = normalizedTree[skuKeyStr];
-      const skuValueId = selectedSku[skuKeyStr];
+      const skuValues = normalizedTree[skuKeyStr]
+      const skuValueId = selectedSku[skuKeyStr]
       if (skuValueId !== "") {
         const skuValue = skuValues.filter((value) => {
-          return value.specValueId === skuValueId;
-        })[0];
-        skuValue && selectedValues.push(skuValue);
+          return value.specValueId === skuValueId
+        })[0]
+        skuValue && selectedValues.push(skuValue)
       }
-      return selectedValues;
-    }, []);
+      return selectedValues
+    }, [])
   },
 
   normalizeSkuTree(skuTree) {
-    const normalizedTree = {};
+    const normalizedTree = {}
     skuTree.forEach((treeItem) => {
-      normalizedTree[treeItem.specId] = treeItem.specValueList;
-    });
-    return normalizedTree;
+      normalizedTree[treeItem.specId] = treeItem.specValueList
+    })
+    return normalizedTree
   },
 
   selectSpecsName(selectSpecsName) {
     if (selectSpecsName) {
       this.setData({
         selectedAttrStr: selectSpecsName,
-      });
+      })
     } else {
       this.setData({
         selectedAttrStr: "",
-      });
+      })
     }
   },
 
   addCart() {
-    const { isAllSelectedSku } = this.data;
+    const { isAllSelectedSku } = this.data
     Toast({
       context: this,
       selector: "#t-toast",
       message: isAllSelectedSku ? "点击加入购物车" : "请选择规格",
       icon: "",
       duration: 1000,
-    });
+    })
   },
 
   gotoBuy(type) {
-    const { isAllSelectedSku, buyNum } = this.data;
+    const { isAllSelectedSku, buyNum } = this.data
     if (!isAllSelectedSku) {
       Toast({
         context: this,
@@ -238,10 +238,10 @@ Page({
         message: "请选择规格",
         icon: "",
         duration: 1000,
-      });
-      return;
+      })
+      return
     }
-    this.handlePopupHide();
+    this.handlePopupHide()
     const query = {
       quantity: buyNum,
       storeId: "1",
@@ -257,23 +257,23 @@ Page({
       spuId: this.data.details.spuId,
       thumb: this.data.details.primaryImage,
       title: this.data.details.title,
-    };
+    }
     let urlQueryStr = obj2Params({
       goodsRequestList: JSON.stringify([query]),
-    });
-    urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : "";
-    const path = `/pages/order/order-confirm/index${urlQueryStr}`;
+    })
+    urlQueryStr = urlQueryStr ? `?${urlQueryStr}` : ""
+    const path = `/pages/order/order-confirm/index${urlQueryStr}`
     wx.navigateTo({
       url: path,
-    });
+    })
   },
 
   specsConfirm() {
-    const { buyType } = this.data;
+    const { buyType } = this.data
     if (buyType === 1) {
-      this.gotoBuy();
+      this.gotoBuy()
     } else {
-      this.addCart();
+      this.addCart()
     }
     // this.handlePopupHide();
   },
@@ -281,32 +281,32 @@ Page({
   changeNum(e) {
     this.setData({
       buyNum: e.detail.buyNum,
-    });
+    })
   },
 
   closePromotionPopup() {
     this.setData({
       isShowPromotionPop: false,
-    });
+    })
   },
 
   promotionChange(e) {
-    const { index } = e.detail;
+    const { index } = e.detail
     wx.navigateTo({
       url: `/pages/promotion/promotion-detail/index?promotion_id=${index}`,
-    });
+    })
   },
 
   showPromotionPopup() {
     this.setData({
       isShowPromotionPop: true,
-    });
+    })
   },
 
   getDetail(spuId) {
     Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
-      const [details, activityList] = res;
-      const skuArray = [];
+      const [details, activityList] = res
+      const skuArray = []
       const {
         skuList,
         primaryImage,
@@ -315,21 +315,21 @@ Page({
         maxSalePrice,
         maxLinePrice,
         soldNum,
-      } = details;
+      } = details
       skuList.forEach((item) => {
         skuArray.push({
           skuId: item.skuId,
           quantity: item.stockInfo ? item.stockInfo.stockQuantity : 0,
           specInfo: item.specInfo,
-        });
-      });
-      const promotionArray = [];
+        })
+      })
+      const promotionArray = []
       activityList.forEach((item) => {
         promotionArray.push({
           tag: item.promotionSubCode === "MYJ" ? "满减" : "满折",
           label: "满100元减99.9元",
-        });
-      });
+        })
+      })
       this.setData({
         details,
         activityList,
@@ -342,15 +342,15 @@ Page({
         primaryImage,
         soldout: isPutOnSale === 0,
         soldNum,
-      });
-    });
+      })
+    })
   },
 
   async getCommentsList() {
     try {
-      const code = "Success";
-      const data = await getGoodsDetailsCommentList();
-      const { homePageComments } = data;
+      const code = "Success"
+      const data = await getGoodsDetailsCommentList()
+      const { homePageComments } = data
       if (code.toUpperCase() === "SUCCESS") {
         const nextState = {
           commentsList: homePageComments.map((item) => {
@@ -362,37 +362,37 @@ Page({
               userHeadUrl: item.isAnonymity
                 ? this.anonymityAvatar
                 : item.userHeadUrl || this.anonymityAvatar,
-            };
+            }
           }),
-        };
-        this.setData(nextState);
+        }
+        this.setData(nextState)
       }
     } catch (_error) {}
   },
 
   onShareAppMessage() {
     // 自定义的返回信息
-    const { selectedAttrStr } = this.data;
-    let shareSubTitle = "";
+    const { selectedAttrStr } = this.data
+    let shareSubTitle = ""
     if (selectedAttrStr.indexOf("件") > -1) {
-      const count = selectedAttrStr.indexOf("件");
-      shareSubTitle = selectedAttrStr.slice(count + 1, selectedAttrStr.length);
+      const count = selectedAttrStr.indexOf("件")
+      shareSubTitle = selectedAttrStr.slice(count + 1, selectedAttrStr.length)
     }
     const customInfo = {
       imageUrl: this.data.details.primaryImage,
       title: this.data.details.title + shareSubTitle,
       path: `/pages/goods/details/index?spuId=${this.data.spuId}`,
-    };
-    return customInfo;
+    }
+    return customInfo
   },
 
   /** 获取评价统计 */
   async getCommentsStatistics() {
     try {
-      const code = "Success";
-      const data = await getGoodsDetailsCommentsCount();
+      const code = "Success"
+      const data = await getGoodsDetailsCommentsCount()
       if (code.toUpperCase() === "SUCCESS") {
-        const { badCount, commentCount, goodCount, goodRate, hasImageCount, middleCount } = data;
+        const { badCount, commentCount, goodCount, goodRate, hasImageCount, middleCount } = data
         const nextState = {
           commentsStatistics: {
             badCount: Number.parseInt(`${badCount}`, 10),
@@ -403,8 +403,8 @@ Page({
             hasImageCount: Number.parseInt(`${hasImageCount}`, 10),
             middleCount: Number.parseInt(`${middleCount}`, 10),
           },
-        };
-        this.setData(nextState);
+        }
+        this.setData(nextState)
       }
     } catch (_error) {}
   },
@@ -413,16 +413,16 @@ Page({
   navToCommentsListPage() {
     wx.navigateTo({
       url: `/pages/goods/comments/index?spuId=${this.data.spuId}`,
-    });
+    })
   },
 
   onLoad(query) {
-    const { spuId } = query;
+    const { spuId } = query
     this.setData({
       spuId,
-    });
-    this.getDetail(spuId);
-    this.getCommentsList(spuId);
-    this.getCommentsStatistics(spuId);
+    })
+    this.getDetail(spuId)
+    this.getCommentsList(spuId)
+    this.getCommentsStatistics(spuId)
   },
-});
+})

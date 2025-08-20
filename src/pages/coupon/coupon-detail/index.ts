@@ -1,4 +1,4 @@
-import { fetchCouponDetail } from "../../../services/coupon/index";
+import { fetchCouponDetail } from "../../../services/coupon/index"
 
 Page({
   data: {
@@ -11,22 +11,22 @@ Page({
   id: "",
 
   onLoad(query) {
-    const id = Number.parseInt(query.id, 10);
-    this.id = id;
-    this.getGoodsList(id);
+    const id = Number.parseInt(query.id, 10)
+    this.id = id
+    this.getGoodsList(id)
   },
 
   getGoodsList(id) {
     fetchCouponDetail(id).then(({ detail }) => {
       this.setData({
         detail,
-      });
-    });
+      })
+    })
   },
 
   navGoodListHandle() {
     wx.navigateTo({
       url: `/pages/coupon/coupon-activity-goods/index?id=${this.id}`,
-    });
+    })
   },
-});
+})

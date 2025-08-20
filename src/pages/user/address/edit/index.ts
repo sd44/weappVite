@@ -1,14 +1,14 @@
-import Toast from "tdesign-miniprogram/toast/index";
-import { areaData } from "../../../../config/index";
-import { fetchDeliveryAddress } from "../../../../services/address/fetchAddress";
-import { rejectAddress, resolveAddress } from "../../../../services/address/list";
+import Toast from "tdesign-miniprogram/toast/index"
+import { areaData } from "../../../../config/index"
+import { fetchDeliveryAddress } from "../../../../services/address/fetchAddress"
+import { rejectAddress, resolveAddress } from "../../../../services/address/list"
 
-const innerPhoneReg = "^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$";
-const innerNameReg = "^[a-zA-Z\\d\\u4e00-\\u9fa5]+$";
+const innerPhoneReg = "^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$"
+const innerNameReg = "^[a-zA-Z\\d\\u4e00-\\u9fa5]+$"
 const labelsOptions = [
   { id: 0, name: "家" },
   { id: 1, name: "公司" },
-];
+]
 
 Page({
   options: {
@@ -48,13 +48,13 @@ Page({
     verifyTips: "",
   },
   onLoad(options) {
-    const { id } = options;
-    this.init(id);
+    const { id } = options
+    this.init(id)
   },
 
   onUnload() {
     if (!this.hasSava) {
-      rejectAddress();
+      rejectAddress()
     }
   },
 
@@ -62,24 +62,24 @@ Page({
 
   init(id) {
     if (id) {
-      this.getAddressDetail(Number(id));
+      this.getAddressDetail(Number(id))
     }
   },
   getAddressDetail(id) {
     fetchDeliveryAddress(id).then((detail) => {
       this.setData({ locationState: detail }, () => {
-        const { isLegal, tips } = this.onVerifyInputLegal();
+        const { isLegal, tips } = this.onVerifyInputLegal()
         this.setData({
           submitActive: isLegal,
-        });
-        this.privateData.verifyTips = tips;
-      });
-    });
+        })
+        this.privateData.verifyTips = tips
+      })
+    })
   },
   onInputValue(e) {
-    const { item } = e.currentTarget.dataset;
+    const { item } = e.currentTarget.dataset
     if (item === "address") {
-      const { selectedOptions = [] } = e.detail;
+      const { selectedOptions = [] } = e.detail
       this.setData(
         {
           "locationState.provinceCode": selectedOptions[0].value,
@@ -91,129 +91,129 @@ Page({
           areaPickerVisible: false,
         },
         () => {
-          const { isLegal, tips } = this.onVerifyInputLegal();
+          const { isLegal, tips } = this.onVerifyInputLegal()
           this.setData({
             submitActive: isLegal,
-          });
-          this.privateData.verifyTips = tips;
+          })
+          this.privateData.verifyTips = tips
         }
-      );
+      )
     } else {
-      const { value = "" } = e.detail;
+      const { value = "" } = e.detail
       this.setData(
         {
           [`locationState.${item}`]: value,
         },
         () => {
-          const { isLegal, tips } = this.onVerifyInputLegal();
+          const { isLegal, tips } = this.onVerifyInputLegal()
           this.setData({
             submitActive: isLegal,
-          });
-          this.privateData.verifyTips = tips;
+          })
+          this.privateData.verifyTips = tips
         }
-      );
+      )
     }
   },
   onPickArea() {
-    this.setData({ areaPickerVisible: true });
+    this.setData({ areaPickerVisible: true })
   },
   onPickLabels(e) {
-    const { item } = e.currentTarget.dataset;
+    const { item } = e.currentTarget.dataset
     const {
       locationState: { labelIndex },
       labels = [],
-    } = this.data;
+    } = this.data
     let payload = {
       labelIndex: item,
       addressTag: labels[item].name,
-    };
+    }
     if (item === labelIndex) {
-      payload = { labelIndex: null, addressTag: "" };
+      payload = { labelIndex: null, addressTag: "" }
     }
     this.setData({
       "locationState.labelIndex": payload.labelIndex,
-    });
-    this.triggerEvent("triggerUpdateValue", payload);
+    })
+    this.triggerEvent("triggerUpdateValue", payload)
   },
   addLabels() {
     this.setData({
       visible: true,
-    });
+    })
   },
   confirmHandle() {
-    const { labels, labelValue } = this.data;
+    const { labels, labelValue } = this.data
     this.setData({
       visible: false,
       labels: [...labels, { id: labels.at(-1).id + 1, name: labelValue }],
       labelValue: "",
-    });
+    })
   },
   cancelHandle() {
     this.setData({
       visible: false,
       labelValue: "",
-    });
+    })
   },
   onCheckDefaultAddress({ detail }) {
-    const { value } = detail;
+    const { value } = detail
     this.setData({
       "locationState.isDefault": value,
-    });
+    })
   },
 
   onVerifyInputLegal() {
-    const { name, phone, detailAddress, districtName } = this.data.locationState;
-    const prefixPhoneReg = String(this.properties.phoneReg || innerPhoneReg);
-    const prefixNameReg = String(this.properties.nameReg || innerNameReg);
-    const nameRegExp = new RegExp(prefixNameReg);
-    const phoneRegExp = new RegExp(prefixPhoneReg);
+    const { name, phone, detailAddress, districtName } = this.data.locationState
+    const prefixPhoneReg = String(this.properties.phoneReg || innerPhoneReg)
+    const prefixNameReg = String(this.properties.nameReg || innerNameReg)
+    const nameRegExp = new RegExp(prefixNameReg)
+    const phoneRegExp = new RegExp(prefixPhoneReg)
 
     if (!name?.trim()) {
       return {
         isLegal: false,
         tips: "请填写收货人",
-      };
+      }
     }
     if (!nameRegExp.test(name)) {
       return {
         isLegal: false,
         tips: "收货人仅支持输入中文、英文（区分大小写）、数字",
-      };
+      }
     }
     if (!phone?.trim()) {
       return {
         isLegal: false,
         tips: "请填写手机号",
-      };
+      }
     }
     if (!phoneRegExp.test(phone)) {
       return {
         isLegal: false,
         tips: "请填写正确的手机号",
-      };
+      }
     }
     if (!districtName?.trim()) {
       return {
         isLegal: false,
         tips: "请选择省市区信息",
-      };
+      }
     }
     if (!detailAddress?.trim()) {
       return {
         isLegal: false,
         tips: "请完善详细地址",
-      };
+      }
     }
     if (detailAddress && detailAddress.trim().length > 50) {
       return {
         isLegal: false,
         tips: "详细地址不能超过50个字符",
-      };
+      }
     }
     return {
       isLegal: true,
       tips: "添加成功",
-    };
+    }
   },
 
   builtInSearch({ code, name }) {
@@ -232,29 +232,29 @@ Page({
                   wx.openSetting({
                     success(settinRes) {
                       if (settinRes.authSetting[code] === true) {
-                        resolve();
+                        resolve()
                       } else {
-                        reject();
+                        reject()
                       }
                     },
-                  });
+                  })
                 } else {
-                  reject();
+                  reject()
                 }
               },
               fail() {
-                reject();
+                reject()
               },
-            });
+            })
           } else {
-            resolve();
+            resolve()
           }
         },
         fail() {
-          reject();
+          reject()
         },
-      });
-    });
+      })
+    })
   },
 
   onSearchAddress() {
@@ -267,7 +267,7 @@ Page({
               name: res.name,
               latitude: res.latitude,
               longitude: res.longitude,
-            });
+            })
           } else {
             Toast({
               context: this,
@@ -275,7 +275,7 @@ Page({
               message: "地点为空，请重新选择",
               icon: "",
               duration: 1000,
-            });
+            })
           }
         },
         fail(res) {
@@ -286,14 +286,14 @@ Page({
               message: "地点错误，请重新选择",
               icon: "",
               duration: 1000,
-            });
+            })
           }
         },
-      });
-    });
+      })
+    })
   },
   formSubmit() {
-    const { submitActive } = this.data;
+    const { submitActive } = this.data
     if (!submitActive) {
       Toast({
         context: this,
@@ -301,12 +301,12 @@ Page({
         message: this.privateData.verifyTips,
         icon: "",
         duration: 1000,
-      });
-      return;
+      })
+      return
     }
-    const { locationState } = this.data;
+    const { locationState } = this.data
 
-    this.hasSava = true;
+    this.hasSava = true
 
     resolveAddress({
       saasId: "88888888",
@@ -330,25 +330,25 @@ Page({
       latitude: locationState.latitude,
       longitude: locationState.longitude,
       storeId: null,
-    });
+    })
 
-    wx.navigateBack({ delta: 1 });
+    wx.navigateBack({ delta: 1 })
   },
 
   getWeixinAddress(e) {
-    const { locationState } = this.data;
-    const weixinAddress = e.detail;
+    const { locationState } = this.data
+    const weixinAddress = e.detail
     this.setData(
       {
         locationState: { ...locationState, ...weixinAddress },
       },
       () => {
-        const { isLegal, tips } = this.onVerifyInputLegal();
+        const { isLegal, tips } = this.onVerifyInputLegal()
         this.setData({
           submitActive: isLegal,
-        });
-        this.privateData.verifyTips = tips;
+        })
+        this.privateData.verifyTips = tips
       }
-    );
+    )
   },
-});
+})

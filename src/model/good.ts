@@ -1,8 +1,8 @@
-import { cdnBase } from "../config/index";
+import { cdnBase } from "../config/index"
 
-const imgPrefix = cdnBase;
+const imgPrefix = cdnBase
 
-const defaultDesc = [`${imgPrefix}/goods/details-1.png`];
+const defaultDesc = [`${imgPrefix}/goods/details-1.png`]
 
 const allGoods = [
   {
@@ -1883,23 +1883,23 @@ const allGoods = [
     ],
     etitle: "",
   },
-];
+]
 
 /**
- * @param {string} id
+ * @param {number} id
  * @param {number} [available] 库存, 默认1
  */
-export function genGood(id, available = 1) {
-  const specID = ["135681624", "135681628"];
-  if (specID.indexOf(id) > -1) {
-    return allGoods.filter((good) => good.spuId === id)[0];
+export function genGood(id: number, available = 1) {
+  const specID = ["135681624", "135681628"]
+  if (specID.indexOf(id.toString()) > -1) {
+    return allGoods.filter((good) => Number.parseInt(good.spuId, 10) === id)[0]
   }
-  const item = allGoods[id % allGoods.length];
+  const item = allGoods[id % allGoods.length]
   return {
     ...item,
     spuId: `${id}`,
     available,
     desc: item?.desc || defaultDesc,
     images: item?.images || [item?.primaryImage],
-  };
+  }
 }

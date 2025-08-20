@@ -11,7 +11,7 @@ Component({
     goToCart() {
       wx.switchTab({
         url: "/pages/cart/index",
-      });
+      })
     },
   },
-});
+})

@@ -1,70 +1,62 @@
-import { config } from "../../config/index";
+import { config } from "../../config/index"
+import { applyService, genApplyReasonList, genRightsPreview } from "../../model/order/applyService"
+import { delay } from "../_utils/delay"
 
 /** 获取售后单mock数据 */
-function mockFetchRightsPreview(params) {
-  const { delay } = require("../_utils/delay");
-  const { genRightsPreview } = require("../../model/order/applyService");
-
-  return delay().then(() => genRightsPreview(params));
+function mockFetchRightsPreview(params: { orderNo: string; skuId: string }) {
+  return delay().then(() => genRightsPreview(params))
 }
 
 /** 获取售后单数据 */
-export function fetchRightsPreview(params) {
+export function fetchRightsPreview(params: { orderNo: string; skuId: string }) {
   if (config.useMock) {
-    return mockFetchRightsPreview(params);
+    return mockFetchRightsPreview(params)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 确认收货 */
 export function dispatchConfirmReceived() {
   if (config.useMock) {
-    const { delay } = require("../_utils/delay");
-    return delay();
+    return delay()
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 获取可选的mock售后原因列表 */
-function mockFetchApplyReasonList(params) {
-  const { delay } = require("../_utils/delay");
-  const { genApplyReasonList } = require("../../model/order/applyService");
-
-  return delay().then(() => genApplyReasonList(params));
+function mockFetchApplyReasonList(params: { rightsReasonType?: string }) {
+  return delay().then(() => genApplyReasonList(params))
 }
 
 /** 获取可选的售后原因列表 */
-export function fetchApplyReasonList(params) {
+export function fetchApplyReasonList(params: { rightsReasonType?: string }) {
   if (config.useMock) {
-    return mockFetchApplyReasonList(params);
+    return mockFetchApplyReasonList(params)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 发起mock售后申请 */
-function mockDispatchApplyService(params) {
-  const { delay } = require("../_utils/delay");
-  const { applyService } = require("../../model/order/applyService");
-
-  return delay().then(() => applyService(params));
+function mockDispatchApplyService() {
+  return delay().then(() => applyService())
 }
 
 /** 发起售后申请 */
-export function dispatchApplyService(params) {
+export function dispatchApplyService() {
   if (config.useMock) {
-    return mockDispatchApplyService(params);
+    return mockDispatchApplyService()
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }

@@ -30,10 +30,10 @@ export function getCoupon(id = 0, status = "default", type = (id % 2) + 1) {
     timeLimit: "2019.11.18-2023.12.18",
     /** 货币符号 */
     currency: "¥",
-  };
+  }
 }
 
 /** 优惠券列表 */
 export function getCouponList(status = "default", length = 10) {
-  return new Array(length).fill(0).map((_, idx) => getCoupon(idx, status));
+  return new Array(length).fill(0).map((_, idx) => getCoupon(idx, status))
 }

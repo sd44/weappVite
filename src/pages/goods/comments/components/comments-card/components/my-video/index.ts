@@ -12,7 +12,7 @@ Component({
   },
 
   attached() {
-    this.videoContext = wx.createVideoContext("myVideo", this);
+    this.videoContext = wx.createVideoContext("myVideo", this)
   },
 
   fullScreen: false,
@@ -22,16 +22,16 @@ Component({
     bindplay(e) {
       this.setData({
         isShow: false,
-      });
-      this.videoContext.play();
-      this.triggerEvent("play", e);
+      })
+      this.videoContext.play()
+      this.triggerEvent("play", e)
     },
 
     bindplayByVideo(e) {
       this.setData({
         isShow: false,
-      });
-      this.triggerEvent("play", e);
+      })
+      this.triggerEvent("play", e)
     },
 
     // 监听播放到末尾时触发
@@ -39,17 +39,17 @@ Component({
       if (!this.fullScreen) {
         this.setData({
           isShow: true,
-        });
+        })
       }
-      this.triggerEvent("ended", e);
+      this.triggerEvent("ended", e)
     },
     // 监听暂停播放时触发
     bindpause(e) {
-      this.triggerEvent("pause", e);
+      this.triggerEvent("pause", e)
     },
     bindfullscreenchange(e) {
-      const fullScreen = e?.detail?.fullScreen;
-      this.fullScreen = fullScreen;
+      const fullScreen = e?.detail?.fullScreen
+      this.fullScreen = fullScreen
     },
   },
-});
+})

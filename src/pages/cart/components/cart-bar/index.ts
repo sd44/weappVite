@@ -18,12 +18,12 @@ Component({
       type: Number,
       value: 0,
       observer(num) {
-        const isDisabled = num === 0;
+        const isDisabled = num === 0
         setTimeout(() => {
           this.setData({
             isDisabled,
-          });
-        });
+          })
+        })
       },
     },
     totalDiscountAmount: {
@@ -42,20 +42,20 @@ Component({
 
   methods: {
     handleSelectAll() {
-      const { isAllSelected } = this.data;
+      const { isAllSelected } = this.data
       this.setData({
         isAllSelected: !isAllSelected,
-      });
+      })
       this.triggerEvent("handleSelectAll", {
         isAllSelected,
-      });
+      })
     },
 
     handleToSettle() {
       if (this.data.isDisabled) {
-        return;
+        return
       }
-      this.triggerEvent("handleToSettle");
+      this.triggerEvent("handleToSettle")
     },
   },
-});
+})

@@ -1,4 +1,4 @@
-import { mockIp, mockReqId } from "../../../utils/mock";
+import { mockIp, mockReqId } from "../../../utils/mock"
 
 export function create() {
   const _resq = {
@@ -9,8 +9,8 @@ export function create() {
     clientIp: mockIp(),
     rt: 79,
     success: true,
-  };
-  return Promise.resolve(_resq);
+  }
+  return Promise.resolve(_resq)
 }
 
 export function update() {
@@ -22,8 +22,8 @@ export function update() {
     clientIp: mockIp(),
     rt: 79,
     success: true,
-  };
-  return Promise.resolve(_resq);
+  }
+  return Promise.resolve(_resq)
 }
 
 export function getDeliverCompanyList() {
@@ -66,6 +66,6 @@ export function getDeliverCompanyList() {
         code: "0009",
       },
     ],
-  };
-  return Promise.resolve(_resq);
+  }
+  return Promise.resolve(_resq)
 }

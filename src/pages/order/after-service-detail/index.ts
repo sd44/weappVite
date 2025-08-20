@@ -1,12 +1,12 @@
-import Toast from "tdesign-miniprogram/toast/index";
-import { ServiceStatus, ServiceType, ServiceTypeDesc } from "../config";
-import { formatTime, getRightsDetail } from "./api";
+import Toast from "tdesign-miniprogram/toast/index"
+import { ServiceStatus, ServiceType, ServiceTypeDesc } from "../config"
+import { formatTime, getRightsDetail } from "./api"
 
 const TitleConfig = {
   [ServiceType.ORDER_CANCEL]: "退款详情",
   [ServiceType.ONLY_REFUND]: "退款详情",
   [ServiceType.RETURN_GOODS]: "退货退款详情",
-};
+}
 
 Page({
   data: {
@@ -24,42 +24,42 @@ Page({
   },
 
   onLoad(query) {
-    this.rightsNo = query.rightsNo;
-    this.inputDialog = this.selectComponent("#input-dialog");
-    this.init();
+    this.rightsNo = query.rightsNo
+    this.inputDialog = this.selectComponent("#input-dialog")
+    this.init()
   },
 
   onShow() {
     // 当从其他页面返回，并且 backRefresh 被置为 true 时，刷新数据
     if (!this.data.backRefresh) {
-      return;
+      return
     }
-    this.init();
-    this.setData({ backRefresh: false });
+    this.init()
+    this.setData({ backRefresh: false })
   },
 
   // 页面刷新，展示下拉刷新
   onPullDownRefresh_(e) {
-    const { callback } = e.detail;
-    return this.getService().then(() => callback?.());
+    const { callback } = e.detail
+    return this.getService().then(() => callback?.())
   },
 
   init() {
-    this.setData({ pageLoading: true });
+    this.setData({ pageLoading: true })
     this.getService().then(() => {
-      this.setData({ pageLoading: false });
-    });
+      this.setData({ pageLoading: false })
+    })
   },
 
   getService() {
-    const params = { rightsNo: this.rightsNo };
+    const params = { rightsNo: this.rightsNo }
     return getRightsDetail(params).then((res) => {
-      const serviceRaw = res.data[0];
+      const serviceRaw = res.data[0]
       // 滤掉填写运单号、修改运单号按钮，这两个按钮特殊处理，不在底部按钮栏展示
       if (!serviceRaw.buttonVOs) {
-        serviceRaw.buttonVOs = [];
+        serviceRaw.buttonVOs = []
       }
-      const deliveryButton = {};
+      const deliveryButton = {}
       const service = {
         id: serviceRaw.rights.rightsNo,
         serviceNo: serviceRaw.rights.rightsNo,
@@ -103,8 +103,8 @@ Page({
         applyRemark: serviceRaw.rightsRefund.refundDesc, // 申请退款时的填写的说明
         buttons: serviceRaw.buttonVOs || [],
         logistics: serviceRaw.logisticsVO,
-      };
-      const proofs = serviceRaw.rights.rightsImageUrls || [];
+      }
+      const proofs = serviceRaw.rights.rightsImageUrls || []
       this.setData({
         serviceRaw,
         service,
@@ -113,11 +113,11 @@ Page({
         showProofs:
           serviceRaw.rights.userRightsStatus === ServiceStatus.PENDING_VERIFY &&
           (service.applyRemark || proofs.length > 0),
-      });
+      })
       wx.setNavigationBarTitle({
         title: TitleConfig[service.type],
-      });
-    });
+      })
+    })
   },
 
   composeAddress(service) {
@@ -129,84 +129,84 @@ Page({
       service.logisticsVO.receiverAddress,
     ]
       .filter((item) => !!item)
-      .join(" ");
+      .join(" ")
   },
 
   onRefresh() {
-    this.init();
+    this.init()
   },
 
   editLogistices() {
     this.setData({
       inputDialogVisible: true,
-    });
+    })
     this.inputDialog.setData({
       cancelBtn: "取消",
       confirmBtn: "确定",
-    });
+    })
     this.inputDialog._onConfirm = () => {
       Toast({
         message: "确定填写物流单号",
-      });
-    };
+      })
+    }
   },
 
   onProofTap(e) {
     if (this.data.gallery.show) {
       this.setData({
         "gallery.show": false,
-      });
-      return;
+      })
+      return
     }
-    const { index } = e.currentTarget.dataset;
+    const { index } = e.currentTarget.dataset
     this.setData({
       "gallery.show": true,
       "gallery.current": index,
-    });
+    })
   },
 
   onGoodsCardTap(e) {
-    const { index } = e.currentTarget.dataset;
-    const goods = this.data.serviceRaw.rightsItem[index];
-    wx.navigateTo({ url: `/pages/goods/details/index?skuId=${goods.skuId}` });
+    const { index } = e.currentTarget.dataset
+    const goods = this.data.serviceRaw.rightsItem[index]
+    wx.navigateTo({ url: `/pages/goods/details/index?skuId=${goods.skuId}` })
   },
 
   onServiceNoCopy() {
     wx.setClipboardData({
       data: this.data.service.serviceNo,
-    });
+    })
   },
 
   onAddressCopy() {
     wx.setClipboardData({
       data: `${this.data.service.receiverName}  ${this.data.service.receiverPhone}\n${this.data.service.receiverAddress}`,
-    });
+    })
   },
 
   /** 获取状态ICON */
   genStatusIcon(item) {
-    const { userRightsStatus, afterSaleRequireType } = item;
+    const { userRightsStatus, afterSaleRequireType } = item
     switch (userRightsStatus) {
       // 退款成功
       case ServiceStatus.REFUNDED: {
-        return "succeed";
+        return "succeed"
       }
       // 已取消、已关闭
       case ServiceStatus.CLOSED: {
-        return "indent_close";
+        return "indent_close"
       }
       default: {
         switch (afterSaleRequireType) {
           case "REFUND_MONEY": {
-            return "goods_refund";
+            return "goods_refund"
           }
           case "REFUND_GOODS_MONEY":
-            return "goods_return";
+            return "goods_return"
           default: {
-            return "goods_return";
+            return "goods_return"
           }
         }
       }
     }
   },
-});
+})

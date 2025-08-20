@@ -47,8 +47,8 @@ Component({
     tapHandle() {
       // 失败重试
       if (this.data.status === 3) {
-        this.triggerEvent("retry");
+        this.triggerEvent("retry")
       }
     },
   },
-});
+})

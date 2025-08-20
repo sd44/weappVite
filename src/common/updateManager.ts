@@ -1,11 +1,11 @@
 export default () => {
   if (!wx.canIUse("getUpdateManager")) {
-    return;
+    return
   }
 
-  const updateManager = wx.getUpdateManager();
+  const updateManager = wx.getUpdateManager()
 
-  updateManager.onCheckForUpdate((_res) => {});
+  updateManager.onCheckForUpdate((_res) => {})
 
   updateManager.onUpdateReady(() => {
     wx.showModal({
@@ -14,13 +14,13 @@ export default () => {
       success: (res) => {
         if (res.confirm) {
           // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-          updateManager.applyUpdate();
+          updateManager.applyUpdate()
         }
       },
-    });
-  });
+    })
+  })
 
   updateManager.onUpdateFailed(() => {
     // 新版本下载失败
-  });
-};
+  })
+}

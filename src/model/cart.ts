@@ -1,4 +1,114 @@
-import { mockIp, mockReqId } from "../utils/mock";
+import { mockIp, mockReqId } from "../utils/mock"
+
+export type SpecInfo = {
+  specTitle: string
+  specValue: string
+}
+
+export type TitlePrefixTag = {
+  text: string
+}
+
+export type GoodsPromotion = {
+  uid: string
+  saasId: string
+  storeId: string
+  spuId: string
+  skuId: string
+  isSelected: number
+  thumb: string
+  title: string
+  primaryImage: string
+  quantity: number
+  stockStatus: boolean
+  stockQuantity: number
+  price: string
+  originPrice: string
+  tagPrice: null
+  titlePrefixTags: TitlePrefixTag[] | null
+  roomId: null
+  specInfo: SpecInfo[]
+  joinCartTime: string
+  available: number
+  putOnSale: number
+  etitle: null
+  specs?: string[]
+}
+
+export type Promotion = {
+  title: string | null
+  promotionCode: string
+  promotionSubCode: string | null
+  promotionId: string | null
+  tagText: string[] | null
+  promotionStatus: number | null
+  tag: string | null
+  description: string | null
+  doorSillRemain: null
+  isNeedAddOnShop: number
+  goodsPromotionList: GoodsPromotion[]
+  lastJoinTime: string | null
+}
+
+export type PostageFreePromotion = {
+  title: null
+  promotionCode: null
+  promotionSubCode: null
+  promotionId: null
+  tagText: null
+  promotionStatus: null
+  tag: null
+  description: null
+  doorSillRemain: null
+  isNeedAddOnShop: number
+}
+
+export type CartStoreGoods = {
+  storeId: string
+  storeName: string
+  storeStatus: number
+  totalDiscountSalePrice: string
+  promotionGoodsList: Promotion[]
+  lastJoinTime: string
+  postageFreePromotionVo: PostageFreePromotion
+  shortageGoodsList: any[]
+}
+
+export type InvalidGood = {
+  uid: string
+  saasId: string
+  storeId: string
+  spuId: string
+  skuId: string
+  isSelected: number
+  thumb: string
+  title: string
+  primaryImage: string
+  quantity: number
+  stockStatus: boolean
+  stockQuantity: number
+  price: string
+  originPrice: string
+  tagPrice: null
+  tagText: null
+  roomId: null
+  specInfo: SpecInfo[]
+  joinCartTime: string
+  available: number
+  putOnSale: number
+  etitle: null
+  specs?: string[]
+}
+
+export type CartData = {
+  isNotEmpty: boolean
+  storeGoods: CartStoreGoods[]
+  invalidGoodItems: InvalidGood[]
+  isAllSelected: boolean
+  selectedGoodsCount: number
+  totalAmount: string
+  totalDiscountAmount: string
+}
 
 export function genCartGroupData() {
   const resp = {
@@ -307,6 +417,6 @@ export function genCartGroupData() {
     clientIp: mockIp(),
     rt: 269,
     success: true,
-  };
-  return resp;
+  }
+  return resp
 }

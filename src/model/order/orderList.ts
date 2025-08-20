@@ -1,7 +1,10 @@
-import { mockIp, mockReqId } from "../../utils/mock";
+import { mockIp, mockReqId } from "../../utils/mock"
+import type { OrdersCountResponse, OrdersResponse } from "../someTypes"
 
-export function genOrders(params) {
-  const resp = {
+export function genOrders(params: {
+  parameter: { pageNum: number; pageSize: number; orderStatus: number }
+}): OrdersResponse {
+  const resp: OrdersResponse = {
     data: {
       pageNum: 1,
       pageSize: 10,
@@ -867,13 +870,13 @@ export function genOrders(params) {
           ],
           labelVOs: null,
           invoiceVO: {
-            buyerName: "腾讯计算机有限公司", //个人或公司名称
-            buyerTaxNo: "9144 9808 0909 0293 XG", //税号
-            buyerPhone: "18600008888", //手机
-            email: "73900484@qq.com", //邮箱
-            titleType: 2, //发票抬头 1-个人 2-公司
-            ontentType: 1, //发票内容 1-明细 2类别
-            invoiceType: 5, //是否开票 0-不开 5-电子发票
+            buyerName: "腾讯计算机有限公司", // 个人或公司名称
+            buyerTaxNo: "9144 9808 0909 0293 XG", // 税号
+            buyerPhone: "18600008888", // 手机
+            email: "73900484@qq.com", // 邮箱
+            titleType: 2, // 发票抬头 1-个人 2-公司
+            ontentType: 1, // 发票内容 1-明细 2类别
+            invoiceType: 5, // 是否开票 0-不开 5-电子发票
             money: "1.54",
           },
           couponAmount: null,
@@ -1005,21 +1008,21 @@ export function genOrders(params) {
     clientIp: mockIp(),
     rt: 113,
     success: true,
-  };
-  const { pageNum, pageSize, orderStatus } = params.parameter;
+  }
+  const { pageNum, pageSize, orderStatus } = params.parameter
   // 实现筛选
   if (orderStatus > -1) {
-    resp.data.orders = resp.data.orders.filter((order) => order.orderStatus === orderStatus);
+    resp.data.orders = resp.data.orders.filter((order) => order.orderStatus === orderStatus)
   }
   // 实现分页
-  resp.data.pageNum = pageNum;
-  resp.data.pageSize = pageSize;
-  resp.data.orders = resp.data.orders.slice((pageNum - 1) * pageSize, pageNum * pageSize);
-  return resp;
+  resp.data.pageNum = pageNum
+  resp.data.pageSize = pageSize
+  resp.data.orders = resp.data.orders.slice((pageNum - 1) * pageSize, pageNum * pageSize)
+  return resp
 }
 
-export function genOrdersCount() {
-  const resp = {
+export function genOrdersCount(): OrdersCountResponse {
+  const resp: OrdersCountResponse = {
     data: [
       { tabType: 5, orderNum: 1 },
       { tabType: 10, orderNum: 1 },
@@ -1032,6 +1035,6 @@ export function genOrdersCount() {
     clientIp: mockIp(),
     rt: 41,
     success: true,
-  };
-  return resp;
+  }
+  return resp
 }

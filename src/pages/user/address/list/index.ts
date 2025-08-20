@@ -1,9 +1,9 @@
-/* eslint-disable no-param-reassign */
+ 
 
-import Toast from "tdesign-miniprogram/toast/index";
-import { getAddressPromise } from "../../../../services/address/edit";
-import { fetchDeliveryAddressList } from "../../../../services/address/fetchAddress";
-import { rejectAddress, resolveAddress } from "../../../../services/address/list";
+import Toast from "tdesign-miniprogram/toast/index"
+import { getAddressPromise } from "../../../../services/address/edit"
+import { fetchDeliveryAddressList } from "../../../../services/address/fetchAddress"
+import { rejectAddress, resolveAddress } from "../../../../services/address/list"
 
 Page({
   data: {
@@ -19,33 +19,33 @@ Page({
   hasSelect: false,
 
   onLoad(query) {
-    const { selectMode = "", isOrderSure = "", id = "" } = query;
+    const { selectMode = "", isOrderSure = "", id = "" } = query
     this.setData({
       isOrderSure: !!isOrderSure,
       id,
-    });
-    this.selectMode = !!selectMode;
-    this.init();
+    })
+    this.selectMode = !!selectMode
+    this.init()
   },
 
   init() {
-    this.getAddressList();
+    this.getAddressList()
   },
   onUnload() {
     if (this.selectMode && !this.hasSelect) {
-      rejectAddress();
+      rejectAddress()
     }
   },
   getAddressList() {
-    const { id } = this.data;
+    const { id } = this.data
     fetchDeliveryAddressList().then((addressList) => {
       addressList.forEach((address) => {
         if (address.id === id) {
-          address.checked = true;
+          address.checked = true
         }
-      });
-      this.setData({ addressList });
-    });
+      })
+      this.setData({ addressList })
+    })
   },
   getWXAddressHandle() {
     wx.chooseAddress({
@@ -57,8 +57,8 @@ Page({
             message: res.errMsg,
             icon: "",
             duration: 1000,
-          });
-          return;
+          })
+          return
         }
         Toast({
           context: this,
@@ -66,8 +66,8 @@ Page({
           message: "添加成功",
           icon: "",
           duration: 1000,
-        });
-        const { length: len } = this.data.addressList;
+        })
+        const { length: len } = this.data.addressList
         this.setData({
           [`addressList[${len}]`]: {
             name: res.userName,
@@ -77,21 +77,21 @@ Page({
             tag: "微信地址",
             id: len,
           },
-        });
+        })
       },
-    });
+    })
   },
   confirmDeleteHandle({ detail }) {
-    const { id } = detail || {};
+    const { id } = detail || {}
     if (id !== undefined) {
-      this.setData({ deleteID: id, showDeleteConfirm: true });
+      this.setData({ deleteID: id, showDeleteConfirm: true })
       Toast({
         context: this,
         selector: "#t-toast",
         message: "地址删除成功",
         theme: "success",
         duration: 1000,
-      });
+      })
     } else {
       Toast({
         context: this,
@@ -99,83 +99,83 @@ Page({
         message: "需要组件库发新版才能拿到地址ID",
         icon: "",
         duration: 1000,
-      });
+      })
     }
   },
   deleteAddressHandle(e) {
-    const { id } = e.currentTarget.dataset;
+    const { id } = e.currentTarget.dataset
     this.setData({
       addressList: this.data.addressList.filter((address) => address.id !== id),
       deleteID: "",
       showDeleteConfirm: false,
-    });
+    })
   },
   editAddressHandle({ detail }) {
-    this.waitForNewAddress();
+    this.waitForNewAddress()
 
-    const { id } = detail || {};
-    wx.navigateTo({ url: `/pages/user/address/edit/index?id=${id}` });
+    const { id } = detail || {}
+    wx.navigateTo({ url: `/pages/user/address/edit/index?id=${id}` })
   },
   selectHandle({ detail }) {
     if (this.selectMode) {
-      this.hasSelect = true;
-      resolveAddress(detail);
-      wx.navigateBack({ delta: 1 });
+      this.hasSelect = true
+      resolveAddress(detail)
+      wx.navigateBack({ delta: 1 })
     } else {
-      this.editAddressHandle({ detail });
+      this.editAddressHandle({ detail })
     }
   },
   createHandle() {
-    this.waitForNewAddress();
-    wx.navigateTo({ url: "/pages/user/address/edit/index" });
+    this.waitForNewAddress()
+    wx.navigateTo({ url: "/pages/user/address/edit/index" })
   },
 
   waitForNewAddress() {
     getAddressPromise()
       .then((newAddress) => {
-        let addressList = [...this.data.addressList];
+        let addressList = [...this.data.addressList]
 
-        newAddress.phoneNumber = newAddress.phone;
-        newAddress.address = `${newAddress.provinceName}${newAddress.cityName}${newAddress.districtName}${newAddress.detailAddress}`;
-        newAddress.tag = newAddress.addressTag;
+        newAddress.phoneNumber = newAddress.phone
+        newAddress.address = `${newAddress.provinceName}${newAddress.cityName}${newAddress.districtName}${newAddress.detailAddress}`
+        newAddress.tag = newAddress.addressTag
 
         if (newAddress.addressId) {
           addressList = addressList.map((address) => {
             if (address.addressId === newAddress.addressId) {
-              return newAddress;
+              return newAddress
             }
-            return address;
-          });
+            return address
+          })
         } else {
-          newAddress.id = `${addressList.length}`;
-          newAddress.addressId = `${addressList.length}`;
+          newAddress.id = `${addressList.length}`
+          newAddress.addressId = `${addressList.length}`
 
           if (newAddress.isDefault === 1) {
             addressList = addressList.map((address) => {
-              address.isDefault = 0;
+              address.isDefault = 0
 
-              return address;
-            });
+              return address
+            })
           } else {
-            newAddress.isDefault = 0;
+            newAddress.isDefault = 0
           }
 
-          addressList.push(newAddress);
+          addressList.push(newAddress)
         }
 
         addressList.sort((prevAddress, nextAddress) => {
           if (prevAddress.isDefault && !nextAddress.isDefault) {
-            return -1;
+            return -1
           }
           if (!prevAddress.isDefault && nextAddress.isDefault) {
-            return 1;
+            return 1
           }
-          return 0;
-        });
+          return 0
+        })
 
         this.setData({
           addressList,
-        });
+        })
       })
       .catch((e) => {
         if (e.message !== "cancel") {
@@ -185,8 +185,8 @@ Page({
             message: "地址编辑发生错误",
             icon: "",
             duration: 1000,
-          });
+          })
         }
-      });
+      })
   },
-});
+})

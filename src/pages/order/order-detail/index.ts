@@ -1,8 +1,8 @@
-import Toast from "tdesign-miniprogram/toast/index";
-import { getAddressPromise } from "../../../services/address/list";
-import { fetchBusinessTime, fetchOrderDetail } from "../../../services/order/orderDetail";
-import { formatTime } from "../../../utils/util";
-import { LogisticsIconMap, OrderStatus } from "../config";
+import Toast from "tdesign-miniprogram/toast/index"
+import { getAddressPromise } from "../../../services/address/list"
+import { fetchBusinessTime, fetchOrderDetail } from "../../../services/order/orderDetail"
+import { formatTime } from "../../../utils/util"
+import { LogisticsIconMap, OrderStatus } from "../config"
 
 Page({
   data: {
@@ -20,23 +20,23 @@ Page({
   },
 
   onLoad(query) {
-    this.orderNo = query.orderNo;
-    this.init();
-    this.navbar = this.selectComponent("#navbar");
-    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh");
+    this.orderNo = query.orderNo
+    this.init()
+    this.navbar = this.selectComponent("#navbar")
+    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh")
   },
 
   onShow() {
     // 当从其他页面返回，并且 backRefresh 被置为 true 时，刷新数据
     if (!this.data.backRefresh) {
-      return;
+      return
     }
-    this.onRefresh();
-    this.setData({ backRefresh: false });
+    this.onRefresh()
+    this.setData({ backRefresh: false })
   },
 
   onPageScroll(e) {
-    this.pullDownRefresh?.onPageScroll(e);
+    this.pullDownRefresh?.onPageScroll(e)
   },
 
   onImgError(e) {
@@ -46,38 +46,38 @@ Page({
 
   // 页面初始化，会展示pageLoading
   init() {
-    this.setData({ pageLoading: true });
-    this.getStoreDetail();
+    this.setData({ pageLoading: true })
+    this.getStoreDetail()
     this.getDetail()
       .then(() => {
-        this.setData({ pageLoading: false });
+        this.setData({ pageLoading: false })
       })
-      .catch((_e) => {});
+      .catch((_e) => {})
   },
 
   // 页面刷新，展示下拉刷新
   onRefresh() {
-    this.init();
+    this.init()
     // 如果上一页为订单列表，通知其刷新数据
-    const pages = getCurrentPages();
-    const lastPage = pages.at(-2);
+    const pages = getCurrentPages()
+    const lastPage = pages.at(-2)
     if (lastPage) {
-      lastPage.data.backRefresh = true;
+      lastPage.data.backRefresh = true
     }
   },
 
   // 页面刷新，展示下拉刷新
   onPullDownRefresh_(e) {
-    const { callback } = e.detail;
-    return this.getDetail().then(() => callback?.());
+    const { callback } = e.detail
+    return this.getDetail().then(() => callback?.())
   },
 
   getDetail() {
     const params = {
       parameter: this.orderNo,
-    };
+    }
     return fetchOrderDetail(params).then((res) => {
-      const order = res.data;
+      const order = res.data
       const _order = {
         id: order.orderId,
         orderNo: order.orderNo,
@@ -106,7 +106,7 @@ Page({
         createTime: order.createTime,
         receiverAddress: this.composeAddress(order),
         groupInfoVo: order.groupInfoVo,
-      };
+      }
       this.setData({
         order,
         _order,
@@ -120,8 +120,8 @@ Page({
         invoiceDesc: order.invoiceDesc,
         invoiceType: order.invoiceVO?.invoiceType === 5 ? "电子普通发票" : "不开发票", //是否开票 0-不开 5-电子发票
         logisticsNodes: this.flattenNodes(order.trajectoryVos || []),
-      });
-    });
+      })
+    })
   },
 
   // 展开物流节点
@@ -133,10 +133,10 @@ Page({
           desc: subNode.status,
           date: formatTime(+subNode.timestamp, "YYYY-MM-DD HH:mm:ss"),
           icon: index === 0 ? LogisticsIconMap[node.code] || "" : "", // 子节点中仅第一个显示icon
-        });
-        return res1;
-      }, res);
-    }, []);
+        })
+        return res1
+      }, res)
+    }, [])
   },
 
   datermineInvoiceStatus(order) {
@@ -144,7 +144,7 @@ Page({
     // 2-未开票（可补开）
     // 3-未开票
     // 4-门店不支持开票
-    return order.invoiceStatus;
+    return order.invoiceStatus
   },
 
   // 拼接省市区
@@ -157,7 +157,7 @@ Page({
       order.logisticsVO.receiverAddress,
     ]
       .filter((s) => !!s)
-      .join(" ");
+      .join(" ")
   },
 
   getStoreDetail() {
@@ -165,34 +165,34 @@ Page({
       const storeDetail = {
         storeTel: res.data.telphone,
         storeBusiness: res.data.businessTime.join("\n"),
-      };
-      this.setData({ storeDetail });
-    });
+      }
+      this.setData({ storeDetail })
+    })
   },
 
   // 仅对待支付状态计算付款倒计时
   // 返回时间若是大于2020.01.01，说明返回的是关闭时间，否则说明返回的直接就是剩余时间
   computeCountDownTime(order) {
     if (order.orderStatus !== OrderStatus.PENDING_PAYMENT) {
-      return null;
+      return null
     }
     return order.autoCancelTime > 1_577_808_000_000
       ? order.autoCancelTime - Date.now()
-      : order.autoCancelTime;
+      : order.autoCancelTime
   },
 
   onCountDownFinish() {
     //this.setData({ countDownTime: -1 });
-    const { countDownTime, order } = this.data;
+    const { countDownTime, order } = this.data
     if (countDownTime > 0 || (order?.groupInfoVo && order.groupInfoVo.residueTime > 0)) {
-      this.onRefresh();
+      this.onRefresh()
     }
   },
 
   onGoodsCardTap(e) {
-    const { index } = e.currentTarget.dataset;
-    const goods = this.data.order.orderItemVOs[index];
-    wx.navigateTo({ url: `/pages/goods/details/index?spuId=${goods.spuId}` });
+    const { index } = e.currentTarget.dataset
+    const goods = this.data.order.orderItemVOs[index]
+    wx.navigateTo({ url: `/pages/goods/details/index?spuId=${goods.spuId}` })
   },
 
   onEditAddressTap() {
@@ -202,37 +202,37 @@ Page({
           "order.logisticsVO.receiverName": address.name,
           "order.logisticsVO.receiverPhone": address.phone,
           "_order.receiverAddress": address.address,
-        });
+        })
       })
-      .catch(() => {});
+      .catch(() => {})
 
     wx.navigateTo({
       url: "/pages/user/address/list/index?selectMode=1",
-    });
+    })
   },
 
   onOrderNumCopy() {
     wx.setClipboardData({
       data: this.data.order.orderNo,
-    });
+    })
   },
 
   onDeliveryNumCopy() {
     wx.setClipboardData({
       data: this.data.order.logisticsVO.logisticsNo,
-    });
+    })
   },
 
   onToInvoice() {
     wx.navigateTo({
       url: `/pages/order/invoice/index?orderNo=${this.data._order.orderNo}`,
-    });
+    })
   },
 
   onSuppleMentInvoice() {
     wx.navigateTo({
       url: `/pages/order/receipt/index?orderNo=${this.data._order.orderNo}`,
-    });
+    })
   },
 
   onDeliveryClick() {
@@ -241,22 +241,22 @@ Page({
       company: this.data.order.logisticsVO.logisticsCompanyName,
       logisticsNo: this.data.order.logisticsVO.logisticsNo,
       phoneNumber: this.data.order.logisticsVO.logisticsCompanyTel,
-    };
+    }
     wx.navigateTo({
       url: `/pages/order/delivery-detail/index?data=${encodeURIComponent(JSON.stringify(logisticsData))}`,
-    });
+    })
   },
 
   /** 跳转订单评价 */
   navToCommentCreate() {
     wx.navigateTo({
       url: `/pages/order/createComment/index?orderNo=${this.orderNo}`,
-    });
+    })
   },
 
   /** 跳转拼团详情/分享页*/
   toGrouponDetail() {
-    wx.showToast({ title: "点击了拼团" });
+    wx.showToast({ title: "点击了拼团" })
   },
 
   clickService() {
@@ -264,12 +264,12 @@ Page({
       context: this,
       selector: "#t-toast",
       message: "您点击了联系客服",
-    });
+    })
   },
 
   onOrderInvoiceView() {
     wx.navigateTo({
       url: `/pages/order/invoice/index?orderNo=${this.orderNo}`,
-    });
+    })
   },
-});
+})

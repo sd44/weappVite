@@ -1,21 +1,21 @@
-import { genAddress, genAddressList } from "~/model/address";
-import { delay } from "~/services/_utils/delay";
-import { config } from "../../config/index";
+import { genAddress, genAddressList } from "~/model/address"
+import { delay } from "~/services/_utils/delay"
+import { config } from "../../config/index"
 
 /** 获取收货地址 */
 function mockFetchDeliveryAddress(id: number) {
-  return delay().then(() => genAddress(id));
+  return delay().then(() => genAddress(id))
 }
 
 /** 获取收货地址 */
 export function fetchDeliveryAddress(id = 0) {
   if (config.useMock) {
-    return mockFetchDeliveryAddress(id);
+    return mockFetchDeliveryAddress(id)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 获取收货地址列表 */
@@ -27,18 +27,18 @@ function mockFetchDeliveryAddressList(len = 0) {
         phoneNumber: address.phone,
         address: `${address.provinceName}${address.cityName}${address.districtName}${address.detailAddress}`,
         tag: address.addressTag,
-      };
+      }
     })
-  );
+  )
 }
 
 /** 获取收货地址列表 */
 export function fetchDeliveryAddressList(len = 10) {
   if (config.useMock) {
-    return mockFetchDeliveryAddressList(len);
+    return mockFetchDeliveryAddressList(len)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }

@@ -1,4 +1,4 @@
-import { fetchCouponList } from "../../../services/coupon/index";
+import { fetchCouponList } from "../../../services/coupon/index"
 
 Page({
   data: {
@@ -22,46 +22,46 @@ Page({
   },
 
   onLoad() {
-    this.init();
+    this.init()
   },
 
   init() {
-    this.fetchList();
+    this.fetchList()
   },
 
   fetchList(status = this.data.status) {
-    let statusInFetch = "";
+    let statusInFetch = ""
     switch (Number(status)) {
       case 0: {
-        statusInFetch = "default";
-        break;
+        statusInFetch = "default"
+        break
       }
       case 1: {
-        statusInFetch = "useless";
-        break;
+        statusInFetch = "useless"
+        break
       }
       case 2: {
-        statusInFetch = "disabled";
-        break;
+        statusInFetch = "disabled"
+        break
       }
       default: {
-        throw new Error(`unknown fetchStatus: ${statusInFetch}`);
+        throw new Error(`unknown fetchStatus: ${statusInFetch}`)
       }
     }
     fetchCouponList(statusInFetch).then((couponList) => {
-      this.setData({ couponList });
-    });
+      this.setData({ couponList })
+    })
   },
 
   tabChange(e) {
-    const { value } = e.detail;
+    const { value } = e.detail
 
-    this.setData({ status: value });
-    this.fetchList(value);
+    this.setData({ status: value })
+    this.fetchList(value)
   },
 
   goCouponCenterHandle() {
-    wx.showToast({ title: "去领券中心", icon: "none" });
+    wx.showToast({ title: "去领券中心", icon: "none" })
   },
 
   onPullDownRefresh_() {
@@ -70,8 +70,8 @@ Page({
         couponList: [],
       },
       () => {
-        this.fetchList();
+        this.fetchList()
       }
-    );
+    )
   },
-});
+})

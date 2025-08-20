@@ -10,7 +10,7 @@ Component({
       value: [],
       observer(newVal, oldVal) {
         if (newVal[0] !== oldVal[0]) {
-          this.setActiveKey(newVal[0], 0);
+          this.setActiveKey(newVal[0], 0)
         }
       },
     },
@@ -32,25 +32,25 @@ Component({
       this.setData({
         activeKey: this.properties.initActive[0],
         subActiveKey: this.properties.initActive[1] || 0,
-      });
+      })
     }
   },
   methods: {
     onParentChange(event) {
       this.setActiveKey(event.detail.index, 0).then(() => {
-        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey]);
-      });
+        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey])
+      })
     },
     onChildChange(event) {
       this.setActiveKey(this.data.activeKey, event.detail.index).then(() => {
-        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey]);
-      });
+        this.triggerEvent("change", [this.data.activeKey, this.data.subActiveKey])
+      })
     },
     changCategory(event) {
-      const { item } = event.currentTarget.dataset;
+      const { item } = event.currentTarget.dataset
       this.triggerEvent("changeCategory", {
         item,
-      });
+      })
     },
     setActiveKey(key, subKey) {
       return new Promise((resolve) => {
@@ -60,10 +60,10 @@ Component({
             subActiveKey: subKey,
           },
           () => {
-            resolve();
+            resolve()
           }
-        );
-      });
+        )
+      })
     },
   },
-});
+})

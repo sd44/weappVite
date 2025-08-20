@@ -1,5 +1,5 @@
-/* eslint-disable */
-import { mockIp, mockReqId } from "../../../utils/mock";
+ 
+import { mockIp, mockReqId } from "../../../utils/mock"
 
 export const resp = {
   data: {
@@ -1262,17 +1262,17 @@ export const resp = {
   clientIp: mockIp(),
   rt: 79,
   success: true,
-};
+}
 
 export function getRightsList({ parameter: { afterServiceStatus, pageNum } }) {
-  const _resq = JSON.parse(JSON.stringify(resp));
+  const _resq = JSON.parse(JSON.stringify(resp))
   if (pageNum > 3) {
-    _resq.data.dataList = [];
+    _resq.data.dataList = []
   }
   if (afterServiceStatus > -1) {
     _resq.data.dataList = _resq.data.dataList.filter(
       (item) => item.rights.rightsStatus === afterServiceStatus
-    );
+    )
   }
-  return Promise.resolve(_resq);
+  return Promise.resolve(_resq)
 }

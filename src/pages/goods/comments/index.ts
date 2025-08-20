@@ -1,10 +1,10 @@
-import dayjs from "dayjs";
-import { fetchComments } from "../../../services/comments/fetchComments";
-import { fetchCommentsCount } from "../../../services/comments/fetchCommentsCount";
+import dayjs from "dayjs"
+import { fetchComments } from "../../../services/comments/fetchComments"
+import { fetchCommentsCount } from "../../../services/comments/fetchCommentsCount"
 
 const layoutMap = {
   0: "vertical",
-};
+}
 Page({
   data: {
     pageLoading: false,
@@ -33,8 +33,8 @@ Page({
     },
   },
   onLoad(options) {
-    this.getCount(options);
-    this.getComments(options);
+    this.getCount(options)
+    this.getComments(options)
   },
   async getCount(options) {
     try {
@@ -45,10 +45,10 @@ Page({
         {
           method: "POST",
         }
-      );
+      )
       this.setData({
         countObj: result,
-      });
+      })
       // const { data, code = '' } = result;
       // if (code.toUpperCase() === 'SUCCESS') {
       //     wx.setNavigationBarTitle({
@@ -65,57 +65,57 @@ Page({
     } catch (_error) {}
   },
   generalQueryData(reset) {
-    const { hasImage, pageNum, pageSize, spuId, commentLevel } = this.data;
+    const { hasImage, pageNum, pageSize, spuId, commentLevel } = this.data
     const params = {
       pageNum: 1,
       pageSize: 30,
       queryParameter: {
         spuId,
       },
-    };
+    }
     if (Number(commentLevel) === 3 || Number(commentLevel) === 2 || Number(commentLevel) === 1) {
-      params.queryParameter.commentLevel = Number(commentLevel);
+      params.queryParameter.commentLevel = Number(commentLevel)
     }
     if (hasImage && hasImage === "1") {
-      params.queryParameter.hasImage = true;
+      params.queryParameter.hasImage = true
     } else {
-      params.queryParameter.hasImage = undefined;
+      params.queryParameter.hasImage = undefined
     }
     // 重置请求
     if (reset) {
-      return params;
+      return params
     }
 
     return {
       ...params,
       pageNum: pageNum + 1,
       pageSize,
-    };
+    }
   },
   async init(reset = true) {
-    const { loadMoreStatus, commentList = [] } = this.data;
-    const params = this.generalQueryData(reset);
+    const { loadMoreStatus, commentList = [] } = this.data
+    const params = this.generalQueryData(reset)
 
     // 在加载中或者无更多数据，直接返回
     if (loadMoreStatus !== 0) {
-      return;
+      return
     }
 
     this.setData({
       loadMoreStatus: 1,
-    });
+    })
 
     try {
       const data = await fetchComments(params, {
         method: "POST",
-      });
-      const code = "SUCCESS";
+      })
+      const code = "SUCCESS"
       if (code.toUpperCase() === "SUCCESS") {
-        const { pageList, totalCount = 0 } = data;
+        const { pageList, totalCount = 0 } = data
         pageList.forEach((item) => {
-          // eslint-disable-next-line no-param-reassign
-          item.commentTime = dayjs(Number(item.commentTime)).format("YYYY/MM/DD HH:mm");
-        });
+           
+          item.commentTime = dayjs(Number(item.commentTime)).format("YYYY/MM/DD HH:mm")
+        })
 
         if (Number(totalCount) === 0 && reset) {
           this.setData({
@@ -123,57 +123,57 @@ Page({
             hasLoaded: true,
             total: totalCount,
             loadMoreStatus: 2,
-          });
-          return;
+          })
+          return
         }
-        const _commentList = reset ? pageList : commentList.concat(pageList);
-        const _loadMoreStatus = _commentList.length === Number(totalCount) ? 2 : 0;
+        const _commentList = reset ? pageList : commentList.concat(pageList)
+        const _loadMoreStatus = _commentList.length === Number(totalCount) ? 2 : 0
         this.setData({
           commentList: _commentList,
           pageNum: params.pageNum || 1,
           totalCount: Number(totalCount),
           loadMoreStatus: _loadMoreStatus,
-        });
+        })
       } else {
         wx.showToast({
           title: "查询失败，请稍候重试",
-        });
+        })
       }
     } catch (_error) {}
     this.setData({
       hasLoaded: true,
-    });
+    })
   },
   getScoreArray(score) {
-    const array = [];
+    const array = []
     for (let i = 0; i < 5; i++) {
       if (i < score) {
-        array.push(2);
+        array.push(2)
       } else {
-        array.push(0);
+        array.push(0)
       }
     }
-    return array;
+    return array
   },
   getComments(options) {
-    const { commentLevel = -1, spuId, hasImage = "" } = options;
+    const { commentLevel = -1, spuId, hasImage = "" } = options
     if (commentLevel !== -1) {
       this.setData({
         commentLevel,
-      });
+      })
     }
     this.setData({
       hasImage,
       commentType: hasImage ? "4" : "",
       spuId,
-    });
-    this.init(true);
+    })
+    this.init(true)
   },
   changeTag(e) {
-    const { commenttype } = e.currentTarget.dataset;
-    const { commentType } = this.data;
+    const { commenttype } = e.currentTarget.dataset
+    const { commentType } = this.data
     if (commentType === commenttype) {
-      return;
+      return
     }
     this.setData({
       loadMoreStatus: 0,
@@ -182,46 +182,46 @@ Page({
       myTotal: 0,
       myPageNum: 1,
       pageNum: 1,
-    });
+    })
     if (commenttype === "" || commenttype === "5") {
       this.setData({
         hasImage: "",
         commentLevel: "",
-      });
+      })
     } else if (commenttype === "4") {
       this.setData({
         hasImage: "1",
         commentLevel: "",
-      });
+      })
     } else {
       this.setData({
         hasImage: "",
         commentLevel: commenttype,
-      });
+      })
     }
     if (commenttype === "5") {
       this.setData({
         myLoadStatus: 1,
         commentType: commenttype,
-      });
-      this.getMyCommentsList();
+      })
+      this.getMyCommentsList()
     } else {
       this.setData({
         myLoadStatus: 0,
         commentType: commenttype,
-      });
-      this.init(true);
+      })
+      this.init(true)
     }
   },
   onReachBottom() {
-    const { total = 0, commentList } = this.data;
+    const { total = 0, commentList } = this.data
     if (commentList.length === total) {
       this.setData({
         loadMoreStatus: 2,
-      });
-      return;
+      })
+      return
     }
 
-    this.init(false);
+    this.init(false)
   },
-});
+})

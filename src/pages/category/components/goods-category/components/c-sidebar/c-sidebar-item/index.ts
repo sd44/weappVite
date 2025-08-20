@@ -1,9 +1,10 @@
 Component({
   relations: {
     "../../c-sidebar/index": {
-      type: "ancestor",
-      linked(target) {
-        this.parent = target;
+      type: "parent",
+      linked(parent) {
+        this.parent = parent
+        this.updateActive(parent.data.value)
       },
     },
   },
@@ -17,35 +18,36 @@ Component({
   data: {
     topRightRadius: false,
     bottomRightRadius: false,
+    selected: false,
   },
 
   methods: {
-    setActive(selected) {
-      return this.setData({ selected });
+    setActive(selected: boolean) {
+      return this.setData({ selected })
     },
     onClick() {
-      const { parent } = this;
+      const { parent } = this
 
       if (!parent || this.properties.disabled) {
-        return;
+        return
       }
 
-      const index = parent.children.indexOf(this);
+      const index = parent.children.indexOf(this)
 
       parent.setActive(index).then(() => {
-        this.triggerEvent("click", index);
-        parent.triggerEvent("change", { index });
-      });
+        this.triggerEvent("click", index)
+        parent.triggerEvent("change", { index })
+      })
     },
-    setTopRightRadius(val) {
+    setTopRightRadius(val: boolean) {
       return this.setData({
         topRightRadius: val,
-      });
+      })
     },
-    setBottomRightRadius(val) {
+    setBottomRightRadius(val: boolean) {
       return this.setData({
         bottomRightRadius: val,
-      });
+      })
     },
   },
-});
+})

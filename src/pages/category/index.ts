@@ -1,4 +1,4 @@
-import { getCategoryList } from "../../services/good/fetchCategoryList";
+import { getCategoryList } from "../../services/good/fetchCategoryList"
 
 Page({
   data: {
@@ -6,22 +6,22 @@ Page({
   },
   async init() {
     try {
-      const result = await getCategoryList();
+      const result = await getCategoryList()
       this.setData({
         list: result,
-      });
+      })
     } catch (_error) {}
   },
 
   onShow() {
-    this.getTabBar().init();
+    this.getTabBar().init()
   },
   onChange() {
     wx.navigateTo({
       url: "/pages/goods/list/index",
-    });
+    })
   },
   onLoad() {
-    this.init(true);
+    this.init(true)
   },
-});
+})

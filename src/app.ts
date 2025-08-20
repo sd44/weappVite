@@ -1,4 +1,4 @@
-import updateManager from "./common/updateManager";
+import updateManager from "~/common/updateManager"
 
 App({
   globalData: {},
@@ -6,6 +6,6 @@ App({
   // 小程序启动之后 触发
   onLaunch() {},
   onShow() {
-    updateManager();
+    updateManager()
   },
-});
+})

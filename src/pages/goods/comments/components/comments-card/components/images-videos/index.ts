@@ -20,11 +20,11 @@ Component({
   observers: {
     resources(newVal) {
       if (newVal.length <= 1) {
-        this.setData({ classType: "single" });
+        this.setData({ classType: "single" })
       } else if (newVal.length === 2) {
-        this.setData({ classType: "double" });
+        this.setData({ classType: "double" })
       } else {
-        this.setData({ classType: "multiple" });
+        this.setData({ classType: "multiple" })
       }
     },
   },
@@ -33,4 +33,4 @@ Component({
    * 组件的方法列表
    */
   methods: {},
-});
+})

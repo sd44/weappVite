@@ -1,39 +1,39 @@
-import { config } from "../../config/index";
+import { config } from "../../config/index"
+import { genOrders, genOrdersCount } from "../../model/order/orderList"
+import { delay } from "../_utils/delay"
 
 /** 获取订单列表mock数据 */
-function mockFetchOrders(params) {
-  const { delay } = require("../_utils/delay");
-  const { genOrders } = require("../../model/order/orderList");
-
-  return delay(200).then(() => genOrders(params));
+function mockFetchOrders(params: {
+  parameter: { pageNum: number; pageSize: number; orderStatus: number }
+}) {
+  return delay(200).then(() => genOrders(params))
 }
 
 /** 获取订单列表数据 */
-export function fetchOrders(params) {
+export function fetchOrders(params: {
+  parameter: { pageNum: number; pageSize: number; orderStatus: number }
+}) {
   if (config.useMock) {
-    return mockFetchOrders(params);
+    return mockFetchOrders(params)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 获取订单列表mock数据 */
-function mockFetchOrdersCount(params) {
-  const { delay } = require("../_utils/delay");
-  const { genOrdersCount } = require("../../model/order/orderList");
-
-  return delay().then(() => genOrdersCount(params));
+function mockFetchOrdersCount() {
+  return delay().then(() => genOrdersCount())
 }
 
 /** 获取订单列表统计 */
-export function fetchOrdersCount(params) {
+export function fetchOrdersCount() {
   if (config.useMock) {
-    return mockFetchOrdersCount(params);
+    return mockFetchOrdersCount()
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }

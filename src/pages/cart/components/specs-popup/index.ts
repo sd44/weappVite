@@ -16,21 +16,21 @@ Component({
     title: {
       type: String,
       observer(newVal) {
-        this.setData({ "goods.title": newVal });
+        this.setData({ "goods.title": newVal })
       },
     },
     price: {
       type: String,
       value: "",
       observer(newVal) {
-        this.setData({ "goods.price": newVal });
+        this.setData({ "goods.price": newVal })
       },
     },
     thumb: {
       type: String,
       value: "",
       observer(newVal) {
-        this.setData({ "goods.thumb": newVal });
+        this.setData({ "goods.thumb": newVal })
       },
     },
     thumbMode: {
@@ -62,11 +62,11 @@ Component({
   },
   methods: {
     onClose() {
-      this.triggerEvent("close");
+      this.triggerEvent("close")
     },
 
     onCloseOver() {
-      this.triggerEvent("closeover");
+      this.triggerEvent("closeover")
     },
   },
-});
+})

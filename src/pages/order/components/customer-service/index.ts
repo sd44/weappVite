@@ -14,25 +14,25 @@ Component({
     onBtnTap() {
       this.setData({
         show: true,
-      });
+      })
     },
 
     onDialogClose() {
       this.setData({
         show: false,
-      });
+      })
     },
 
     onCall() {
-      const { phoneNumber } = this.properties;
+      const { phoneNumber } = this.properties
       wx.makePhoneCall({
         phoneNumber,
-      });
+      })
     },
     onCallOnlineService() {
       wx.showToast({
         title: "你点击了在线客服",
-      });
+      })
     },
   },
-});
+})

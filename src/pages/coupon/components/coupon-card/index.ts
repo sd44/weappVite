@@ -2,7 +2,7 @@ const statusMap = {
   default: { text: "去使用", theme: "primary" },
   useless: { text: "已使用", theme: "default" },
   disabled: { text: "已过期", theme: "default" },
-};
+}
 Component({
   options: {
     addGlobalClass: true,
@@ -26,14 +26,14 @@ Component({
   observers: {
     couponDTO(couponDTO) {
       if (!couponDTO) {
-        return;
+        return
       }
-      const statusInfo = statusMap[couponDTO.status];
+      const statusInfo = statusMap[couponDTO.status]
 
       this.setData({
         btnText: statusInfo.text,
         btnTheme: statusInfo.theme,
-      });
+      })
     },
   },
 
@@ -44,14 +44,14 @@ Component({
     gotoDetail() {
       wx.navigateTo({
         url: `/pages/coupon/coupon-detail/index?id=${this.data.couponDTO.key}`,
-      });
+      })
     },
 
     // 跳转到商品列表
     gotoGoodsList() {
       wx.navigateTo({
         url: `/pages/coupon/coupon-activity-goods/index?id=${this.data.couponDTO.key}`,
-      });
+      })
     },
   },
-});
+})

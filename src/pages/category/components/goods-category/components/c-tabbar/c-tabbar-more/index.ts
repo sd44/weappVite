@@ -10,28 +10,28 @@ Component({
     boardMaxHeight: null,
   },
   attached() {
-    wx.createSelectorQuery()
+    this.createSelectorQuery()
       .in(this)
       .select(".c-tabbar-more")
       .boundingClientRect((rect) => {
-        this.setData({ boardMaxHeight: rect.height });
+        this.setData({ boardMaxHeight: rect.height })
       })
-      .exec();
+      .exec()
   },
 
   methods: {
     changeFold() {
       this.setData({
         unfolded: !this.data.unfolded,
-      });
-      const { unfolded } = this.data;
-      this.triggerEvent("change", { unfolded });
+      })
+      const { unfolded } = this.data
+      this.triggerEvent("change", { unfolded })
     },
 
     onSelect(event) {
-      const activeKey = event.currentTarget.dataset.index;
-      this.triggerEvent("select", activeKey);
-      this.changeFold();
+      const activeKey = event.currentTarget.dataset.index
+      this.triggerEvent("select", activeKey)
+      this.changeFold()
     },
   },
-});
+})

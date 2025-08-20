@@ -38,7 +38,8 @@
         "noEmptyBlockStatements": "off",
         "noConsole": "info",
         "noBitwiseOperators": "off",
-        "useIterableCallbackReturn": "info"
+        "useIterableCallbackReturn": "info",
+        "noExplicitAny": "info"
       },
       "style": {
         "useFilenamingConvention": "off",
@@ -60,15 +61,21 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double"
+      "quoteStyle": "double",
+      "semicolons": "asNeeded"
     },
     "globals": [
       "App",
       "Component",
       "Page",
       "wx",
+      "pixelRatio",
+      "getApp",
       "getCurrentPages",
-      "pixelRatio"
+      "require",
+      "Behavior",
+      "global",
+      "__wxConfig"
     ]
   },
   "json": {

@@ -1,18 +1,19 @@
-import { config } from "../../config/index";
-import { mockIp, mockReqId } from "../../utils/mock";
+import { config } from "../../config/index"
+import { genSettleDetail } from "../../model/order/orderConfirm"
+import { mockIp, mockReqId } from "../../utils/mock"
+import { delay } from "../_utils/delay"
 
 /** 获取结算mock数据 */
-function mockFetchSettleDetail(params) {
-  const { delay } = require("../_utils/delay");
-  const { genSettleDetail } = require("../../model/order/orderConfirm");
-
-  return delay().then(() => genSettleDetail(params));
+function mockFetchSettleDetail(params: {
+  userAddressReq?: string | null
+  couponList?: any[]
+  goodsRequestList: any[]
+}) {
+  return delay().then(() => genSettleDetail(params))
 }
 
 /** 提交mock订单 */
 function mockDispatchCommitPay() {
-  const { delay } = require("../_utils/delay");
-
   return delay().then(() => ({
     data: {
       isSuccess: true,
@@ -31,39 +32,42 @@ function mockDispatchCommitPay() {
     clientIp: mockIp(),
     rt: 891,
     success: true,
-  }));
+  }))
 }
 
 /** 获取结算数据 */
-export function fetchSettleDetail(params) {
+export function fetchSettleDetail(params: {
+  userAddressReq?: string | null
+  couponList?: any[]
+  goodsRequestList: any[]
+}) {
   if (config.useMock) {
-    return mockFetchSettleDetail(params);
+    return mockFetchSettleDetail(params)
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /* 提交订单 */
-export function dispatchCommitPay(params) {
+export function dispatchCommitPay() {
   if (config.useMock) {
-    return mockDispatchCommitPay(params);
+    return mockDispatchCommitPay()
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }
 
 /** 开发票 */
 export function dispatchSupplementInvoice() {
   if (config.useMock) {
-    const { delay } = require("../_utils/delay");
-    return delay();
+    return delay()
   }
 
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }

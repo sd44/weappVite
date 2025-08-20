@@ -12,7 +12,7 @@ Component({
       observer(overall) {
         this.setData({
           overall,
-        });
+        })
       },
     },
     layout: {
@@ -21,7 +21,7 @@ Component({
       observer(layout) {
         this.setData({
           layout,
-        });
+        })
       },
     },
     sorts: {
@@ -30,7 +30,7 @@ Component({
       observer(sorts) {
         this.setData({
           sorts,
-        });
+        })
       },
     },
     color: {
@@ -47,38 +47,38 @@ Component({
 
   methods: {
     onChangeShowAction() {
-      const { layout } = this.data;
-      const nextLayout = layout === 1 ? 0 : 1;
-      this.triggerEvent("change", { ...this.properties, layout: nextLayout });
+      const { layout } = this.data
+      const nextLayout = layout === 1 ? 0 : 1
+      this.triggerEvent("change", { ...this.properties, layout: nextLayout })
     },
 
     handlePriseSort() {
-      const { sorts } = this.data;
+      const { sorts } = this.data
       this.triggerEvent("change", {
         ...this.properties,
         overall: 0,
         sorts: sorts === "desc" ? "asc" : "desc",
-      });
+      })
     },
 
     open() {
       this.triggerEvent("showFilterPopup", {
         show: true,
-      });
+      })
     },
 
     onOverallAction() {
-      const { overall } = this.data;
-      const nextOverall = overall === 1 ? 0 : 1;
+      const { overall } = this.data
+      const nextOverall = overall === 1 ? 0 : 1
       const nextData = {
         sorts: "",
         prices: [],
-      };
+      }
       this.triggerEvent("change", {
         ...this.properties,
         ...nextData,
         overall: nextOverall,
-      });
+      })
     },
   },
-});
+})

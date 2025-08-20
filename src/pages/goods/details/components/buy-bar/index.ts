@@ -44,27 +44,27 @@ Component({
 
   methods: {
     toAddCart() {
-      const { isStock } = this.properties;
+      const { isStock } = this.properties
       if (!isStock) {
-        return;
+        return
       }
-      this.triggerEvent("toAddCart");
+      this.triggerEvent("toAddCart")
     },
 
     toBuyNow(e) {
-      const { isStock } = this.properties;
+      const { isStock } = this.properties
       if (!isStock) {
-        return;
+        return
       }
-      this.triggerEvent("toBuyNow", e);
+      this.triggerEvent("toBuyNow", e)
     },
 
     toNav(e) {
-      const { url } = e.currentTarget.dataset;
+      const { url } = e.currentTarget.dataset
       return this.triggerEvent("toNav", {
         e,
         url,
-      });
+      })
     },
   },
-});
+})

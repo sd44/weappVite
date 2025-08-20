@@ -1,4 +1,4 @@
-const systemInfo = wx.getWindowInfo();
+const systemInfo = wx.getWindowInfo()
 Component({
   externalClasses: ["t-class", "t-class-load"],
   properties: {
@@ -38,12 +38,12 @@ Component({
   },
   lifetimes: {
     ready() {
-      const { mode } = this.properties;
+      const { mode } = this.properties
       // 获取容器的真实宽高，设置图片的裁剪宽度
 
       this.getRect(".J-image").then((res) => {
         if (res) {
-          const { width, height } = res;
+          const { width, height } = res
           this.setData(
             mode === "heightFix"
               ? {
@@ -52,14 +52,14 @@ Component({
               : {
                   thumbWidth: this.px2rpx(width) || 375,
                 }
-          );
+          )
         }
-      });
+      })
     },
   },
   methods: {
     px2rpx(px: number) {
-      return (750 / (systemInfo.screenWidth || 375)) * px;
+      return (750 / (systemInfo.screenWidth || 375)) * px
     },
     getRect(selector: string): Promise<{ width: number; height: number }> {
       return new Promise((resolve, reject) => {
@@ -71,19 +71,19 @@ Component({
               resolve({
                 width: rect.width,
                 height: rect.height,
-              });
+              })
             } else {
-              reject(new Error(`未找到选择器为 ${selector} 的元素`));
+              reject(new Error(`未找到选择器为 ${selector} 的元素`))
             }
           })
-          .exec();
-      });
+          .exec()
+      })
     },
     onLoad(e: WechatMiniprogram.CustomEvent) {
-      this.triggerEvent("load", e.detail);
+      this.triggerEvent("load", e.detail)
     },
     onError(e: WechatMiniprogram.CustomEvent) {
-      this.triggerEvent("error", e.detail);
+      this.triggerEvent("error", e.detail)
     },
   },
-});
+})

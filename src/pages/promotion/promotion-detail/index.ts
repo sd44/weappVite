@@ -1,5 +1,5 @@
-import Toast from "tdesign-miniprogram/toast/index";
-import { fetchPromotion } from "../../../services/promotion/detail";
+import Toast from "tdesign-miniprogram/toast/index"
+import { fetchPromotion } from "../../../services/promotion/detail"
 
 Page({
   data: {
@@ -11,8 +11,8 @@ Page({
   },
 
   onLoad(query) {
-    const promotionID = Number.parseInt(query.promotion_id, 10);
-    this.getGoodsList(promotionID);
+    const promotionID = Number.parseInt(query.promotion_id, 10)
+    this.getGoodsList(promotionID)
   },
 
   getGoodsList(promotionID) {
@@ -20,21 +20,21 @@ Page({
       const goods = list.map((item) => ({
         ...item,
         tags: item.tags.map((v) => v.title),
-      }));
+      }))
       this.setData({
         list: goods,
         banner,
         time,
         showBannerDesc,
         statusTag,
-      });
-    });
+      })
+    })
   },
 
   goodClickHandle(e) {
-    const { index } = e.detail;
-    const { spuId } = this.data.list[index];
-    wx.navigateTo({ url: `/pages/goods/details/index?spuId=${spuId}` });
+    const { index } = e.detail
+    const { spuId } = this.data.list[index]
+    wx.navigateTo({ url: `/pages/goods/details/index?spuId=${spuId}` })
   },
 
   cardClickHandle() {
@@ -42,7 +42,7 @@ Page({
       context: this,
       selector: "#t-toast",
       message: "点击加购",
-    });
+    })
   },
 
   bannerClickHandle() {
@@ -50,6 +50,6 @@ Page({
       context: this,
       selector: "#t-toast",
       message: "点击规则详情",
-    });
+    })
   },
-});
+})

@@ -69,19 +69,19 @@ Component({
 
   observers: {
     status(value) {
-      let theme = "primary";
+      let theme = "primary"
       // 已过期或已使用的券 颜色置灰
       if (value === "useless" || value === "disabled") {
-        theme = "weak";
+        theme = "weak"
       }
 
-      this.setData({ theme });
+      this.setData({ theme })
     },
   },
 
   attached() {
     this.setData({
       color: `color${this.data.colorStyle}`,
-    });
+    })
   },
-});
+})

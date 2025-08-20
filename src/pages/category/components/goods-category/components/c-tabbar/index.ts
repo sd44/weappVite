@@ -15,7 +15,7 @@ Component({
   observers: {
     activeKey(newVal) {
       if (this.properties.tabList && newVal) {
-        this.setActive(newVal).catch((_e) => {});
+        this.setActive(newVal).catch((_e) => {})
       }
     },
   },
@@ -24,13 +24,13 @@ Component({
     currentActive: -1,
   },
   attached() {
-    this.setActive(this.properties.activeKey).catch((_e) => {});
+    this.setActive(this.properties.activeKey).catch((_e) => {})
   },
 
   methods: {
     setActive(activeKey) {
       if (!this.properties.tabList[activeKey] || this.properties.tabList[activeKey].disabled) {
-        return Promise.reject("数据异常或不可操作");
+        return Promise.reject("数据异常或不可操作")
       }
       return new Promise((resolve) => {
         this.setData(
@@ -38,22 +38,22 @@ Component({
             currentActive: activeKey,
           },
           () => resolve()
-        );
-      });
+        )
+      })
     },
     onClick(event) {
-      let activeKey;
+      let activeKey
       if (event.type === "select") {
-        activeKey = event.detail;
+        activeKey = event.detail
       } else {
-        activeKey = event.currentTarget.dataset.index;
+        activeKey = event.currentTarget.dataset.index
       }
       this.setActive(activeKey)
         .then(() => {
-          const { currentActive } = this.data;
-          this.triggerEvent("change", { index: currentActive });
+          const { currentActive } = this.data
+          this.triggerEvent("change", { index: currentActive })
         })
-        .catch((_e) => {});
+        .catch((_e) => {})
     },
   },
-});
+})

@@ -27,11 +27,11 @@ Component({
   },
   methods: {
     onClickItem(e) {
-      this.triggerEvent("onClickItem", e.currentTarget.dataset.item);
+      this.triggerEvent("onClickItem", e.currentTarget.dataset.item)
     },
 
     onClickTop() {
-      this.triggerEvent("onClickTop", {});
+      this.triggerEvent("onClickTop", {})
     },
   },
-});
+})

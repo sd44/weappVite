@@ -183,5 +183,5 @@ export function getCategoryList() {
         },
       ],
     },
-  ];
+  ]
 }

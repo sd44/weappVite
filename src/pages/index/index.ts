@@ -1,4 +1,4 @@
-import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index";
+import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
 
 const firstGrid = [
   {
@@ -33,7 +33,7 @@ const firstGrid = [
     label: "复制",
     icon: "queue",
   },
-];
+]
 Page({
   data: {
     mode: "light",
@@ -42,18 +42,18 @@ Page({
     if (this.data.mode === "light") {
       this.setData({
         mode: "dark",
-      });
+      })
     } else {
       this.setData({
         mode: "light",
-      });
+      })
     }
   },
   async copy(e: WechatMiniprogram.BaseEvent) {
     if (e.mark?.url) {
       await wx.setClipboardData({
         data: e.mark.url,
-      });
+      })
     }
   },
   handleSelected(_e: WechatMiniprogram.CustomEvent) {},
@@ -66,6 +66,6 @@ Page({
       items: firstGrid,
       align: "center",
       description: "",
-    });
+    })
   },
-});
+})

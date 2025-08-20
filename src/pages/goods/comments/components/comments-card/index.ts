@@ -48,4 +48,4 @@ Component({
     startColors: ["#FFC51C", "#DDDDDD"],
   },
   methods: {},
-});
+})

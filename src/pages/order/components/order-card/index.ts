@@ -9,37 +9,37 @@ Component({
     "../order-goods-card/index": {
       type: "descendant",
       linked(target) {
-        this.children.push(target);
-        this.setHidden();
+        this.children.push(target)
+        this.setHidden()
       },
       unlinked(target) {
-        this.children = this.children.filter((item) => item !== target);
+        this.children = this.children.filter((item) => item !== target)
       },
     },
     "../goods-card/index": {
       type: "descendant",
       linked(target) {
-        this.children.push(target);
-        this.setHidden();
+        this.children.push(target)
+        this.setHidden()
       },
       unlinked(target) {
-        this.children = this.children.filter((item) => item !== target);
+        this.children = this.children.filter((item) => item !== target)
       },
     },
     "../specs-goods-card/index": {
       type: "descendant",
       linked(target) {
-        this.children.push(target);
-        this.setHidden();
+        this.children.push(target)
+        this.setHidden()
       },
       unlinked(target) {
-        this.children = this.children.filter((item) => item !== target);
+        this.children = this.children.filter((item) => item !== target)
       },
     },
   },
 
   created() {
-    this.children = [];
+    this.children = []
   },
 
   properties: {
@@ -47,12 +47,12 @@ Component({
       type: Object,
       observer(order) {
         if (!order?.goodsList) {
-          return;
+          return
         }
-        const goodsCount = order.goodsList.length;
+        const goodsCount = order.goodsList.length
         this.setData({
           goodsCount,
-        });
+        })
       },
     },
     useTopRightSlot: Boolean,
@@ -74,17 +74,17 @@ Component({
 
   methods: {
     setHidden() {
-      const isHidden = !this.data.showAll;
-      this.children.forEach((c, i) => i >= this.properties.defaultShowNum && c.setHidden(isHidden));
+      const isHidden = !this.data.showAll
+      this.children.forEach((c, i) => i >= this.properties.defaultShowNum && c.setHidden(isHidden))
     },
 
     onOrderCardTap() {
-      this.triggerEvent("cardtap");
+      this.triggerEvent("cardtap")
     },
 
     onShowMoreTap() {
-      this.setData({ showAll: true }, () => this.setHidden());
-      this.triggerEvent("showall");
+      this.setData({ showAll: true }, () => this.setHidden())
+      this.triggerEvent("showall")
     },
   },
-});
+})

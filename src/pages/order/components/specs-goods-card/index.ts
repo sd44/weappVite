@@ -19,7 +19,7 @@ Component({
     "../order-card/index": {
       type: "ancestor",
       linked(target) {
-        this.parent = target;
+        this.parent = target
       },
     },
   },
@@ -32,7 +32,7 @@ Component({
       observer(hidden) {
         // null就是代表没有设置，没有设置的话不setData，防止祖先组件触发的setHidden操作被覆盖
         if (hidden !== null) {
-          this.setHidden(!!hidden);
+          this.setHidden(!!hidden)
         }
       },
     },
@@ -84,9 +84,9 @@ Component({
 
   lifetimes: {
     ready() {
-      const { hidden } = this.properties;
+      const { hidden } = this.properties
       if (hidden !== null) {
-        this.setHidden(!!hidden);
+        this.setHidden(!!hidden)
       }
     },
   },
@@ -95,38 +95,38 @@ Component({
     closeSpecsPopup() {
       this.setData({
         "specsPopup.show": false,
-      });
-      this.triggerEvent("specsclose", { good: this.properties.data });
+      })
+      this.triggerEvent("specsclose", { good: this.properties.data })
     },
 
     removeSpecsPopup() {
       this.setData({
         "specsPopup.insert": false,
-      });
+      })
     },
 
     onClick(e) {
       if (this.currentInTapSpecs) {
-        this.currentInTapSpecs = false;
-        return;
+        this.currentInTapSpecs = false
+        return
       }
-      this.triggerEvent("click", e.detail);
+      this.triggerEvent("click", e.detail)
     },
 
     onClickThumb(e) {
-      this.triggerEvent("thumb", e.detail);
+      this.triggerEvent("thumb", e.detail)
     },
 
     onClickTag(e) {
-      this.triggerEvent("tag", e.detail);
+      this.triggerEvent("tag", e.detail)
     },
 
     onClickCart(e) {
-      this.triggerEvent("add-cart", e.detail);
+      this.triggerEvent("add-cart", e.detail)
     },
 
     setHidden(hidden) {
-      this.setData({ hiddenInData: !!hidden });
+      this.setData({ hiddenInData: !!hidden })
     },
   },
-});
+})

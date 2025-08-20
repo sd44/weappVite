@@ -20,16 +20,16 @@ Component({
 
   methods: {
     change(e) {
-      const { index } = e.currentTarget.dataset;
+      const { index } = e.currentTarget.dataset
       this.triggerEvent("promotionChange", {
         index,
-      });
+      })
     },
 
     closePromotionPopup() {
       this.triggerEvent("closePromotionPopup", {
         show: false,
-      });
+      })
     },
   },
-});
+})

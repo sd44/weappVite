@@ -1,21 +1,21 @@
-import { config } from "../../../config/index";
-import { queryCommentDetail } from "../../../model/comments/queryDetail";
+import { config } from "../../../config/index"
+import { queryCommentDetail } from "../../../model/comments/queryDetail"
+import { delay } from "../../_utils/delay"
 
 /** 获取商品评价数据 */
-function mockQueryCommentDetail(params) {
-  const { delay } = require("../../_utils/delay");
-  const data = queryCommentDetail(params);
+function mockQueryCommentDetail() {
+  const data = queryCommentDetail()
   return delay().then(() => {
-    return data;
-  });
+    return data
+  })
 }
 
 /** 获取评价详情 */
-export function getCommentDetail(params) {
+export function getCommentDetail() {
   if (config.useMock) {
-    return mockQueryCommentDetail(params);
+    return mockQueryCommentDetail()
   }
   return new Promise((resolve) => {
-    resolve("real api");
-  });
+    resolve("real api")
+  })
 }

@@ -10,7 +10,7 @@ Component({
       type: String,
       value: "",
       observer(id) {
-        this.genIndependentID(id);
+        this.genIndependentID(id)
       },
     },
     thresholds: {
@@ -25,38 +25,38 @@ Component({
 
   lifetimes: {
     ready() {
-      this.init();
+      this.init()
     },
   },
 
   methods: {
     onClickGoods(e: WechatMiniprogram.CustomEvent) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent("click", { ...e.detail, index });
+      const { index } = e.currentTarget.dataset
+      this.triggerEvent("click", { ...e.detail, index })
     },
 
     onAddCart(e: WechatMiniprogram.CustomEvent) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent("addcart", { ...e.detail, index });
+      const { index } = e.currentTarget.dataset
+      this.triggerEvent("addcart", { ...e.detail, index })
     },
 
     onClickGoodsThumb(e: WechatMiniprogram.CustomEvent) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent("thumb", { ...e.detail, index });
+      const { index } = e.currentTarget.dataset
+      this.triggerEvent("thumb", { ...e.detail, index })
     },
 
     init() {
-      this.genIndependentID(this.id || "");
+      this.genIndependentID(this.id || "")
     },
 
     genIndependentID(id: string) {
       if (id) {
-        this.setData({ independentID: id });
+        this.setData({ independentID: id })
       } else {
         this.setData({
           independentID: `goods-list-${~~(Math.random() * 10 ** 8)}`,
-        });
+        })
       }
     },
   },
-});
+})

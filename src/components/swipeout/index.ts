@@ -1,4 +1,4 @@
-let ARRAY = [];
+let ARRAY = []
 Component({
   externalClasses: ["wr-class"],
 
@@ -18,11 +18,11 @@ Component({
     asyncClose: Boolean,
   },
   attached() {
-    ARRAY.push(this);
+    ARRAY.push(this)
   },
 
   detached() {
-    ARRAY = ARRAY.filter((item) => item !== this);
+    ARRAY = ARRAY.filter((item) => item !== this)
   },
 
   /**
@@ -39,45 +39,45 @@ Component({
    */
   methods: {
     open(position: string) {
-      this.setData({ closed: false });
+      this.setData({ closed: false })
       this.triggerEvent("close", {
         position,
         instance: this,
-      });
+      })
     },
 
     close() {
-      this.setData({ closed: true });
+      this.setData({ closed: true })
     },
 
     closeOther() {
       for (const item of ARRAY) {
         if (item !== this) {
-          item.close();
+          item.close()
         }
       }
     },
 
     noop() {
-      return;
+      return
     },
 
     onClick(event: WechatMiniprogram.CustomEvent) {
-      const { key: position = "outside" } = event.currentTarget.dataset;
-      this.triggerEvent("click", position);
+      const { key: position = "outside" } = event.currentTarget.dataset
+      this.triggerEvent("click", position)
 
       if (this.data.closed) {
-        return;
+        return
       }
 
       if (this.data.asyncClose) {
         this.triggerEvent("close", {
           position,
           instance: this,
-        });
+        })
       } else {
-        this.close();
+        this.close()
       }
     },
   },
-});
+})
