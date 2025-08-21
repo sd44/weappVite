@@ -1,26 +1,4 @@
-export type AddressModel = {
-  saasId: string
-  uid: string
-  authToken: null | string
-  id: string
-  addressId: string
-  phone: string
-  name: string
-  countryName: string
-  countryCode: string
-  provinceName: string
-  provinceCode: string
-  cityName: string
-  cityCode: string
-  districtName: string
-  districtCode: string
-  detailAddress: string
-  isDefault: 0 | 1
-  addressTag: string
-  latitude: string
-  longitude: string
-  storeId: null | string
-}
+import type { AddressModel } from "./someTypes"
 
 /** 地址 */
 export function genAddress(id: number): AddressModel {

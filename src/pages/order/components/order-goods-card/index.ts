@@ -37,7 +37,7 @@ Component({
       this.setData({ hidden })
     },
 
-    onNumChange(e) {
+    onNumChange(e: WechatMiniprogram.CustomEvent) {
       const { value } = e.detail
       this.triggerEvent("num-change", { value })
     },

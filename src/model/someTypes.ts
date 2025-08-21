@@ -1,5 +1,4 @@
 import { delay } from "~/services/_utils/delay"
-import type { AddressModel } from "./address"
 import { getCouponList } from "./coupon"
 
 export type SpecInfo = {
@@ -413,6 +412,10 @@ export type SpecValue = {
   saasId: string | null
   specValue: string
   image: string | null
+  hasStockObj?: {
+    hasStock: boolean
+    specsArray: string[][]
+  }
 }
 
 export type Spec = {
@@ -518,4 +521,147 @@ export type CouponDetailResponse = {
 /** 获取优惠券列表 */
 export function mockFetchCoupon(status: CouponCardStatus) {
   return delay().then(() => getCouponList(status))
+}
+export type AddressModel = {
+  saasId: string
+  uid: string
+  authToken: null | string
+  id: string
+  addressId: string
+  phone: string
+  name: string
+  countryName: string
+  countryCode: string
+  provinceName: string
+  provinceCode: string
+  cityName: string
+  cityCode: string
+  districtName: string
+  districtCode: string
+  detailAddress: string
+  isDefault: 0 | 1
+  addressTag: string
+  latitude: string
+  longitude: string
+  storeId: null | string
+}
+export type Activity = {
+  promotionId: string
+  title: string
+  description: null
+  promotionCode: string
+  promotionSubCode: string
+  tag: string
+  timeType: number
+  startTime: string
+  endTime: string
+  teasingStartTime: null
+  activityLadder: {
+    label: string
+  }[]
+}
+
+export type TitlePrefixTag = {
+  text: string
+}
+
+export type GoodsPromotion = {
+  uid: string
+  saasId: string
+  storeId: string
+  spuId: string
+  skuId: string
+  isSelected: number
+  thumb: string
+  title: string
+  primaryImage: string
+  quantity: number
+  stockStatus: boolean
+  stockQuantity: number
+  price: string
+  originPrice: string
+  tagPrice: null
+  titlePrefixTags: TitlePrefixTag[] | null
+  roomId: null
+  specInfo: SpecInfo[]
+  joinCartTime: string
+  available: number
+  putOnSale: number
+  etitle: null
+  specs?: string[]
+}
+
+export type Promotion = {
+  title: string | null
+  promotionCode: string
+  promotionSubCode: string | null
+  promotionId: string | null
+  tagText: string[] | null
+  promotionStatus: number | null
+  tag: string | null
+  description: string | null
+  doorSillRemain: null
+  isNeedAddOnShop: number
+  goodsPromotionList: GoodsPromotion[]
+  lastJoinTime: string | null
+}
+
+export type PostageFreePromotion = {
+  title: null
+  promotionCode: null
+  promotionSubCode: null
+  promotionId: null
+  tagText: null
+  promotionStatus: null
+  tag: null
+  description: null
+  doorSillRemain: null
+  isNeedAddOnShop: number
+}
+
+export type CartStoreGoods = {
+  storeId: string
+  storeName: string
+  storeStatus: number
+  totalDiscountSalePrice: string
+  promotionGoodsList: Promotion[]
+  lastJoinTime: string
+  postageFreePromotionVo: PostageFreePromotion
+  shortageGoodsList: any[]
+}
+
+export type InvalidGood = {
+  uid: string
+  saasId: string
+  storeId: string
+  spuId: string
+  skuId: string
+  isSelected: number
+  thumb: string
+  title: string
+  primaryImage: string
+  quantity: number
+  stockStatus: boolean
+  stockQuantity: number
+  price: string
+  originPrice: string
+  tagPrice: null
+  tagText: null
+  roomId: null
+  specInfo: SpecInfo[]
+  joinCartTime: string
+  available: number
+  putOnSale: number
+  etitle: null
+  specs?: string[]
+}
+
+export type CartData = {
+  isNotEmpty: boolean
+  storeGoods: CartStoreGoods[]
+  invalidGoodItems: InvalidGood[]
+  isAllSelected: boolean
+  selectedGoodsCount: number
+  totalAmount: string
+  totalDiscountAmount: string
 }

@@ -19,7 +19,7 @@ Component({
   // },
 
   methods: {
-    change(e) {
+    change(e: WechatMiniprogram.CustomEvent) {
       const { index } = e.currentTarget.dataset
       this.triggerEvent("promotionChange", {
         index,

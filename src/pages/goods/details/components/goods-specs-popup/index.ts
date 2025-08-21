@@ -1,4 +1,17 @@
 import Toast from "tdesign-miniprogram/toast/index"
+import type { SkuInfo, Spec, SpecValue } from "~/model/someTypes"
+
+interface SpecValueWithSelection extends SpecValue {
+  hasStockObj?: {
+    hasStock: boolean
+    specsArray: string[][]
+  }
+  isSelected?: boolean
+}
+
+interface SpecWithSelection extends Spec {
+  specValueList: SpecValueWithSelection[]
+}
 
 Component({
   options: {
@@ -34,16 +47,16 @@ Component({
     skuList: {
       type: Array,
       value: [],
-      observer(skuList) {
-        if (skuList && skuList.length > 0 && this.initStatus) {
+      observer(skuList: SkuInfo[]) {
+        if (skuList && skuList.length > 0 && this.data.initStatus) {
           this.initData()
         }
       },
     },
     specList: {
       type: Array,
-      value: [],
-      observer(specList) {
+      value: [] as Spec[],
+      observer(specList: Spec[]) {
         if (specList && specList.length > 0) {
           this.initData()
         }
@@ -60,7 +73,7 @@ Component({
     count: {
       type: Number,
       value: 1,
-      observer(count) {
+      observer(count: number) {
         this.setData({
           buyNum: count,
         })
@@ -68,103 +81,109 @@ Component({
     },
   },
 
-  initStatus: false,
-  selectedSku: {},
-  selectSpecObj: {},
-
   data: {
     buyNum: 1,
     isAllSelectedSku: false,
+    initStatus: false,
+    selectedSku: {} as Record<string, string>,
+    selectSpecObj: {} as Record<string, string[]>,
   },
 
   methods: {
     initData() {
-      const skuList = this.data.skuList
-      const specList = this.data.specList
-      specList.forEach((item) => {
+      const { skuList, specList } = this.data
+      for (const item of specList) {
         if (item.specValueList.length > 0) {
-          item.specValueList.forEach((subItem) => {
+          for (const subItem of item.specValueList) {
             const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
             subItem.hasStockObj = obj
-          })
+          }
         }
-      })
-      const selectedSku = {}
-      specList.forEach((item) => {
+      }
+      const selectedSku: Record<string, string> = {}
+      for (const item of specList) {
         selectedSku[item.specId] = ""
-      })
+      }
       this.setData({
         specList,
+        selectSpecObj: {} as Record<string, string[]>,
+        selectedSku: {} as Record<string, string>,
+        initStatus: true,
       })
-      this.selectSpecObj = {}
-      this.selectedSku = {}
-      this.initStatus = true
     },
 
-    checkSkuStockQuantity(specValueId, skuList) {
+    checkSkuStockQuantity(specValueId: string, skuList: any[]) {
       let hasStock = false
-      const array = []
-      skuList.forEach((item) => {
-        ;(item.specInfo || []).forEach((subItem) => {
+      const specsArray: string[][] = []
+
+      for (const item of skuList) {
+        for (const subItem of item.specInfo || []) {
           if (subItem.specValueId === specValueId && item.quantity > 0) {
-            const subArray = []
-            ;(item.specInfo || []).forEach((specItem) => {
+            const subArray: string[] = []
+            for (const specItem of item.specInfo || []) {
               subArray.push(specItem.specValueId)
-            })
-            array.push(subArray)
+            }
+            specsArray.push(subArray)
             hasStock = true
           }
-        })
-      })
+        }
+      }
+
       return {
         hasStock,
-        specsArray: array,
+        specsArray,
       }
     },
 
-    chooseSpecValueId(specValueId, specId) {
-      const { selectSpecObj } = this
-      const { skuList, specList } = this.properties
+    chooseSpecValueId(specValueId: string, specId: string) {
+      const { selectSpecObj, skuList, specList } = this.data as {
+        selectSpecObj: Record<string, string[]>
+        skuList: SkuInfo[]
+        specList: SpecWithSelection[]
+      }
+
       if (selectSpecObj[specId]) {
         selectSpecObj[specId] = []
-        this.selectSpecObj = selectSpecObj
       } else {
         selectSpecObj[specId] = []
       }
 
-      const itemAllSpecArray = []
-      const itemUnSelectArray = []
-      const itemSelectArray = []
-      specList.forEach((item) => {
+      const itemAllSpecArray: any[] = []
+      const itemUnSelectArray: string[] = []
+      const itemSelectArray: string[] = []
+
+      for (const item of specList) {
         if (item.specId === specId) {
           const subSpecValueItem = item.specValueList.find(
             (subItem) => subItem.specValueId === specValueId
           )
           let specSelectStatus = false
-          item.specValueList.forEach((n) => {
-            itemAllSpecArray.push(n.hasStockObj.specsArray)
+          for (const n of item.specValueList) {
+            if (n.hasStockObj?.specsArray) {
+              itemAllSpecArray.push(n.hasStockObj.specsArray)
+            }
             if (n.isSelected) {
               specSelectStatus = true
             }
-            if (n.hasStockObj.hasStock) {
+            if (n.hasStockObj?.hasStock) {
               itemSelectArray.push(n.specValueId)
             } else {
               itemUnSelectArray.push(n.specValueId)
             }
-          })
-          if (specSelectStatus) {
+          }
+          if (specSelectStatus && subSpecValueItem?.hasStockObj?.specsArray) {
             selectSpecObj[specId] = this.flatten(
-              subSpecValueItem?.hasStockObj.specsArray.concat(itemSelectArray)
+              subSpecValueItem.hasStockObj.specsArray.concat(itemSelectArray)
             )
           } else {
-            const subSet = (arr1, arr2) => {
+            const subSet = (arr1: string[], arr2: string[]) => {
               const set2 = new Set(arr2)
-              const subset = []
-              arr1.forEach((val) => {
+              const subset: string[] = []
+              for (const val of arr1) {
                 if (!set2.has(val)) {
                   subset.push(val)
                 }
-              })
+              }
               return subset
             }
             selectSpecObj[specId] = subSet(
@@ -174,58 +193,61 @@ Component({
           }
         } else {
           // 未点击规格的逻辑
-          const itemSelectArray = []
+          const currentItemSelectArray: string[][] = []
           let specSelectStatus = false
-          item.specValueList.map(
-            // 找到有库存的规格数组
-            (n) => {
-              itemSelectArray.push(n.hasStockObj.specsArray)
-              if (n.isSelected) {
-                specSelectStatus = true
-              }
-              n.hasStockObj.hasStock = true
-              return n
+          for (const n of item.specValueList) {
+            if (n.hasStockObj?.specsArray) {
+              currentItemSelectArray.push(n.hasStockObj.specsArray)
             }
-          )
+            if (n.isSelected) {
+              specSelectStatus = true
+            }
+          }
           if (specSelectStatus) {
-            selectSpecObj[item.specId] = this.flatten(itemSelectArray)
+            selectSpecObj[item.specId] = this.flatten(currentItemSelectArray)
           } else {
             delete selectSpecObj[item.specId]
           }
         }
-        this.selectSpecObj = selectSpecObj
+      }
+
+      this.setData({
+        selectSpecObj,
       })
+
       const combatArray = Object.values(selectSpecObj)
       if (combatArray.length > 0) {
-        const showArray = combatArray.reduce((x, y) => this.getIntersection(x, y))
-        const lastResult = Array.from(new Set(showArray))
-        specList.forEach((item) => {
-          item.specValueList.forEach((subItem) => {
+        const showArray = combatArray.reduce((x: any[], y: any[]) => this.getIntersection(x, y))
+        const lastResult = Array.from(new Set(showArray)) as string[]
+        for (const item of specList) {
+          for (const subItem of item.specValueList) {
             if (lastResult.includes(subItem.specValueId)) {
-              subItem.hasStockObj.hasStock = true
-            } else {
+              if (subItem.hasStockObj) {
+                subItem.hasStockObj.hasStock = true
+              }
+            } else if (subItem.hasStockObj) {
               subItem.hasStockObj.hasStock = false
             }
-          })
-        })
+          }
+        }
       } else {
-        specList.forEach((item) => {
+        for (const item of specList) {
           if (item.specValueList.length > 0) {
-            item.specValueList.forEach((subItem) => {
+            for (const subItem of item.specValueList) {
               const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
               subItem.hasStockObj = obj
-            })
+            }
           }
-        })
+        }
       }
       this.setData({
         specList,
       })
     },
 
-    flatten(input) {
+    flatten(input: any[]): any[] {
       const stack = [...input]
-      const res = []
+      const res: any[] = []
       while (stack.length) {
         const next = stack.pop()
         if (Array.isArray(next)) {
@@ -237,11 +259,11 @@ Component({
       return res.reverse()
     },
 
-    getIntersection(array, nextArray) {
+    getIntersection(array: any[], nextArray: any[]): any[] {
       return array.filter((item) => nextArray.includes(item))
     },
 
-    toChooseItem(e) {
+    toChooseItem(e: WechatMiniprogram.TouchEvent) {
       const { isStock } = this.properties
       if (!isStock) {
         return
@@ -260,19 +282,21 @@ Component({
         return
       }
 
-      let { selectedSku } = this
-      const { specList } = this.properties
+      let { selectedSku } = this.data as { selectedSku: Record<string, string> }
+      const { specList } = this.properties as {
+        specList: Array<Spec & { specValueList: Array<SpecValue & { isSelected?: boolean }> }>
+      }
       selectedSku =
         selectedSku[specId] === id
-          ? { ...this.selectedSku, [specId]: "" }
-          : { ...this.selectedSku, [specId]: id }
-      specList.forEach((item) => {
-        item.specValueList.forEach((valuesItem) => {
+          ? { ...this.data.selectedSku, [specId]: "" }
+          : { ...this.data.selectedSku, [specId]: id }
+      for (const item of specList) {
+        for (const valuesItem of item.specValueList) {
           if (item.specId === specId) {
             valuesItem.isSelected = valuesItem.specValueId === selectedSku[specId]
           }
-        })
-      })
+        }
+      }
       this.chooseSpecValueId(id, specId)
       const isAllSelectedSku = this.isAllSelected(specList, selectedSku)
       if (!isAllSelectedSku) {
@@ -284,8 +308,8 @@ Component({
       this.setData({
         specList,
         isAllSelectedSku,
+        selectedSku,
       })
-      this.selectedSku = selectedSku
       this.triggerEvent("change", {
         specList,
         selectedSku,
@@ -294,7 +318,7 @@ Component({
     },
 
     // 判断是否所有的sku都已经选中
-    isAllSelected(skuTree, selectedSku) {
+    isAllSelected(skuTree: any[], selectedSku: Record<string, string>): boolean {
       const selected = Object.keys(selectedSku).filter((skuKeyStr) => selectedSku[skuKeyStr] !== "")
       return skuTree.length === selected.length
     },
@@ -333,7 +357,7 @@ Component({
     },
 
     // 总处理
-    setBuyNum(buyNum) {
+    setBuyNum(buyNum: number) {
       this.setData({
         buyNum,
       })
@@ -342,10 +366,10 @@ Component({
       })
     },
 
-    handleBuyNumChange(e) {
+    handleBuyNumChange(e: WechatMiniprogram.Input) {
       const { value } = e.detail
       this.setData({
-        buyNum: value,
+        buyNum: Number(value),
       })
     },
   },

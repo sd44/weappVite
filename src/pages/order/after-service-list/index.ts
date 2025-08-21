@@ -62,11 +62,11 @@ Page({
     }
   },
 
-  onPageScroll(e) {
-    this.pullDownRefresh?.onPageScroll(e)
+  onPageScroll(e: WechatMiniprogram.CustomEvent) {
+    this.pullDownRefresh?.onPageScroll(e: WechatMiniprogram.CustomEvent)
   },
 
-  onPullDownRefresh_(e) {
+  onPullDownRefresh_(e: WechatMiniprogram.CustomEvent) {
     const { callback } = e.detail
     this.setData({
       pullDownRefreshing: true,
@@ -191,7 +191,7 @@ Page({
     this.getAfterServiceList(this.data.curTab)
   },
 
-  onTabChange(e) {
+  onTabChange(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     const tab = this.data.tabs.find((v) => v.key === value)
     if (!tab) {
@@ -217,7 +217,7 @@ Page({
   },
 
   // 点击订单卡片
-  onAfterServiceCardTap(e) {
+  onAfterServiceCardTap(e: WechatMiniprogram.CustomEvent) {
     wx.navigateTo({
       url: `/pages/order/after-service-detail/index?rightsNo=${e.currentTarget.dataset.order.id}`,
     })

@@ -62,7 +62,7 @@ Component({
       this.setData({ checkedIndexes, _options })
     },
 
-    onOptionTap(e) {
+    onOptionTap(e: WechatMiniprogram.CustomEvent) {
       const { index } = e.currentTarget.dataset
       const { checkedIndexes } = this.data
       let data = {}

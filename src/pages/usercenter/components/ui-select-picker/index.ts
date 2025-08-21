@@ -56,7 +56,7 @@ Component({
       return pickerOptions[indexes.toString()]
     },
 
-    onChange(e) {
+    onChange(e: WechatMiniprogram.CustomEvent) {
       const currentValue = e.detail.value
       const target = this.getAreaByIndex(currentValue)
       if (target === null) {

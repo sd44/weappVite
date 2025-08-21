@@ -76,7 +76,7 @@ Page({
       })
     })
   },
-  onInputValue(e) {
+  onInputValue(e: WechatMiniprogram.CustomEvent) {
     const { item } = e.currentTarget.dataset
     if (item === "address") {
       const { selectedOptions = [] } = e.detail
@@ -117,7 +117,7 @@ Page({
   onPickArea() {
     this.setData({ areaPickerVisible: true })
   },
-  onPickLabels(e) {
+  onPickLabels(e: WechatMiniprogram.CustomEvent) {
     const { item } = e.currentTarget.dataset
     const {
       locationState: { labelIndex },
@@ -335,7 +335,7 @@ Page({
     wx.navigateBack({ delta: 1 })
   },
 
-  getWeixinAddress(e) {
+  getWeixinAddress(e: WechatMiniprogram.CustomEvent) {
     const { locationState } = this.data
     const weixinAddress = e.detail
     this.setData(

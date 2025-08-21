@@ -272,7 +272,7 @@ Page({
       url: `/pages/user/address/list/index?selectMode=1&isOrderSure=1${id}`,
     })
   },
-  onNotes(e) {
+  onNotes(e: WechatMiniprogram.CustomEvent) {
     const { storenoteindex: storeNoteIndex } = e.currentTarget.dataset
     // 添加备注信息
     this.setData({
@@ -280,7 +280,7 @@ Page({
       storeNoteIndex,
     })
   },
-  onInput(e) {
+  onInput(e: WechatMiniprogram.CustomEvent) {
     const { storeNoteIndex } = this.data
     this.noteInfo[storeNoteIndex] = e.detail.value
   },
@@ -485,7 +485,7 @@ Page({
     })
   },
 
-  onCoupons(e) {
+  onCoupons(e: WechatMiniprogram.CustomEvent) {
     const { submitCouponList, currentStoreId } = this.data
     const { goodsRequestList } = this
     const { selectedList } = e.detail
@@ -499,7 +499,7 @@ Page({
     this.handleOptionsParams({ goodsRequestList }, resSubmitCouponList)
     this.setData({ couponsShow: false })
   },
-  onOpenCoupons(e) {
+  onOpenCoupons(e: WechatMiniprogram.CustomEvent) {
     const { storeid } = e.currentTarget.dataset
     this.setData({
       couponsShow: true,
@@ -519,7 +519,7 @@ Page({
     return resSubmitCouponList
   },
 
-  onGoodsNumChange(e) {
+  onGoodsNumChange(e: WechatMiniprogram.CustomEvent) {
     const {
       detail: { value },
       currentTarget: {
@@ -531,7 +531,6 @@ Page({
         goods.storeId === storeId && goods.spuId === spuId && goods.skuId === skuId
     )
     if (index >= 0) {
-       
       const goodsRequestList = this.goodsRequestList.map((item, i) =>
         i === index ? { ...item, quantity: value } : item
       )

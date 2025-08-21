@@ -16,6 +16,7 @@ Page({
     isAllowedSubmit: false,
     imgUrl: "",
     title: "",
+    textAreaValue: "",
     goodsDetail: "",
     imageProps: {
       mode: "aspectFit",
@@ -62,14 +63,17 @@ Page({
 
   onTextAreaChange(e: WechatMiniprogram.CustomEvent) {
     const value = e?.detail?.value
-    this.textAreaValue = value
+    this.setData({
+      textAreaValue: value,
+    })
     this.updateButtonStatus()
   },
 
   updateButtonStatus() {
-    const { serviceRateValue, goodRateValue, conveyRateValue, isAllowedSubmit } = this.data
-    const { textAreaValue } = this
-    const temp = serviceRateValue && goodRateValue && conveyRateValue && textAreaValue
+    const { serviceRateValue, goodRateValue, conveyRateValue, isAllowedSubmit, textAreaValue } =
+      this.data
+    const temp =
+      serviceRateValue > 0 && goodRateValue > 0 && conveyRateValue > 0 && textAreaValue.length > 0
     if (temp !== isAllowedSubmit) {
       this.setData({ isAllowedSubmit: temp })
     }

@@ -180,7 +180,7 @@ Component({
       this.triggerEvent("tag", { goods: this.data.goods, index })
     },
     // 加入购物车
-    addCartHandle(e) {
+    addCartHandle(e: WechatMiniprogram.CustomEvent) {
       const { id } = e.currentTarget
       const { id: cardID } = e.currentTarget.dataset
       this.triggerEvent("add-cart", {

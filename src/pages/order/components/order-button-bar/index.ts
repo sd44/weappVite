@@ -83,7 +83,7 @@ Component({
 
   methods: {
     // 点击【订单操作】按钮，根据按钮类型分发
-    onOrderBtnTap(e) {
+    onOrderBtnTap(e: WechatMiniprogram.CustomEvent) {
       const { type } = e.currentTarget.dataset
       switch (type) {
         case OrderButtonTypes.DELETE:

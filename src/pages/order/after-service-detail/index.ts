@@ -39,7 +39,7 @@ Page({
   },
 
   // 页面刷新，展示下拉刷新
-  onPullDownRefresh_(e) {
+  onPullDownRefresh_(e: WechatMiniprogram.CustomEvent) {
     const { callback } = e.detail
     return this.getService().then(() => callback?.())
   },
@@ -151,7 +151,7 @@ Page({
     }
   },
 
-  onProofTap(e) {
+  onProofTap(e: WechatMiniprogram.CustomEvent) {
     if (this.data.gallery.show) {
       this.setData({
         "gallery.show": false,
@@ -165,7 +165,7 @@ Page({
     })
   },
 
-  onGoodsCardTap(e) {
+  onGoodsCardTap(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.currentTarget.dataset
     const goods = this.data.serviceRaw.rightsItem[index]
     wx.navigateTo({ url: `/pages/goods/details/index?skuId=${goods.skuId}` })

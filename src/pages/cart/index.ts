@@ -1,6 +1,6 @@
 import Dialog from "tdesign-miniprogram/dialog/index"
 import Toast from "tdesign-miniprogram/toast/index"
-import type { CartData, CartStoreGoods, GoodsPromotion, Promotion } from "~/model/cart"
+import type { CartData, CartStoreGoods, GoodsPromotion, Promotion } from "~/model/someTypes"
 import { fetchCartGroupData } from "../../services/cart/cart"
 
 Page({

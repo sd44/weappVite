@@ -87,7 +87,7 @@ Page({
     })
   },
 
-  onInput(e) {
+  onInput(e: WechatMiniprogram.CustomEvent) {
     const { key } = e.currentTarget.dataset
     const { value } = e.detail
     this.setData({ [key]: value })

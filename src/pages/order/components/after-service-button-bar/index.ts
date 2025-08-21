@@ -30,7 +30,7 @@ Component({
 
   methods: {
     // 点击【订单操作】按钮，根据按钮类型分发
-    onServiceBtnTap(e) {
+    onServiceBtnTap(e: WechatMiniprogram.CustomEvent) {
       const { type } = e.currentTarget.dataset
       switch (type) {
         case ServiceButtonTypes.REVOKE:

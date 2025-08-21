@@ -30,15 +30,15 @@ Component({
     "delete-class",
   ],
   methods: {
-    onDelete(e) {
+    onDelete(e: WechatMiniprogram.CustomEvent) {
       const { item } = e.currentTarget.dataset
       this.triggerEvent("onDelete", item)
     },
-    onSelect(e) {
+    onSelect(e: WechatMiniprogram.CustomEvent) {
       const { item } = e.currentTarget.dataset
       this.triggerEvent("onSelect", item)
     },
-    onEdit(e) {
+    onEdit(e: WechatMiniprogram.CustomEvent) {
       const { item } = e.currentTarget.dataset
       this.triggerEvent("onEdit", item)
     },

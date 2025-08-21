@@ -107,7 +107,7 @@ Component({
         selectedNum,
       })
     },
-    selectCoupon(e) {
+    selectCoupon(e: WechatMiniprogram.CustomEvent) {
       const { key } = e.currentTarget.dataset
       const { couponsList, selectedList } = this.data
       couponsList.forEach((coupon) => {

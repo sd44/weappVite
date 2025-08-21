@@ -66,7 +66,7 @@ Page({
       typeVisible: false,
     })
   },
-  onConfirm(e) {
+  onConfirm(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData(
       {

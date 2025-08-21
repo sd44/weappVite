@@ -1,5 +1,5 @@
 import Toast from "tdesign-miniprogram/toast/index"
-import type { CartStoreGoods, GoodsPromotion, InvalidGood, SpecInfo } from "~/model/cart"
+import type { CartStoreGoods, GoodsPromotion, InvalidGood, SpecInfo } from "~/model/someTypes"
 
 const shortageImg = "https://tdesign.gtimg.com/miniprogram/template/retail/cart/shortage.png"
 

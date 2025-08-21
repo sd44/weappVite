@@ -26,7 +26,7 @@ Component({
     },
   },
   methods: {
-    onClickItem(e) {
+    onClickItem(e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("onClickItem", e.currentTarget.dataset.item)
     },
 

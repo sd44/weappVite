@@ -1,4 +1,3 @@
- 
 import Dialog from "tdesign-miniprogram/dialog/index"
 import Toast from "tdesign-miniprogram/toast/index"
 import { dispatchSupplementInvoice } from "../../../services/order/orderConfirm"
@@ -58,12 +57,12 @@ Page({
     this.orderNo = orderNo
     this.setData({ ...invoice })
   },
-  onLabels(e) {
+  onLabels(e: WechatMiniprogram.CustomEvent) {
     const { item } = e.currentTarget.dataset
     const nameIndex = `${item.name}Index`
     this.setData({ [nameIndex]: item.id })
   },
-  onInput(e) {
+  onInput(e: WechatMiniprogram.CustomEvent) {
     const { addressTagsIndex } = this.data
     const { item } = e.currentTarget.dataset
     const { value } = e.detail

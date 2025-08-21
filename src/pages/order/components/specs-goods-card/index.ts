@@ -105,7 +105,7 @@ Component({
       })
     },
 
-    onClick(e) {
+    onClick(e: WechatMiniprogram.CustomEvent) {
       if (this.currentInTapSpecs) {
         this.currentInTapSpecs = false
         return
@@ -113,15 +113,15 @@ Component({
       this.triggerEvent("click", e.detail)
     },
 
-    onClickThumb(e) {
+    onClickThumb(e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("thumb", e.detail)
     },
 
-    onClickTag(e) {
+    onClickTag(e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("tag", e.detail)
     },
 
-    onClickCart(e) {
+    onClickCart(e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("add-cart", e.detail)
     },
 

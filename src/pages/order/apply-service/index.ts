@@ -232,7 +232,7 @@ Page({
     })
   },
 
-  onChangeReturnNum(e) {
+  onChangeReturnNum(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({
       "serviceFrom.returnNum": value,
@@ -296,7 +296,7 @@ Page({
       })
   },
 
-  onReceiptStatusDialogConfirm(e) {
+  onReceiptStatusDialogConfirm(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.currentTarget.dataset
     this.switchReceiptStatus(index)
   },
@@ -320,7 +320,7 @@ Page({
   },
 
   // 对输入的值进行过滤
-  onAmountInput(e) {
+  onAmountInput(e: WechatMiniprogram.CustomEvent) {
     let { value } = e.detail
     const regRes = value.match(/\d+(\.?\d*)?/) // 输入中，允许末尾为小数点
     value = regRes ? regRes[0] : ""
@@ -328,7 +328,7 @@ Page({
   },
 
   // 失去焦点时，更严格的过滤并转化为float
-  onAmountBlur(e) {
+  onAmountBlur(e: WechatMiniprogram.CustomEvent) {
     let { value } = e.detail
     const regRes = value.match(/\d+(\.?\d+)?/) // 失去焦点时，不允许末尾为小数点
     value = regRes ? regRes[0] : "0"
@@ -346,7 +346,7 @@ Page({
     this.setData({ "serviceFrom.amount.focus": true })
   },
 
-  onRemarkChange(e) {
+  onRemarkChange(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({
       "serviceFrom.remark": value,
@@ -411,14 +411,14 @@ Page({
     })
   },
 
-  handleSuccess(e) {
+  handleSuccess(e: WechatMiniprogram.CustomEvent) {
     const { files } = e.detail
     this.setData({
       "sessionFrom.rightsImageUrls": files,
     })
   },
 
-  handleRemove(e) {
+  handleRemove(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const {
       sessionFrom: { rightsImageUrls },

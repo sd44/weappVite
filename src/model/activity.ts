@@ -1,7 +1,9 @@
+import type { Activity } from "./someTypes"
+
 /**
  * @param {number} key 唯一值
  */
-export function getActivity(key: number) {
+export function getActivity(key: number): Activity {
   return {
     promotionId: `${key}`,
     title: `满减满折回归${key}`,
@@ -13,6 +15,10 @@ export function getActivity(key: number) {
     startTime: "1588737710000",
     endTime: "1601467070000",
     teasingStartTime: null,
-    activityLadder: [{ label: "满100元减99.9元" }],
+    activityLadder: [
+      {
+        label: "满100元减99.9元",
+      },
+    ],
   }
 }

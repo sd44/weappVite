@@ -321,7 +321,7 @@ try {
 // ❌ Bad: Swallowing errors
 try {
   return await fetchData();
-} catch (e) {
-  console.log(e);
+} catch (e: WechatMiniprogram.CustomEvent) {
+  console.log(e: WechatMiniprogram.CustomEvent);
 }
 ```

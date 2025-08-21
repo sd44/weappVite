@@ -64,7 +64,7 @@ Page({
     })
   },
 
-  tabChangeHandle(e) {
+  tabChangeHandle(e: WechatMiniprogram.CustomEvent) {
     this.privateData.tabIndex = e.detail
     this.loadGoodsList(true)
   },
@@ -102,7 +102,7 @@ Page({
     }
   },
 
-  goodListClickHandle(e) {
+  goodListClickHandle(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { spuId } = this.data.goodsList[index]
     wx.navigateTo({

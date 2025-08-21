@@ -77,7 +77,7 @@ Page({
     })
   },
 
-  deleteCurr(e) {
+  deleteCurr(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.currentTarget.dataset
     const { dialog } = this.data
     this.deleteIndex = index
@@ -91,7 +91,7 @@ Page({
     })
   },
 
-  handleHistoryTap(e) {
+  handleHistoryTap(e: WechatMiniprogram.CustomEvent) {
     const { historyWords } = this.data
     const { dataset } = e.currentTarget
     const _searchValue = historyWords[dataset.index || 0] || ""
@@ -102,7 +102,7 @@ Page({
     }
   },
 
-  handleSubmit(e) {
+  handleSubmit(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail.value
     if (value.length === 0) {
       return

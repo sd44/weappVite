@@ -1,5 +1,3 @@
- 
-
 import Toast from "tdesign-miniprogram/toast/index"
 import { getSearchResult } from "../../../services/good/fetchSearchResult"
 
@@ -172,7 +170,7 @@ Page({
     })
   },
 
-  gotoGoodsDetail(e) {
+  gotoGoodsDetail(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { spuId } = this.data.goodsList[index]
     wx.navigateTo({
@@ -180,7 +178,7 @@ Page({
     })
   },
 
-  handleFilterChange(e) {
+  handleFilterChange(e: WechatMiniprogram.CustomEvent) {
     const { overall, sorts } = e.detail
     const { total } = this
     const _filter = {
@@ -217,12 +215,12 @@ Page({
     })
   },
 
-  onMinValAction(e) {
+  onMinValAction(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({ minVal: value })
   },
 
-  onMaxValAction(e) {
+  onMaxValAction(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({ maxVal: value })
   },

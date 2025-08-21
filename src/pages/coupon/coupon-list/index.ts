@@ -53,7 +53,7 @@ Page({
     })
   },
 
-  tabChange(e) {
+  tabChange(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
 
     this.setData({ status: value })

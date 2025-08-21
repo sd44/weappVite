@@ -113,7 +113,6 @@ Page({
       if (code.toUpperCase() === "SUCCESS") {
         const { pageList, totalCount = 0 } = data
         pageList.forEach((item) => {
-           
           item.commentTime = dayjs(Number(item.commentTime)).format("YYYY/MM/DD HH:mm")
         })
 
@@ -169,7 +168,7 @@ Page({
     })
     this.init(true)
   },
-  changeTag(e) {
+  changeTag(e: WechatMiniprogram.CustomEvent) {
     const { commenttype } = e.currentTarget.dataset
     const { commentType } = this.data
     if (commentType === commenttype) {

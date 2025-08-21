@@ -34,7 +34,7 @@ Component({
     goodList: [],
   },
   methods: {
-    onCard(e) {
+    onCard(e: WechatMiniprogram.CustomEvent) {
       const { item } = e.currentTarget.dataset
       if (item === "cart") {
         // 购物车

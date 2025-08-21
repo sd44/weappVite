@@ -26,7 +26,7 @@ Page({
   pageSize: 30,
   total: 0,
 
-  handleFilterChange(e) {
+  handleFilterChange(e: WechatMiniprogram.CustomEvent) {
     const { layout, overall, sorts } = e.detail
     this.pageNum = 1
     this.setData({
@@ -160,7 +160,7 @@ Page({
     })
   },
 
-  gotoGoodsDetail(e) {
+  gotoGoodsDetail(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { spuId } = this.data.goodsList[index]
     wx.navigateTo({
@@ -180,12 +180,12 @@ Page({
     })
   },
 
-  onMinValAction(e) {
+  onMinValAction(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({ minVal: value })
   },
 
-  onMaxValAction(e) {
+  onMaxValAction(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({ maxVal: value })
   },

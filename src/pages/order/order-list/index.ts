@@ -46,11 +46,11 @@ Page({
     }
   },
 
-  onPageScroll(e) {
-    this.pullDownRefresh?.onPageScroll(e)
+  onPageScroll(e: WechatMiniprogram.CustomEvent) {
+    this.pullDownRefresh?.onPageScroll(e: WechatMiniprogram.CustomEvent)
   },
 
-  onPullDownRefresh_(e) {
+  onPullDownRefresh_(e: WechatMiniprogram.CustomEvent) {
     const { callback } = e.detail
     this.setData({ pullDownRefreshing: true })
     this.refreshList(this.data.curTab)
@@ -141,7 +141,7 @@ Page({
     this.getOrderList(this.data.curTab)
   },
 
-  onTabChange(e) {
+  onTabChange(e: WechatMiniprogram.CustomEvent) {
     const { value } = e.detail
     this.setData({
       status: value,
@@ -177,7 +177,7 @@ Page({
     this.refreshList(this.data.curTab)
   },
 
-  onOrderCardTap(e) {
+  onOrderCardTap(e: WechatMiniprogram.CustomEvent) {
     const { order } = e.currentTarget.dataset
     wx.navigateTo({
       url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,

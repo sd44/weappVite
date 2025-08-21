@@ -1,4 +1,46 @@
-const queryDetail = {
+export type CommentInfo = {
+  score: null | number
+  content: string
+  medias: never[]
+  commentTime: string
+}
+
+export type FullCommentInfo = {
+  id: string
+  uid: string
+  userName: string
+  userHeadUrl: string
+  commentId: string
+  commentIdName: string
+  commentIdImageUrl: string
+  commentStage: number
+  commentCheckStatus: number
+  commentIdType: number
+  content: string
+  commentInfo: CommentInfo
+  isAgainComment: number
+  commentHasAgainComment: number
+  isAnonymous: number
+  replyList: never[]
+  specification: string
+  specificationJson: string
+  commentExtendId: string
+  commentTime: string
+  score: number
+  goodsScore: null | number
+  freightScore: null | number
+  serviceScore: null | number
+  medias: never[]
+  againCommentList: null | CommentInfo
+}
+
+export type QueryDetail = {
+  commentInfos: FullCommentInfo[]
+  logisticsScore: null
+  serviceScore: null
+}
+
+const queryDetail: QueryDetail = {
   commentInfos: [
     {
       id: "647984992708380600",
@@ -40,11 +82,6 @@ const queryDetail = {
   serviceScore: null,
 }
 
-/**
- * @param {string} skuId
- * @param {string} spuId
- * @param {string} orderNo
- */
 export function queryCommentDetail() {
   return queryDetail
 }

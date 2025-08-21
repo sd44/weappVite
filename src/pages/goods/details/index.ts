@@ -1,4 +1,5 @@
 import Toast from "tdesign-miniprogram/toast/index"
+import type { Good } from "~/model/someTypes"
 import { cdnBase } from "../../../config/index"
 import { fetchActivityList } from "../../../services/activity/fetchActivityList"
 import { fetchGood } from "../../../services/good/fetchGood"
@@ -11,12 +12,13 @@ const imgPrefix = `${cdnBase}/`
 
 const recLeftImg = `${imgPrefix}common/rec-left.png`
 const recRightImg = `${imgPrefix}common/rec-right.png`
-const obj2Params = (obj = {}, encode = false) => {
-  const result = []
-  Object.keys(obj).forEach((key) =>
-    result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`)
-  )
-
+const obj2Params = (obj: Record<string, string>, encode = false) => {
+  const result: string[] = []
+  for (const key in obj) {
+    if (obj[key]) {
+      result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`)
+    }
+  }
   return result.join("&")
 }
 
@@ -35,7 +37,7 @@ Page({
     activityList: [],
     recLeftImg,
     recRightImg,
-    details: {},
+    details: {} as Good,
     goodsTabArray: [
       {
         name: "商品",
@@ -95,7 +97,7 @@ Page({
     })
   },
 
-  showSkuSelectPopup(type) {
+  showSkuSelectPopup(type: number) {
     this.setData({
       buyType: type || 0,
       outOperateStatus: type >= 1,
@@ -111,14 +113,14 @@ Page({
     this.showSkuSelectPopup(2)
   },
 
-  toNav(e) {
+  toNav(e: WechatMiniprogram.CustomEvent) {
     const { url } = e.detail
     wx.switchTab({
       url,
     })
   },
 
-  showCurImg(e) {
+  showCurImg(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { images } = this.data.details
     wx.previewImage({
@@ -132,7 +134,7 @@ Page({
     goodsTab?.onScroll(scrollTop)
   },
 
-  chooseSpecItem(e) {
+  chooseSpecItem(e: WechatMiniprogram.CustomEvent) {
     const { specList } = this.data.details
     const { selectedSku, isAllSelectedSku } = e.detail
     if (!isAllSelectedSku) {
@@ -153,7 +155,7 @@ Page({
     selectedSkuValues.forEach((item) => {
       selectedAttrStr += `，${item.specValue}  `
     })
-     
+
     const skuItem = skuArray.filter((item) => {
       let status = true
       ;(item.specInfo || []).forEach((subItem) => {
@@ -200,9 +202,9 @@ Page({
 
   normalizeSkuTree(skuTree) {
     const normalizedTree = {}
-    skuTree.forEach((treeItem) => {
+    for (const treeItem of skuTree) {
       normalizedTree[treeItem.specId] = treeItem.specValueList
-    })
+    }
     return normalizedTree
   },
 
@@ -278,7 +280,7 @@ Page({
     // this.handlePopupHide();
   },
 
-  changeNum(e) {
+  changeNum(e: WechatMiniprogram.CustomEvent) {
     this.setData({
       buyNum: e.detail.buyNum,
     })
@@ -290,7 +292,7 @@ Page({
     })
   },
 
-  promotionChange(e) {
+  promotionChange(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     wx.navigateTo({
       url: `/pages/promotion/promotion-detail/index?promotion_id=${index}`,

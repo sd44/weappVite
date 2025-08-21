@@ -17,7 +17,7 @@ Page({
     })
   },
 
-  onTapReturn(e) {
+  onTapReturn(e: WechatMiniprogram.CustomEvent) {
     const target = e.currentTarget.dataset.type
     const { orderNo } = this.data
     if (target === "home") {

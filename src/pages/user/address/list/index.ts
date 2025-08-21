@@ -1,5 +1,3 @@
- 
-
 import Toast from "tdesign-miniprogram/toast/index"
 import { getAddressPromise } from "../../../../services/address/edit"
 import { fetchDeliveryAddressList } from "../../../../services/address/fetchAddress"
@@ -102,7 +100,7 @@ Page({
       })
     }
   },
-  deleteAddressHandle(e) {
+  deleteAddressHandle(e: WechatMiniprogram.CustomEvent) {
     const { id } = e.currentTarget.dataset
     this.setData({
       addressList: this.data.addressList.filter((address) => address.id !== id),
@@ -177,7 +175,7 @@ Page({
           addressList,
         })
       })
-      .catch((e) => {
+      .catch((e: WechatMiniprogram.CustomEvent) => {
         if (e.message !== "cancel") {
           Toast({
             context: this,

@@ -114,11 +114,9 @@ Page({
   fetUseriInfoHandle() {
     fetchUserCenter().then(
       ({ userInfo, countsData, orderTagInfos: orderInfo, customerServiceInfo }) => {
-         
         menuData?.[0].forEach((v) => {
           countsData.forEach((counts) => {
             if (counts.type === v.type) {
-               
               v.tit = counts.num
             }
           })
@@ -188,7 +186,7 @@ Page({
     }
   },
 
-  jumpNav(e) {
+  jumpNav(e: WechatMiniprogram.CustomEvent) {
     const status = e.detail.tabType
 
     if (status === 0) {
