@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genAddress } from "../../model/address"
 import { genSimpleUserInfo } from "../../model/usercenter"
 import { delay } from "../_utils/delay"
@@ -19,10 +19,10 @@ function mockFetchPerson() {
 
 /** 获取个人中心信息 */
 export function fetchPerson() {
-  if (config.useMock) {
-    return mockFetchPerson()
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // if (config.useMock) {
+  return mockFetchPerson()
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

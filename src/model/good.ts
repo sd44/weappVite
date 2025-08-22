@@ -1,11 +1,11 @@
 import { cdnBase } from "../config/index"
-import { Good } from "./someTypes"
+import type { Good } from "./someTypes"
 
 const imgPrefix = cdnBase
 
 const defaultDesc = [`${imgPrefix}/goods/details-1.png`]
 
-const allGoods = [
+const allGoods: Good[] = [
   {
     saasId: "88888888",
     storeId: "1000",
@@ -1896,11 +1896,12 @@ export function genGood(id: number, available = 1): Good {
     return allGoods.filter((good) => Number.parseInt(good.spuId, 10) === id)[0]
   }
   const item = allGoods[id % allGoods.length]
+  const primaryImages = item.primaryImage ? [item.primaryImage] : undefined
   return {
     ...item,
     spuId: `${id}`,
     available,
     desc: item?.desc || defaultDesc,
-    images: item?.images || [item?.primaryImage],
+    images: item?.images || primaryImages,
   }
 }

@@ -1,4 +1,5 @@
 import Toast from "tdesign-miniprogram/toast/index"
+import type { Good, ListParams } from "~/model/someTypes"
 import { fetchGoodsList } from "../../../services/good/fetchGoodsList"
 
 const initFilters = {
@@ -9,7 +10,7 @@ const initFilters = {
 
 Page({
   data: {
-    goodsList: [],
+    goodsList: [] as Good[],
     layout: 0,
     sorts: "",
     overall: 1,
@@ -20,6 +21,7 @@ Page({
     hasLoaded: false,
     loadMoreStatus: 0,
     loading: true,
+    keywords: "",
   },
 
   pageNum: 1,
@@ -42,7 +44,7 @@ Page({
     const { filter, keywords, minVal, maxVal } = this.data
     const { pageNum, pageSize } = this
     const { sorts, overall } = filter
-    const params = {
+    const params: ListParams = {
       sort: 0, // 0 综合，1 价格
       pageNum: 1,
       pageSize: 30,
@@ -59,8 +61,8 @@ Page({
     } else {
       params.sort = 1
     }
-    params.minPrice = minVal ? minVal * 100 : 0
-    params.maxPrice = maxVal ? maxVal * 100 : undefined
+    params.minPrice = minVal ? Number.parseInt(minVal, 10) * 100 : 0
+    params.maxPrice = maxVal ? Number.parseInt(maxVal, 10) * 100 : undefined
     if (reset) {
       return params
     }
@@ -200,13 +202,13 @@ Page({
     if (minVal && !maxVal) {
       message = `价格最小是${minVal}`
     } else if (!minVal && maxVal) {
-      message = `价格范围是0-${minVal}`
+      message = `价格范围是0-${maxVal}`
     } else if (minVal && maxVal && minVal <= maxVal) {
-      message = `价格范围${minVal}-${this.data.maxVal}`
+      message = `价格范围${minVal}-${maxVal}`
     } else {
       message = "请输入正确范围"
     }
-    if (message) {
+    if (message.length > 0) {
       Toast({
         context: this,
         selector: "#t-toast",

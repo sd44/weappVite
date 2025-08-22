@@ -1,10 +1,11 @@
 import Toast from "tdesign-miniprogram/toast/index"
+import type { Good } from "~/model/someTypes"
 import { fetchCouponDetail } from "../../../services/coupon/index"
 import { fetchGoodsList } from "../../../services/good/fetchGoods"
 
 Page({
   data: {
-    goods: [],
+    goods: [] as Good[],
     detail: {},
     couponTypeDesc: "",
     showStoreInfoList: false,

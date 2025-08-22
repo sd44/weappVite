@@ -1,11 +1,13 @@
-const userInfo = {
+import type { CountData, orderTagInfo, UserInfo } from "./someTypes"
+
+const userInfo: UserInfo = {
   avatarUrl:
     "https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg",
   nickName: "TDesign 🌟",
   phoneNumber: "13438358888",
   gender: 2,
 }
-const countsData = [
+const countsData: CountData[] = [
   {
     num: 2,
     name: "积分",
@@ -18,7 +20,7 @@ const countsData = [
   },
 ]
 
-const orderTagInfos = [
+const orderTagInfos: orderTagInfo[] = [
   {
     orderNum: 1,
     tabType: 5,

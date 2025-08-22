@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { getGoods as getGoodsModel } from "../../model/submitComment"
 import { delay } from "../_utils/delay"
 
@@ -13,10 +13,10 @@ function mockGetGoods() {
 
 /** 获取评价商品 */
 export function getGoods() {
-  if (config.useMock) {
-    return mockGetGoods()
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // if (config.useMock) {
+  return mockGetGoods()
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

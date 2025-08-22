@@ -1,25 +1,26 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { getSearchResult } from "../../model/search"
 import { delay } from "../_utils/delay"
 
 /** 获取商品列表 */
-function mockFetchGoodsList(params: any) {
-  const data = getSearchResult(params)
+function mockFetchGoodsList() {
+  const data = getSearchResult()
 
   if (data.spuList.length) {
-    data.spuList.forEach((item: any) => {
-      item.spuId = item.spuId
-      item.thumb = item.primaryImage
-      item.title = item.title
-      item.price = item.minSalePrice
-      item.originPrice = item.maxLinePrice
-      item.desc = ""
-      if (item.spuTagList) {
-        item.tags = item.spuTagList.map((tag: any) => tag.title)
-      } else {
-        item.tags = []
+    const goodsList = data.spuList.map((item) => {
+      const goodsItem = {
+        spuId: item.spuId,
+        thumb: item.primaryImage,
+        title: item.title,
+        price: item.minSalePrice,
+        originPrice: item.maxLinePrice,
+        tags: item.spuTagList ? item.spuTagList.map((tag) => tag.title) : [],
       }
+      return goodsItem
     })
+
+    // 将转换后的商品列表赋值回 data.spuList
+    data.spuList = goodsList
   }
   return delay().then(() => {
     return data
@@ -27,11 +28,11 @@ function mockFetchGoodsList(params: any) {
 }
 
 /** 获取商品列表 */
-export function fetchGoodsList(params: any) {
-  if (config.useMock) {
-    return mockFetchGoodsList(params)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+export function fetchGoodsList(_params) {
+  // if (config.useMock) {
+  return mockFetchGoodsList()
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

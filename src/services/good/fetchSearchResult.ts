@@ -1,24 +1,21 @@
-import { config } from "../../config/index"
-import { getSearchResult as getSearchResultModel } from "../../model/search"
+// import { config } from "../../config/index"
+
+import { getSearchResult as mockGetSearchResult } from "~/model/search"
 import { delay } from "../_utils/delay"
 
 /** 获取搜索历史 */
-function mockSearchResult(params: any) {
-  const data = getSearchResultModel(params)
+function mockSearchResult() {
+  const data = mockGetSearchResult()
 
-  if (data.spuList.length) {
-    data.spuList.forEach((item: any) => {
-      item.spuId = item.spuId
-      item.thumb = item.primaryImage
-      item.title = item.title
-      item.price = item.minSalePrice
-      item.originPrice = item.maxLinePrice
-      if (item.spuTagList) {
-        item.tags = item.spuTagList.map((tag: any) => ({ title: tag.title }))
-      } else {
-        item.tags = []
-      }
-    })
+  for (const item of data.spuList) {
+    item.thumb = item.primaryImage
+    item.price = item.minSalePrice
+    item.originPrice = item.maxLinePrice
+    if (item.spuTagList) {
+      item.tags = item.spuTagList.map((tag) => ({ title: tag.title }))
+    } else {
+      item.tags = []
+    }
   }
   return delay().then(() => {
     return data
@@ -26,11 +23,11 @@ function mockSearchResult(params: any) {
 }
 
 /** 获取搜索历史 */
-export function getSearchResult(params: any) {
-  if (config.useMock) {
-    return mockSearchResult(params)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+export function getSearchResult() {
+  // if (config.useMock) {
+  return mockSearchResult()
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

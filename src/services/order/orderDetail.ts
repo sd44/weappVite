@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genBusinessTime, genOrderDetail } from "../../model/order/orderDetail"
 import { delay } from "../_utils/delay"
 
@@ -9,13 +9,13 @@ function mockFetchOrderDetail(params: { parameter: string }) {
 
 /** 获取订单详情数据 */
 export function fetchOrderDetail(params: { parameter: string }) {
-  if (config.useMock) {
-    return mockFetchOrderDetail(params)
-  }
+  // if (config.useMock) {
+  return mockFetchOrderDetail(params)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 获取客服mock数据 */
@@ -25,11 +25,11 @@ function mockFetchBusinessTime() {
 
 /** 获取客服数据 */
 export function fetchBusinessTime() {
-  if (config.useMock) {
-    return mockFetchBusinessTime()
-  }
+  // if (config.useMock) {
+  return mockFetchBusinessTime()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

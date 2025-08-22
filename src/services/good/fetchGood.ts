@@ -1,4 +1,5 @@
-import { config } from "../../config/index"
+import type { Good } from "~/model/someTypes"
+// import { config } from "../../config/index"
 import { genGood } from "../../model/good"
 import { delay } from "../_utils/delay"
 
@@ -8,11 +9,11 @@ function mockFetchGood(ID = 0) {
 }
 
 /** 获取商品列表 */
-export function fetchGood(ID = 0) {
-  if (config.useMock) {
-    return mockFetchGood(ID)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+export function fetchGood(ID = 0): Promise<Good> {
+  // if (config.useMock) {
+  return mockFetchGood(ID)
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

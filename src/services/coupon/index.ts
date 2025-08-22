@@ -3,19 +3,19 @@ import {
   type CouponDetailResponse,
   mockFetchCoupon,
 } from "~/model/someTypes"
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genAddressList } from "../../model/address"
 import { getCoupon } from "../../model/coupon"
 import { delay } from "../_utils/delay"
 
 /** 获取优惠券列表 */
 export function fetchCouponList(status: CouponCardStatus = "default") {
-  if (config.useMock) {
-    return mockFetchCoupon(status)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // if (config.useMock) {
+  return mockFetchCoupon(status)
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 获取优惠券 详情 */
@@ -59,10 +59,10 @@ function mockFetchCouponDetail(
 
 /** 获取优惠券 详情 */
 export function fetchCouponDetail(id: number, status: CouponCardStatus = "default") {
-  if (config.useMock) {
-    return mockFetchCouponDetail(id, status)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // if (config.useMock) {
+  return mockFetchCouponDetail(id, status)
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

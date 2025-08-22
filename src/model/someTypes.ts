@@ -5,6 +5,7 @@ export type SpecInfo = {
   specId: string
   specTitle: string
   specValue: string
+  specValueId: string
 }
 export type GoodsInfo = {
   goodsName: string
@@ -448,7 +449,7 @@ export type SkuInfo = {
   priceInfo: PriceInfo[]
   stockInfo: StockInfo
   weight: { value: number | null; unit: string } | null
-  volume: any | null
+  volume: { value: number | null; unit: string } | null
   profitPrice: number | null
 }
 
@@ -464,41 +465,47 @@ export type LimitInfo = {
 
 export type GoodsListItem = {
   spuId: string
-  thumb: string
+  thumb?: string
   title: string
-  price: number | string
-  originPrice: number | string
-  tags: string[]
+  price?: number | string
+  originPrice?: number | string
+  tags?: { title: string }[]
 }
 
 export type Good = {
-  saasId: string
-  storeId: string
+  thumb?: string
+  price?: number | string
+  tags?: { title: string }[]
+  hideKey?: any
+  originPrice?: number | string
+  saasId?: string
+  storeId?: string
   spuId: string
   title: string
-  primaryImage: string
-  images: string[]
-  video?: any
+  primaryImage?: string
+  images?: string[] | null
+  video?: { url: string; coverUrl: string } | null
   available?: number
-  minSalePrice: number | string
-  minLinePrice: number | string
-  maxSalePrice: number | string
-  maxLinePrice: number | string
-  spuStockQuantity: number
-  soldNum: number
-  isPutOnSale: number
+  minSalePrice?: number | string
+  minLinePrice?: number | string
+  maxSalePrice?: number | string
+  maxLinePrice?: number | string
+  spuStockQuantity?: number
+  soldNum?: number
+  isPutOnSale?: number
+  isAvailable?: number
   categoryIds?: string[]
-  specList: Spec[]
-  skuList: SkuInfo[]
-  spuTagList: SpuTag[]
+  specList?: Spec[]
+  skuList?: SkuInfo[]
+  spuTagList?: SpuTag[]
   limitInfo?: LimitInfo[]
-  desc: string[]
-  etitle: string
+  desc?: string[]
+  etitle?: string
   isSoldOut?: boolean
   groupIdList?: string[]
-  promotionList?: any | null
+  promotionList?: Promotion[] | null
   minProfitPrice?: number | null
-  spuLimitList?: any | null
+  spuLimitList?: LimitInfo[] | null
 }
 type CouponDetail = {
   key: string
@@ -627,7 +634,7 @@ export type CartStoreGoods = {
   promotionGoodsList: Promotion[]
   lastJoinTime: string
   postageFreePromotionVo: PostageFreePromotion
-  shortageGoodsList: any[]
+  shortageGoodsList: GoodsPromotion[]
 }
 
 export type InvalidGood = {
@@ -664,4 +671,80 @@ export type CartData = {
   selectedGoodsCount: number
   totalAmount: string
   totalDiscountAmount: string
+}
+export type SkuItem = {
+  skuId: string
+  quantity: number
+  specInfo: SpecInfo[]
+  price?: number
+  skuImage?: string
+}
+export type CommentCount = {
+  commentCount: string
+  badCount: string
+  middleCount: string
+  goodCount: string
+  hasImageCount: string
+  goodRate: number
+  uidCount: string
+}
+export type GoodDetailsComments = {
+  homePageComments: {
+    spuId: string
+    skuId: null
+    specInfo: null
+    commentContent: string
+    commentScore: number
+    uid: string
+    userName: string
+    userHeadUrl: string
+  }[]
+}
+export type SelectedSku = Record<string, string>
+
+export type SearchResult = {
+  saasId: null | string
+  spuId?: string
+  storeId: null | string
+  pageNum: number
+  pageSize: number
+  totalCount: number
+  spuList: Good[]
+  algId: number
+}
+export type ListParams = {
+  sort: number
+  pageNum: number
+  pageSize: number
+  keyword: string
+  sortType?: number
+  minPrice?: number
+  maxPrice?: number
+  overall?: number
+}
+export type DeliVeryAddress = AddressModel & {
+  phoneNumber: string
+  address: string
+  tag: string
+}
+export type UserInfo = {
+  avatarUrl?: string
+  nickName: string
+  phoneNumber: string
+  gender?: number
+}
+export type CountData = {
+  num: number
+  name: string
+  type: string
+}
+
+export type orderTagInfo = {
+  orderNum: number
+  tabType: number
+}
+
+export type customerServiceInfo = {
+  servicePhone: string
+  serviceTimeDuration: string
 }

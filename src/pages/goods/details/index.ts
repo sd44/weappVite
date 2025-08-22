@@ -1,5 +1,13 @@
 import Toast from "tdesign-miniprogram/toast/index"
-import type { Good } from "~/model/someTypes"
+import type {
+  Activity,
+  Good,
+  SelectedSku,
+  SkuInfo,
+  SkuItem,
+  Spec,
+  SpecValue,
+} from "~/model/someTypes"
 import { cdnBase } from "../../../config/index"
 import { fetchActivityList } from "../../../services/activity/fetchActivityList"
 import { fetchGood } from "../../../services/good/fetchGood"
@@ -24,7 +32,13 @@ const obj2Params = (obj: Record<string, string>, encode = false) => {
 
 Page({
   data: {
-    commentsList: [],
+    commentsList: [] as {
+      goodsSpu: string
+      userName: string
+      commentScore: number
+      commentContent: string
+      userHeadUrl: string
+    }[],
     commentsStatistics: {
       badCount: 0,
       commentCount: 0,
@@ -34,7 +48,7 @@ Page({
       middleCount: 0,
     },
     isShowPromotionPop: false,
-    activityList: [],
+    activityList: [] as Activity[],
     recLeftImg,
     recRightImg,
     details: {} as Good,
@@ -69,7 +83,9 @@ Page({
     buttonType: 1,
     buyNum: 1,
     selectedAttrStr: "",
-    skuArray: [],
+    skuArray: [] as SkuItem[],
+    skuList: [] as SkuInfo[],
+    selectItem: null as SkuItem | null,
     primaryImage: "",
     specImg: "",
     isSpuSelectPopupShow: false,
@@ -81,7 +97,7 @@ Page({
     maxLinePrice: 0,
     minSalePrice: 0,
     maxSalePrice: 0,
-    list: [],
+    list: [] as { tag: string; label: string }[],
     spuId: "",
     navigation: { type: "fraction" },
     current: 0,
@@ -123,10 +139,12 @@ Page({
   showCurImg(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     const { images } = this.data.details
-    wx.previewImage({
-      current: images[index],
-      urls: images, // 需要预览的图片http链接列表
-    })
+    if (images && images?.length > 0) {
+      wx.previewImage({
+        current: images[index],
+        urls: images, // 需要预览的图片http链接列表
+      })
+    }
   },
 
   onPageScroll({ scrollTop }) {
@@ -148,25 +166,22 @@ Page({
     this.getSkuItem(specList, selectedSku)
   },
 
-  getSkuItem(specList, selectedSku) {
+  getSkuItem(specList: Spec[], selectedSku: SelectedSku) {
     const { skuArray, primaryImage } = this.data
     const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku)
     let selectedAttrStr = " 件  "
-    selectedSkuValues.forEach((item) => {
+    for (const item of selectedSkuValues) {
       selectedAttrStr += `，${item.specValue}  `
-    })
+    }
 
-    const skuItem = skuArray.filter((item) => {
-      let status = true
-      ;(item.specInfo || []).forEach((subItem) => {
-        if (!selectedSku[subItem.specId] || selectedSku[subItem.specId] !== subItem.specValueId) {
-          status = false
-        }
+    const skuItems = skuArray.filter((item) => {
+      // 使用every替代forEach，满足所有条件才返回true，且可提前终止
+      return (item.specInfo || []).every((subItem) => {
+        return selectedSku[subItem.specId] && selectedSku[subItem.specId] === subItem.specValueId
       })
-      if (status) {
-        return item
-      }
     })
+    const skuItem = skuItems.length > 0 ? skuItems[0] : null
+
     this.selectSpecsName(selectedSkuValues.length > 0 ? selectedAttrStr : "")
     if (skuItem) {
       this.setData({
@@ -185,9 +200,9 @@ Page({
   },
 
   // 获取已选择的sku名称
-  getSelectedSkuValues(skuTree, selectedSku) {
-    const normalizedTree = this.normalizeSkuTree(skuTree)
-    return Object.keys(selectedSku).reduce((selectedValues, skuKeyStr) => {
+  getSelectedSkuValues(skuTree: Spec[], selectedSku: SelectedSku) {
+    const normalizedTree: Record<string, SpecValue[]> = this.normalizeSkuTree(skuTree)
+    return Object.keys(selectedSku).reduce((selectedValues: SpecValue[], skuKeyStr) => {
       const skuValues = normalizedTree[skuKeyStr]
       const skuValueId = selectedSku[skuKeyStr]
       if (skuValueId !== "") {
@@ -200,15 +215,15 @@ Page({
     }, [])
   },
 
-  normalizeSkuTree(skuTree) {
-    const normalizedTree = {}
+  normalizeSkuTree(skuTree: Spec[]): Record<string, SpecValue[]> {
+    const normalizedTree: Record<string, SpecValue[]> = {}
     for (const treeItem of skuTree) {
       normalizedTree[treeItem.specId] = treeItem.specValueList
     }
     return normalizedTree
   },
 
-  selectSpecsName(selectSpecsName) {
+  selectSpecsName(selectSpecsName: string) {
     if (selectSpecsName) {
       this.setData({
         selectedAttrStr: selectSpecsName,
@@ -231,7 +246,7 @@ Page({
     })
   },
 
-  gotoBuy(type) {
+  gotoBuy(type: number) {
     const { isAllSelectedSku, buyNum } = this.data
     if (!isAllSelectedSku) {
       Toast({
@@ -248,7 +263,7 @@ Page({
       quantity: buyNum,
       storeId: "1",
       goodsName: this.data.details.title,
-      skuId: type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
+      skuId: type === 1 ? this.data.skuList[0].skuId : this.data.selectItem?.skuId || "",
       available: this.data.details.available,
       price: this.data.details.minSalePrice,
       specInfo: this.data.details.specList?.map((item) => ({
@@ -305,71 +320,93 @@ Page({
     })
   },
 
-  getDetail(spuId) {
-    Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
-      const [details, activityList] = res
-      const skuArray = []
-      const {
-        skuList,
-        primaryImage,
-        isPutOnSale,
-        minSalePrice,
-        maxSalePrice,
-        maxLinePrice,
-        soldNum,
-      } = details
-      skuList.forEach((item) => {
-        skuArray.push({
-          skuId: item.skuId,
-          quantity: item.stockInfo ? item.stockInfo.stockQuantity : 0,
-          specInfo: item.specInfo,
-        })
+  async getDetail(spuId: string) {
+    try {
+      const [details, activityList] = await Promise.all([
+        fetchGood(Number(spuId)),
+        fetchActivityList(),
+      ])
+
+      const skuArray = this.processSkuList(details.skuList)
+      const promotionArray = this.processActivityList(activityList)
+
+      this.updateDetailData(details, activityList, skuArray, promotionArray)
+    } catch (_error) {
+      // 错误处理
+    }
+  },
+
+  processSkuList(skuList: SkuInfo[]) {
+    const skuArray: SkuItem[] = []
+    for (const item of skuList) {
+      skuArray.push({
+        skuId: item.skuId,
+        quantity: item.stockInfo ? item.stockInfo.stockQuantity : 0,
+        specInfo: item.specInfo.map((spec) => ({
+          specId: spec.specId,
+          specTitle: spec.specTitle || "",
+          specValue: spec.specValue || "",
+          specValueId: spec.specValueId,
+        })),
       })
-      const promotionArray = []
-      activityList.forEach((item) => {
-        promotionArray.push({
-          tag: item.promotionSubCode === "MYJ" ? "满减" : "满折",
-          label: "满100元减99.9元",
-        })
+    }
+    return skuArray
+  },
+
+  processActivityList(activityList: Activity[]) {
+    const promotionArray: { tag: string; label: string }[] = []
+    for (const item of activityList) {
+      promotionArray.push({
+        tag: item.promotionSubCode === "MYJ" ? "满减" : "满折",
+        label: "满100元减99.9元",
       })
-      this.setData({
-        details,
-        activityList,
-        isStock: details.spuStockQuantity > 0,
-        maxSalePrice: maxSalePrice ? Number.parseInt(maxSalePrice, 10) : 0,
-        maxLinePrice: maxLinePrice ? Number.parseInt(maxLinePrice, 10) : 0,
-        minSalePrice: minSalePrice ? Number.parseInt(minSalePrice, 10) : 0,
-        list: promotionArray,
-        skuArray,
-        primaryImage,
-        soldout: isPutOnSale === 0,
-        soldNum,
-      })
+    }
+    return promotionArray
+  },
+
+  updateDetailData(
+    details: Good,
+    activityList: Activity[],
+    skuArray: SkuItem[],
+    promotionArray: { tag: string; label: string }[]
+  ) {
+    const { primaryImage, isPutOnSale, minSalePrice, maxSalePrice, maxLinePrice, soldNum } = details
+
+    this.setData({
+      details,
+      activityList,
+      isStock: (details.spuStockQuantity ?? 0) > 0,
+      maxSalePrice: maxSalePrice ? Number.parseInt(maxSalePrice.toString(), 10) : 0,
+      maxLinePrice: maxLinePrice ? Number.parseInt(maxLinePrice.toString(), 10) : 0,
+      minSalePrice: minSalePrice ? Number.parseInt(minSalePrice.toString(), 10) : 0,
+      list: promotionArray,
+      skuArray,
+      primaryImage,
+      soldout: isPutOnSale === 0,
+      soldNum,
     })
   },
 
   async getCommentsList() {
     try {
-      const code = "Success"
       const data = await getGoodsDetailsCommentList()
-      const { homePageComments } = data
-      if (code.toUpperCase() === "SUCCESS") {
-        const nextState = {
-          commentsList: homePageComments.map((item) => {
-            return {
-              goodsSpu: item.spuId,
-              userName: item.userName || "",
-              commentScore: item.commentScore,
-              commentContent: item.commentContent || "用户未填写评价",
-              userHeadUrl: item.isAnonymity
-                ? this.anonymityAvatar
-                : item.userHeadUrl || this.anonymityAvatar,
-            }
-          }),
-        }
-        this.setData(nextState)
+      // 假设data结构包含homePageComments数组
+      const homePageComments = data.homePageComments || []
+      const nextState = {
+        commentsList: homePageComments.map((item) => {
+          return {
+            goodsSpu: item.spuId,
+            userName: item.userName || "",
+            commentScore: item.commentScore,
+            commentContent: item.commentContent || "用户未填写评价",
+            userHeadUrl: item.userHeadUrl || "",
+          }
+        }),
       }
-    } catch (_error) {}
+      this.setData(nextState)
+    } catch (_error) {
+      // 错误处理
+    }
   },
 
   onShareAppMessage() {
@@ -391,24 +428,22 @@ Page({
   /** 获取评价统计 */
   async getCommentsStatistics() {
     try {
-      const code = "Success"
       const data = await getGoodsDetailsCommentsCount()
-      if (code.toUpperCase() === "SUCCESS") {
-        const { badCount, commentCount, goodCount, goodRate, hasImageCount, middleCount } = data
-        const nextState = {
-          commentsStatistics: {
-            badCount: Number.parseInt(`${badCount}`, 10),
-            commentCount: Number.parseInt(`${commentCount}`, 10),
-            goodCount: Number.parseInt(`${goodCount}`, 10),
-            /** 后端返回百分比后数据但没有限制位数 */
-            goodRate: Math.floor(goodRate * 10) / 10,
-            hasImageCount: Number.parseInt(`${hasImageCount}`, 10),
-            middleCount: Number.parseInt(`${middleCount}`, 10),
-          },
-        }
-        this.setData(nextState)
+      const nextState = {
+        commentsStatistics: {
+          badCount: Number.parseInt(`${data.badCount || 0}`, 10),
+          commentCount: Number.parseInt(`${data.commentCount || 0}`, 10),
+          goodCount: Number.parseInt(`${data.goodCount || 0}`, 10),
+          /** 后端返回百分比后数据但没有限制位数 */
+          goodRate: Math.floor((data.goodRate || 0) * 10) / 10,
+          hasImageCount: Number.parseInt(`${data.hasImageCount || 0}`, 10),
+          middleCount: Number.parseInt(`${data.middleCount || 0}`, 10),
+        },
       }
-    } catch (_error) {}
+      this.setData(nextState)
+    } catch (_error) {
+      // 错误处理
+    }
   },
 
   /** 跳转到评价列表 */

@@ -1,5 +1,5 @@
 import { getGoodsList } from "./goods"
-
+import type { SearchResult } from "./someTypes"
 /**
  * @param {number} sort
  * @param {number} pageNum
@@ -47,7 +47,7 @@ export function getSearchPopular() {
   }
 }
 
-export function getSearchResult() {
+export function getSearchResult(): SearchResult {
   return {
     saasId: null,
     storeId: null,

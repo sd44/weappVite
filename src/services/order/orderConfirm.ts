@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genSettleDetail } from "../../model/order/orderConfirm"
 import { mockIp, mockReqId } from "../../utils/mock"
 import { delay } from "../_utils/delay"
@@ -41,33 +41,33 @@ export function fetchSettleDetail(params: {
   couponList?: any[]
   goodsRequestList: any[]
 }) {
-  if (config.useMock) {
-    return mockFetchSettleDetail(params)
-  }
+  // if (config.useMock) {
+  return mockFetchSettleDetail(params)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /* 提交订单 */
 export function dispatchCommitPay() {
-  if (config.useMock) {
-    return mockDispatchCommitPay()
-  }
+  // if (config.useMock) {
+  return mockDispatchCommitPay()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 开发票 */
 export function dispatchSupplementInvoice() {
-  if (config.useMock) {
-    return delay()
-  }
+  // if (config.useMock) {
+  return delay()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

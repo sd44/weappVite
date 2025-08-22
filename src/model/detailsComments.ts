@@ -1,4 +1,6 @@
-export function getGoodsDetailsComments() {
+import type { CommentCount, GoodDetailsComments } from "./someTypes"
+
+export function getGoodsDetailsComments(): GoodDetailsComments {
   return {
     homePageComments: [
       {
@@ -16,7 +18,7 @@ export function getGoodsDetailsComments() {
   }
 }
 
-export function getGoodsDetailsCommentsCount() {
+export function getGoodsDetailsCommentsCount(): CommentCount {
   return {
     commentCount: "47",
     badCount: "0",

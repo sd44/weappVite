@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { applyService, genApplyReasonList, genRightsPreview } from "../../model/order/applyService"
 import { delay } from "../_utils/delay"
 
@@ -9,24 +9,24 @@ function mockFetchRightsPreview(params: { orderNo: string; skuId: string }) {
 
 /** 获取售后单数据 */
 export function fetchRightsPreview(params: { orderNo: string; skuId: string }) {
-  if (config.useMock) {
-    return mockFetchRightsPreview(params)
-  }
+  // if (config.useMock) {
+  return mockFetchRightsPreview(params)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 确认收货 */
 export function dispatchConfirmReceived() {
-  if (config.useMock) {
-    return delay()
-  }
+  // if (config.useMock) {
+  return delay()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 获取可选的mock售后原因列表 */
@@ -36,13 +36,13 @@ function mockFetchApplyReasonList(params: { rightsReasonType?: string }) {
 
 /** 获取可选的售后原因列表 */
 export function fetchApplyReasonList(params: { rightsReasonType?: string }) {
-  if (config.useMock) {
-    return mockFetchApplyReasonList(params)
-  }
+  // if (config.useMock) {
+  return mockFetchApplyReasonList(params)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 发起mock售后申请 */
@@ -52,11 +52,11 @@ function mockDispatchApplyService() {
 
 /** 发起售后申请 */
 export function dispatchApplyService() {
-  if (config.useMock) {
-    return mockDispatchApplyService()
-  }
+  // if (config.useMock) {
+  return mockDispatchApplyService()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

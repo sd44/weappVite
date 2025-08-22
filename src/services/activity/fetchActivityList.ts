@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { getActivityList } from "../../model/activities"
 import { delay } from "../_utils/delay"
 
@@ -9,11 +9,11 @@ function mockFetchActivityList(pageIndex = 1, pageSize = 20) {
 
 /** 获取活动列表 */
 export function fetchActivityList(pageIndex = 1, pageSize = 20) {
-  if (config.useMock) {
-    return mockFetchActivityList(pageIndex, pageSize)
-  }
+  // if (config.useMock) {
+  return mockFetchActivityList(pageIndex, pageSize)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

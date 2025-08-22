@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genOrders, genOrdersCount } from "../../model/order/orderList"
 import { delay } from "../_utils/delay"
 
@@ -13,13 +13,13 @@ function mockFetchOrders(params: {
 export function fetchOrders(params: {
   parameter: { pageNum: number; pageSize: number; orderStatus: number }
 }) {
-  if (config.useMock) {
-    return mockFetchOrders(params)
-  }
+  // if (config.useMock) {
+  return mockFetchOrders(params)
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
 
 /** 获取订单列表mock数据 */
@@ -29,11 +29,11 @@ function mockFetchOrdersCount() {
 
 /** 获取订单列表统计 */
 export function fetchOrdersCount() {
-  if (config.useMock) {
-    return mockFetchOrdersCount()
-  }
+  // if (config.useMock) {
+  return mockFetchOrdersCount()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

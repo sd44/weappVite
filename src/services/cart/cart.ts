@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { genCartGroupData } from "../../model/cart"
 import { delay } from "../_utils/delay"
 
@@ -9,11 +9,11 @@ function mockFetchCartGroupData() {
 
 /** 获取购物车数据 */
 export function fetchCartGroupData() {
-  if (config.useMock) {
-    return mockFetchCartGroupData()
-  }
+  // if (config.useMock) {
+  return mockFetchCartGroupData()
+  // }
 
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }

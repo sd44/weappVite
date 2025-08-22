@@ -1,4 +1,5 @@
 import Toast from "tdesign-miniprogram/toast/index"
+import type { Good, ListParams } from "~/model/someTypes"
 import { getSearchResult } from "../../../services/good/fetchSearchResult"
 
 const initFilters = {
@@ -8,7 +9,7 @@ const initFilters = {
 
 Page({
   data: {
-    goodsList: [],
+    goodsList: [] as Good[],
     sorts: "",
     overall: 1,
     show: false,
@@ -43,7 +44,7 @@ Page({
     const { filter, keywords, minVal, maxVal } = this.data
     const { pageNum, pageSize } = this
     const { sorts, overall } = filter
-    const params = {
+    const params: ListParams = {
       sort: 0, // 0 综合，1 价格
       pageNum: 1,
       pageSize: 30,
@@ -59,8 +60,8 @@ Page({
     } else {
       params.sort = 1
     }
-    params.minPrice = minVal ? minVal * 100 : 0
-    params.maxPrice = maxVal ? maxVal * 100 : undefined
+    params.minPrice = minVal ? Number.parseInt(minVal, 10) * 100 : 0
+    params.maxPrice = maxVal ? Number.parseInt(maxVal, 10) * 100 : undefined
     if (reset) {
       return params
     }
@@ -82,7 +83,7 @@ Page({
       loading: true,
     })
     try {
-      const result = await getSearchResult(params)
+      const result = await getSearchResult()
       const code = "Success"
       const data = result
       if (code.toUpperCase() === "SUCCESS") {
@@ -102,10 +103,12 @@ Page({
         }
 
         const _goodsList = reset ? spuList : goodsList.concat(spuList)
-        _goodsList.forEach((v) => {
-          v.tags = v.spuTagList.map((u) => u.title)
+        for (const v of _goodsList) {
+          v.tags = v.spuTagList?.map((u) => {
+            return { title: u.title }
+          })
           v.hideKey = { desc: true }
-        })
+        }
         const _loadMoreStatus = _goodsList.length === totalCount ? 2 : 0
         this.pageNum = params.pageNum || 1
         this.total = totalCount
@@ -241,13 +244,11 @@ Page({
     } else {
       message = "请输入正确范围"
     }
-    if (message) {
-      Toast({
-        context: this,
-        selector: "#t-toast",
-        message,
-      })
-    }
+    Toast({
+      context: this,
+      selector: "#t-toast",
+      message,
+    })
     this.pageNum = 1
     this.setData(
       {

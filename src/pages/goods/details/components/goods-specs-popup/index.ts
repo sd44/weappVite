@@ -1,7 +1,12 @@
 import Toast from "tdesign-miniprogram/toast/index"
-import type { SkuInfo, Spec, SpecValue } from "~/model/someTypes"
+import type { SkuInfo, Spec, SpecValue } from "../../../../../model/someTypes"
 
-interface SpecValueWithSelection extends SpecValue {
+type SpecValueWithSelection = {
+  specValueId: string
+  specId: string | null
+  saasId: string | null
+  specValue: string
+  image: string | null
   hasStockObj?: {
     hasStock: boolean
     specsArray: string[][]
@@ -9,7 +14,9 @@ interface SpecValueWithSelection extends SpecValue {
   isSelected?: boolean
 }
 
-interface SpecWithSelection extends Spec {
+type SpecWithSelection = {
+  specId: string
+  title: string
   specValueList: SpecValueWithSelection[]
 }
 
@@ -48,7 +55,7 @@ Component({
       type: Array,
       value: [],
       observer(skuList: SkuInfo[]) {
-        if (skuList && skuList.length > 0 && this.data.initStatus) {
+        if (skuList.length > 0 && this.data.initStatus) {
           this.initData()
         }
       },
@@ -57,7 +64,7 @@ Component({
       type: Array,
       value: [] as Spec[],
       observer(specList: Spec[]) {
-        if (specList && specList.length > 0) {
+        if (specList.length > 0) {
           this.initData()
         }
       },
@@ -93,11 +100,9 @@ Component({
     initData() {
       const { skuList, specList } = this.data
       for (const item of specList) {
-        if (item.specValueList.length > 0) {
-          for (const subItem of item.specValueList) {
-            const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
-            subItem.hasStockObj = obj
-          }
+        for (const subItem of item.specValueList) {
+          const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
+          subItem.hasStockObj = obj
         }
       }
       const selectedSku: Record<string, string> = {}
@@ -112,13 +117,13 @@ Component({
       })
     },
 
-    checkSkuStockQuantity(specValueId: string, skuList: any[]) {
+    checkSkuStockQuantity(specValueId: string, skuList: SkuInfo[]) {
       let hasStock = false
       const specsArray: string[][] = []
 
       for (const item of skuList) {
         for (const subItem of item.specInfo || []) {
-          if (subItem.specValueId === specValueId && item.quantity > 0) {
+          if (subItem.specValueId === specValueId && item.stockInfo.stockQuantity > 0) {
             const subArray: string[] = []
             for (const specItem of item.specInfo || []) {
               subArray.push(specItem.specValueId)
@@ -142,124 +147,153 @@ Component({
         specList: SpecWithSelection[]
       }
 
-      if (selectSpecObj[specId]) {
-        selectSpecObj[specId] = []
-      } else {
-        selectSpecObj[specId] = []
-      }
+      this.resetSelectSpecObjForSpec(selectSpecObj, specId)
+      this.processSpecSelection(specId, specValueId, selectSpecObj, specList)
+      this.updateSelectSpecObj(selectSpecObj)
+      this.updateSkuAvailability(selectSpecObj, specList, skuList)
+      this.setData({ specList })
+    },
 
-      const itemAllSpecArray: any[] = []
+    resetSelectSpecObjForSpec(selectSpecObj: Record<string, string[]>, specId: string) {
+      selectSpecObj[specId] = []
+    },
+
+    processSpecSelection(
+      specId: string,
+      specValueId: string,
+      selectSpecObj: Record<string, string[]>,
+      specList: SpecWithSelection[]
+    ) {
+      for (const item of specList) {
+        if (item.specId === specId) {
+          this.processSelectedSpec(item, specValueId, selectSpecObj, specId)
+        } else {
+          this.processUnselectedSpec(item, selectSpecObj)
+        }
+      }
+    },
+
+    processSelectedSpec(
+      item: SpecWithSelection,
+      specValueId: string,
+      selectSpecObj: Record<string, string[]>,
+      specId: string
+    ) {
+      const itemAllSpecArray: string[][][] = []
       const itemUnSelectArray: string[] = []
       const itemSelectArray: string[] = []
 
-      for (const item of specList) {
-        if (item.specId === specId) {
-          const subSpecValueItem = item.specValueList.find(
-            (subItem) => subItem.specValueId === specValueId
-          )
-          let specSelectStatus = false
-          for (const n of item.specValueList) {
-            if (n.hasStockObj?.specsArray) {
-              itemAllSpecArray.push(n.hasStockObj.specsArray)
-            }
-            if (n.isSelected) {
-              specSelectStatus = true
-            }
-            if (n.hasStockObj?.hasStock) {
-              itemSelectArray.push(n.specValueId)
-            } else {
-              itemUnSelectArray.push(n.specValueId)
-            }
-          }
-          if (specSelectStatus && subSpecValueItem?.hasStockObj?.specsArray) {
-            selectSpecObj[specId] = this.flatten(
-              subSpecValueItem.hasStockObj.specsArray.concat(itemSelectArray)
-            )
-          } else {
-            const subSet = (arr1: string[], arr2: string[]) => {
-              const set2 = new Set(arr2)
-              const subset: string[] = []
-              for (const val of arr1) {
-                if (!set2.has(val)) {
-                  subset.push(val)
-                }
-              }
-              return subset
-            }
-            selectSpecObj[specId] = subSet(
-              this.flatten(itemAllSpecArray),
-              this.flatten(itemUnSelectArray)
-            )
-          }
+      const subSpecValueItem = item.specValueList.find(
+        (subItem) => subItem.specValueId === specValueId
+      )
+
+      for (const n of item.specValueList) {
+        if (n.hasStockObj?.specsArray) {
+          itemAllSpecArray.push(n.hasStockObj.specsArray)
+        }
+        if (n.hasStockObj?.hasStock) {
+          itemSelectArray.push(n.specValueId)
         } else {
-          // 未点击规格的逻辑
-          const currentItemSelectArray: string[][] = []
-          let specSelectStatus = false
-          for (const n of item.specValueList) {
-            if (n.hasStockObj?.specsArray) {
-              currentItemSelectArray.push(n.hasStockObj.specsArray)
-            }
-            if (n.isSelected) {
-              specSelectStatus = true
-            }
-          }
-          if (specSelectStatus) {
-            selectSpecObj[item.specId] = this.flatten(currentItemSelectArray)
-          } else {
-            delete selectSpecObj[item.specId]
-          }
+          itemUnSelectArray.push(n.specValueId)
         }
       }
 
-      this.setData({
-        selectSpecObj,
-      })
-
-      const combatArray = Object.values(selectSpecObj)
-      if (combatArray.length > 0) {
-        const showArray = combatArray.reduce((x: any[], y: any[]) => this.getIntersection(x, y))
-        const lastResult = Array.from(new Set(showArray)) as string[]
-        for (const item of specList) {
-          for (const subItem of item.specValueList) {
-            if (lastResult.includes(subItem.specValueId)) {
-              if (subItem.hasStockObj) {
-                subItem.hasStockObj.hasStock = true
-              }
-            } else if (subItem.hasStockObj) {
-              subItem.hasStockObj.hasStock = false
-            }
-          }
-        }
+      if (subSpecValueItem?.hasStockObj?.specsArray) {
+        const flattenedArray = this.flatten(
+          subSpecValueItem.hasStockObj.specsArray.concat([itemSelectArray])
+        )
+        selectSpecObj[specId] = flattenedArray
       } else {
-        for (const item of specList) {
-          if (item.specValueList.length > 0) {
-            for (const subItem of item.specValueList) {
-              const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
-              subItem.hasStockObj = obj
+        const subSet = (arr1: string[], arr2: string[]) => {
+          const set2 = new Set(arr2)
+          const subset: string[] = []
+          for (const val of arr1) {
+            if (!set2.has(val)) {
+              subset.push(val)
             }
           }
+          return subset
         }
+        selectSpecObj[specId] = subSet(
+          this.flatten(itemAllSpecArray),
+          this.flatten(itemUnSelectArray)
+        )
       }
-      this.setData({
-        specList,
-      })
     },
 
-    flatten(input: any[]): any[] {
+    processUnselectedSpec(item: SpecWithSelection, selectSpecObj: Record<string, string[]>) {
+      const currentItemSelectArray: string[][][] = []
+      for (const n of item.specValueList) {
+        if (n.hasStockObj?.specsArray) {
+          currentItemSelectArray.push(n.hasStockObj.specsArray)
+        }
+      }
+      if (currentItemSelectArray.length > 0) {
+        selectSpecObj[item.specId] = this.flatten(currentItemSelectArray)
+      } else {
+        delete selectSpecObj[item.specId]
+      }
+    },
+
+    updateSelectSpecObj(selectSpecObj: Record<string, string[]>) {
+      this.setData({ selectSpecObj })
+    },
+
+    updateSkuAvailability(
+      selectSpecObj: Record<string, string[]>,
+      specList: SpecWithSelection[],
+      skuList: SkuInfo[]
+    ) {
+      const combatArray = Object.values(selectSpecObj)
+      if (combatArray.length > 0) {
+        const showArray = combatArray.reduce((x: string[], y: string[]) =>
+          this.getIntersection(x, y)
+        )
+        const lastResult = Array.from(new Set(showArray)) as string[]
+        this.updateStockStatusBasedOnResult(specList, lastResult)
+      } else {
+        this.resetAllSkuStockStatus(specList, skuList)
+      }
+    },
+
+    updateStockStatusBasedOnResult(specList: SpecWithSelection[], lastResult: string[]) {
+      for (const item of specList) {
+        for (const subItem of item.specValueList) {
+          if (lastResult.includes(subItem.specValueId)) {
+            if (subItem.hasStockObj) {
+              subItem.hasStockObj.hasStock = true
+            }
+          } else if (subItem.hasStockObj) {
+            subItem.hasStockObj.hasStock = false
+          }
+        }
+      }
+    },
+
+    resetAllSkuStockStatus(specList: SpecWithSelection[], skuList: SkuInfo[]) {
+      for (const item of specList) {
+        for (const subItem of item.specValueList) {
+          const obj = this.checkSkuStockQuantity(subItem.specValueId, skuList)
+          subItem.hasStockObj = obj
+        }
+      }
+    },
+
+    flatten(input: unknown[]): string[] {
       const stack = [...input]
-      const res: any[] = []
+      const res: string[] = []
       while (stack.length) {
         const next = stack.pop()
         if (Array.isArray(next)) {
           stack.push(...next)
-        } else {
+        } else if (typeof next === "string") {
           res.push(next)
         }
       }
       return res.reverse()
     },
 
-    getIntersection(array: any[], nextArray: any[]): any[] {
+    getIntersection(array: string[], nextArray: string[]): string[] {
       return array.filter((item) => nextArray.includes(item))
     },
 
@@ -318,7 +352,7 @@ Component({
     },
 
     // 判断是否所有的sku都已经选中
-    isAllSelected(skuTree: any[], selectedSku: Record<string, string>): boolean {
+    isAllSelected(skuTree: Spec[], selectedSku: Record<string, string>): boolean {
       const selected = Object.keys(selectedSku).filter((skuKeyStr) => selectedSku[skuKeyStr] !== "")
       return skuTree.length === selected.length
     },

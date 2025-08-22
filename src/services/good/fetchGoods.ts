@@ -1,4 +1,4 @@
-import { config } from "../../config/index"
+// import { config } from "../../config/index"
 import { getGoodsList } from "../../model/goods"
 import type { GoodsListItem } from "../../model/someTypes"
 import { delay } from "../_utils/delay"
@@ -13,18 +13,18 @@ function mockFetchGoodsList(pageIndex = 1, pageSize = 20): Promise<GoodsListItem
         title: item.title,
         price: item.minSalePrice,
         originPrice: item.maxLinePrice,
-        tags: item.spuTagList.map((tag) => tag.title),
+        tags: item?.spuTagList?.map((tag) => tag.title),
       }
     })
   )
 }
 
 /** 获取商品列表 */
-export function fetchGoodsList(pageIndex = 1, pageSize = 20): Promise<GoodsListItem[] | string> {
-  if (config.useMock) {
-    return mockFetchGoodsList(pageIndex, pageSize)
-  }
-  return new Promise((resolve) => {
-    resolve("real api")
-  })
+export function fetchGoodsList(pageIndex = 1, pageSize = 20): Promise<GoodsListItem[]> {
+  // if (config.useMock) {
+  return mockFetchGoodsList(pageIndex, pageSize)
+  // }
+  // return new Promise((resolve) => {
+  //   resolve("real api")
+  // })
 }
