@@ -1,6 +1,31 @@
 import { AfterServiceStatus, ServiceType, ServiceTypeDesc } from "../config"
 import { getRightsList } from "./api"
 
+type TabItem = {
+  key: number
+  text: string
+  info?: number // 添加可选的info属性
+}
+
+type PageData = {
+  tabs: TabItem[]
+  curTab: number
+  dataList: any[]
+  listLoading: number
+  pullDownRefreshing: boolean
+  emptyImg: string
+  backRefresh: boolean
+}
+
+type PageInstance = {
+  page: {
+    size: number
+    num: number
+  }
+  data: PageData
+  [key: string]: any
+}
+
 Page({
   page: {
     size: 10,
@@ -33,16 +58,20 @@ Page({
     curTab: -1,
     dataList: [],
     listLoading: 0, // 0-未加载，1-加载中，2-已全部加载
+    pullDownRefresh: Object as unknown as WechatMiniprogram.Component.TrivialInstance,
     pullDownRefreshing: false, // 下拉刷新时不显示load-more
     emptyImg: "https://tdesign.gtimg.com/miniprogram/template/retail/order/empty-order-list.png",
     backRefresh: false,
   },
 
-  onLoad(query) {
-    let status = Number.parseInt(query.status, 10)
+  onLoad(query: { status?: string }) {
+    const statusStr = query.status || ""
+    let status = Number.parseInt(statusStr, 10)
     status = this.data.tabs.map((t) => t.key).includes(status) ? status : -1
     this.init(status)
-    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh")
+    this.setData({
+      pullDownRefresh: this.selectComponent("#wr-pull-down-refresh"),
+    })
   },
 
   onShow() {
@@ -62,8 +91,8 @@ Page({
     }
   },
 
-  onPageScroll(e: WechatMiniprogram.CustomEvent) {
-    this.pullDownRefresh?.onPageScroll(e: WechatMiniprogram.CustomEvent)
+  onPageScroll(e: WechatMiniprogram.Page.IPageScrollOption) {
+    this.data.pullDownRefresh?.onPageScroll(e)
   },
 
   onPullDownRefresh_(e: WechatMiniprogram.CustomEvent) {
@@ -86,13 +115,19 @@ Page({
       })
   },
 
-  init(status) {
-    status = status !== undefined ? status : this.data.curTab
-    this.refreshList(status)
+  init(status?: number) {
+    const targetStatus = status !== undefined ? status : this.data.curTab
+    this.refreshList(targetStatus)
   },
 
   getAfterServiceList(statusCode = -1, reset = false) {
-    const params = {
+    const params: {
+      parameter: {
+        pageSize: number
+        pageNum: number
+        afterServiceStatus?: number
+      }
+    } = {
       parameter: {
         pageSize: this.page.size,
         pageNum: this.page.num,
@@ -124,12 +159,15 @@ Page({
               case AfterServiceStatus.CLOSED:
                 item.info = res.data.states.closed
                 break
+              default:
+                // 对于其他情况，保持info不变
+                break
             }
             return item
           })
         }
         if (res?.data?.dataList) {
-          dataList = (res.data.dataList || []).map((_data) => {
+          dataList = (res.data.dataList || []).map((_data: any) => {
             return {
               id: _data.rights.rightsNo,
               serviceNo: _data.rights.rightsNo,
@@ -142,11 +180,11 @@ Page({
               statusName: _data.rights.userRightsStatusName,
               statusDesc: _data.rights.userRightsStatusDesc,
               amount: _data.rights.refundAmount,
-              goodsList: _data.rightsItem.map((item, i) => ({
+              goodsList: _data.rightsItem.map((item: any, i: number) => ({
                 id: i,
                 thumb: item.goodsPictureUrl,
                 title: item.goodsName,
-                specs: (item.specInfo || []).map((s) => s.specValues || ""),
+                specs: (item.specInfo || []).map((s: any) => s.specValues || ""),
                 itemRefundAmount: item.itemRefundAmount,
                 rightsQuantity: item.itemRefundAmount,
               })),
@@ -160,7 +198,7 @@ Page({
             }
           })
         }
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
           if (reset) {
             this.setData(
               {

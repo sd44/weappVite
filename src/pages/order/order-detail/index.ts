@@ -15,15 +15,21 @@ Page({
     backRefresh: false, // 用于接收其他页面back时的状态
     formatCreateTime: "", //格式化订单创建时间
     logisticsNodes: [],
+    pullDownRefresh: Object as unknown as WechatMiniprogram.Component.TrivialInstance,
+    orderNo: "",
+    navbar: Object as unknown as WechatMiniprogram.Component.TrivialInstance,
+
     /** 订单评论状态 */
     orderHasCommented: true,
   },
 
   onLoad(query) {
-    this.orderNo = query.orderNo
     this.init()
-    this.navbar = this.selectComponent("#navbar")
-    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh")
+    this.setData({
+      orderNo: query.orderNo,
+      navbar: this.selectComponent("#navbar"),
+      pullDownRefresh: this.selectComponent("#wr-pull-down-refresh"),
+    })
   },
 
   onShow() {
@@ -35,8 +41,8 @@ Page({
     this.setData({ backRefresh: false })
   },
 
-  onPageScroll(e: WechatMiniprogram.CustomEvent) {
-    this.pullDownRefresh?.onPageScroll(e: WechatMiniprogram.CustomEvent)
+  onPageScroll(e: WechatMiniprogram.Page.IPageScrollOption) {
+    this.data.pullDownRefresh?.onPageScroll(e)
   },
 
   onImgError(e: WechatMiniprogram.CustomEvent) {
@@ -250,7 +256,7 @@ Page({
   /** 跳转订单评价 */
   navToCommentCreate() {
     wx.navigateTo({
-      url: `/pages/order/createComment/index?orderNo=${this.orderNo}`,
+      url: `/pages/order/createComment/index?orderNo=${this.data.orderNo}`,
     })
   },
 
@@ -269,7 +275,7 @@ Page({
 
   onOrderInvoiceView() {
     wx.navigateTo({
-      url: `/pages/order/invoice/index?orderNo=${this.orderNo}`,
+      url: `/pages/order/invoice/index?orderNo=${this.data.orderNo}`,
     })
   },
 })

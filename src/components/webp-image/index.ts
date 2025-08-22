@@ -41,7 +41,7 @@ Component({
       const { mode } = this.properties
       // 获取容器的真实宽高，设置图片的裁剪宽度
 
-      this.getRect(".J-image").then((res) => {
+      this.getRect("#J-image").then((res) => {
         if (res) {
           const { width, height } = res
           this.setData(
@@ -83,7 +83,8 @@ Component({
       this.triggerEvent("load", e.detail)
     },
     onError(e: WechatMiniprogram.CustomEvent) {
-      this.triggerEvent("error", e.detail)
+      // this.triggerEvent("error", e.detail)
+      console.error(e.detail.errMsg)
     },
   },
 })

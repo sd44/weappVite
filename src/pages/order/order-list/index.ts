@@ -16,6 +16,7 @@ Page({
       { key: OrderStatus.PENDING_RECEIPT, text: "待收货", info: "" },
       { key: OrderStatus.COMPLETE, text: "已完成", info: "" },
     ],
+    pullDownRefresh: Object as unknown as WechatMiniprogram.Component.TrivialInstance,
     curTab: -1,
     orderList: [],
     listLoading: 0,
@@ -29,7 +30,9 @@ Page({
     let status = Number.parseInt(query.status, 10)
     status = this.data.tabs.map((t) => t.key).includes(status) ? status : -1
     this.init(status)
-    this.pullDownRefresh = this.selectComponent("#wr-pull-down-refresh")
+    this.setData({
+      pullDownRefresh: this.selectComponent("#wr-pull-down-refresh"),
+    })
   },
 
   onShow() {
@@ -46,8 +49,8 @@ Page({
     }
   },
 
-  onPageScroll(e: WechatMiniprogram.CustomEvent) {
-    this.pullDownRefresh?.onPageScroll(e: WechatMiniprogram.CustomEvent)
+  onPageScroll(e: WechatMiniprogram.Page.IPageScrollOption) {
+    this.data.pullDownRefresh?.onPageScroll(e)
   },
 
   onPullDownRefresh_(e: WechatMiniprogram.CustomEvent) {

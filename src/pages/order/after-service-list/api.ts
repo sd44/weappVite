@@ -1,4 +1,3 @@
- 
 import { mockIp, mockReqId } from "../../../utils/mock"
 
 export const resp = {
@@ -1264,14 +1263,22 @@ export const resp = {
   success: true,
 }
 
-export function getRightsList({ parameter: { afterServiceStatus, pageNum } }) {
+interface GetRightsListParams {
+  parameter: {
+    afterServiceStatus?: number
+    pageNum: number
+    pageSize?: number
+  }
+}
+
+export function getRightsList({ parameter: { afterServiceStatus, pageNum } }: GetRightsListParams) {
   const _resq = JSON.parse(JSON.stringify(resp))
   if (pageNum > 3) {
     _resq.data.dataList = []
   }
-  if (afterServiceStatus > -1) {
+  if (afterServiceStatus !== undefined && afterServiceStatus > -1) {
     _resq.data.dataList = _resq.data.dataList.filter(
-      (item) => item.rights.rightsStatus === afterServiceStatus
+      (item: any) => item.rights.rightsStatus === afterServiceStatus
     )
   }
   return Promise.resolve(_resq)
