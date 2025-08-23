@@ -57,7 +57,19 @@ Page({
     }
   },
   handleSelected(_e: WechatMiniprogram.CustomEvent) {},
+  onShow() {
+    // 以下是自动切换tabbar的官方实现，但我们定义了 tabbar init方法，可直接调用
+    // if (typeof this.getTabBar === "function" && this.getTabBar()) {
+    //   this.getTabBar().setData({
+    //     active: 0,
+    //   })
+    // }
+
+    this.getTabBar().init()
+  },
+
   onLoad() {},
+
   handleAction() {
     ActionSheet.show({
       theme: ActionSheetTheme.Grid,

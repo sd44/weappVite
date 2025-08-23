@@ -17,7 +17,7 @@
     <view>
       <t-button theme="primary" ghost @tap="handleAction">TDesign Button</t-button>
     </view>
-    <Tabbar></Tabbar>>
+    <tab-bar/>
   </view>
   <t-action-sheet id="t-action-sheet" @selected="handleSelected" />
 </view>
