@@ -13,10 +13,10 @@ Component({
     onChange(e: WechatMiniprogram.CustomEvent) {
       this.setData({
         value: e.detail.value,
-      });
+      })
       wx.navigateTo({
         url: e.detail.value,
-      });
+      })
     },
   },
-});
+})

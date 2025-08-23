@@ -1,7 +1,7 @@
-import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
-import { UnifiedViteWeappTailwindcssPlugin } from "weapp-tailwindcss/vite";
-import { TDesignResolver } from "weapp-vite/auto-import-components/resolvers";
-import { defineConfig } from "weapp-vite/config";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer"
+import { UnifiedViteWeappTailwindcssPlugin } from "weapp-tailwindcss/vite"
+import { TDesignResolver } from "weapp-vite/auto-import-components/resolvers"
+import { defineConfig } from "weapp-vite/config"
 
 export default defineConfig({
   weapp: {
@@ -43,4 +43,4 @@ export default defineConfig({
     }),
     ViteImageOptimizer(),
   ],
-});
+})

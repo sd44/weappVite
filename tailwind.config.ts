@@ -1,5 +1,5 @@
-import { getIconCollections, iconsPlugin } from "@egoist/tailwindcss-icons";
-import type { Config } from "tailwindcss";
+import { getIconCollections, iconsPlugin } from "@egoist/tailwindcss-icons"
+import type { Config } from "tailwindcss"
 
 export default (<Config>{
   content: [
@@ -19,4 +19,4 @@ export default (<Config>{
     preflight: false,
     container: false,
   },
-});
+})
