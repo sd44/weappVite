@@ -1,26 +1,28 @@
-# weapp-vite-tailwindcss-tdesign-template
+# weapp-vite-tailwindcss-tdesign-mall-retail
 
-`weapp-vite` 集成 `tailwindcss`, `tdesign` 的模板
+ [TDesign 零售行业模版示例小程序](https://github.com/Tencent/tdesign-miniprogram-starter-retail) [weapp-vite](https://vite.icebreaker.top/) 移植版
+
+`weapp-vite`已集成 `tailwindcss`, `tdesign` 的模板，方便原生微信小程序开发和移植。
 
 ## 使用方式
 
 ### 开发
 
-- `pnpm dev`
+- `bun dev`
 
-- `pnpm dev --open` 可以打包并直接启动微信开发者工具
+- `bun dev --open` 可以打包并直接启动微信开发者工具
 
 ### 构建
 
-`pnpm build`
+`bun build`
 
 ### 打开微信开发者工具
 
-`pnpm open`
+`bun open`
 
 ### 生成组件/页面
 
-`pnpm g path/to/your/component`
+`bun g path/to/your/component`
 
 ## 文档地址
 

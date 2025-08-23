@@ -1,4 +1,5 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
+import { genQueryString } from "~/utils/url-params"
 
 const firstGrid = [
   {
@@ -79,5 +80,9 @@ Page({
       align: "center",
       description: "",
     })
+  },
+
+  navToSearchPage() {
+    wx.navigateTo({ url: `/pages/goods/search/search${genQueryString({ search: "测试" })}` })
   },
 })

@@ -16,5 +16,8 @@
   },
   "[sass]": {
     "editor.defaultFormatter": "syler.sass-indented"
+  },
+  "[wxml]": {
+    "editor.defaultFormatter": "wxml-formatter-team.wxml-formatter"
   }
 }
