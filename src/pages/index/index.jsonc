@@ -1,7 +1,8 @@
 {
   "$schema": "https://vite.icebreaker.top/page.json",
   "usingComponents": {
-    "nav-bar": "/components/nav-bar/nav-bar"
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "notice-bar": "/components/notice-bar/notice-bar"
   },
   "navigationBarTitleText": "初始模板"
 }
