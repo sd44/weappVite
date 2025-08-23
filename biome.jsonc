@@ -12,8 +12,9 @@
       "!.DS_Store",
       "!project.config.json",
       "!project.private.config.json",
-      "!**/*.wxml",
-      "!**/*.wxss"
+      // "!**/*.wxml",
+      "!**/*.wxss",
+      "!**/*.wxs"
     ],
     "ignoreUnknown": false
   },
@@ -35,18 +36,47 @@
       "recommended": true,
       "suspicious": {
         "noEmptyBlockStatements": "off",
-        "noConsole": "info"
+        "noConsole": "info",
+        "noBitwiseOperators": "off",
+        "useIterableCallbackReturn": "info",
+        "noExplicitAny": "info"
       },
       "style": {
-        "useFilenamingConvention": "off"
-      }
+        "useFilenamingConvention": "off",
+        "noMagicNumbers": "off",
+        "noParameterAssign": "info",
+        "noNestedTernary": "info",
+        "noParameterProperties": "info"
+      },
+      "nursery": {
+        "noShadow": "info",
+        "noUnnecessaryConditions": "info"
+      },
+      "complexity": {
+        "noForEach": "info",
+        "noExcessiveCognitiveComplexity": "info"
+      },
+      "performance": { "useTopLevelRegex": "info" }
     }
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double"
+      "quoteStyle": "double",
+      "semicolons": "asNeeded"
     },
-    "globals": ["App", "Component", "Page", "wx"]
+    "globals": [
+      "App",
+      "Component",
+      "Page",
+      "wx",
+      "pixelRatio",
+      "getApp",
+      "getCurrentPages",
+      "require",
+      "Behavior",
+      "global",
+      "__wxConfig"
+    ]
   },
   "json": {
     "formatter": {
@@ -54,7 +84,7 @@
     },
     "parser": {
       "allowComments": true,
-      "allowTrailingCommas": true
+      "allowTrailingCommas": false
     }
   },
   "assist": {
