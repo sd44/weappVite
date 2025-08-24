@@ -27,6 +27,20 @@
         </t-icon>
       </t-search>
     </view>
+
+    <view class="swiper-wrap">
+      <t-swiper
+        wx:if="{{swiper.imgSrcs.length > 0}}"
+        current="{{swiper.current}}"
+        autoplay="{{swiper.autoplay}}"
+        duration="{{swiper.duration}}"
+        interval="{{swiper.interval}}"
+        navigation="{{swiper.navigation}}"
+        imageProps="{{swiper.swiperImageProps}}"
+        list="{{swiper.imgSrcs}}"
+        bind:click="navToActivityDetail"
+      />
+    </view>
   </view>
   <view class="flex flex-col items-center pt-20 space-y-10">
     <view class="flex space-x-8">
