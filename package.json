@@ -27,22 +27,27 @@
     "open": "weapp-vite open",
     "g": "weapp-vite generate",
     "postinstall": "weapp-tw patch",
-    "format": "bunx ultracite format",
+    "format": "bunx eslint --fix && bunx ultracite format",
     "prepare": "husky"
   },
   "dependencies": {
     "tdesign-miniprogram": "^1.10.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.0",
-    "commitizen": "^4.3.1",
-    "conventional-changelog-cli": "^5.0.0",
-    "cz-conventional-changelog": "^3.3.0",
+    "@biomejs/biome": "^2.2.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@egoist/tailwindcss-icons": "^1.9.0",
+    "@html-eslint/eslint-plugin": "^0.45.0",
+    "@html-eslint/parser": "^0.45.0",
     "@iconify-json/mdi": "^1.2.3",
     "autoprefixer": "^10.4.21",
+    "commitizen": "^4.3.1",
+    "conventional-changelog-cli": "^5.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-wxml": "^0.8.0",
     "husky": "^9.1.7",
     "miniprogram-api-typings": "^4.1.0",
     "postcss": "^8.5.6",
@@ -54,6 +59,6 @@
     "ultracite": "5.2.5",
     "vite-plugin-image-optimizer": "^2.0.2",
     "weapp-tailwindcss": "latest",
-    "weapp-vite": "^5.1.0"
+    "weapp-vite": "^5.1.1"
   }
 }
