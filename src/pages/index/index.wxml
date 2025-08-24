@@ -2,8 +2,7 @@
   <t-loading theme="circular" size="40rpx" text="快速加载中..." inherit-color />
 </view>
 <view class="min-h-screen {{ mode === 'light'?'bg-gray-100 text-slate-800':'bg-gray-900 text-slate-200' }} transition-colors duration-500">
-  <notice-bar>
-  </notice-bar>
+  <notice-bar/>
   <view class="home-page-header">
     <view class="mx-8">
       <t-search
@@ -43,6 +42,6 @@
     <view>
       <t-button theme="primary" ghost @tap="handleAction">TDesign Button</t-button>
     </view>
-    <tab-bar/>
   </view>
   <t-action-sheet id="t-action-sheet" @selected="handleSelected" />
+</view>
