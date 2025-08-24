@@ -16,16 +16,13 @@ function now(): number {
   return Date.now()
 }
 
-export function debounce<T extends (...args: unknown[]) => unknown>(
+// biome-ignore lint/suspicious/noExplicitAny: any is needed
+export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number,
+  wait = 0,
   options?: DebounceOptions
-): {
-  (this: unknown, ...args: Parameters<T>): ReturnType<T> | undefined
-  cancel: () => void
-  flush: () => ReturnType<T> | undefined
-} {
-  let lastArgs: unknown[] | undefined
+) {
+  let lastArgs: Parameters<T> | undefined
   let lastThis: unknown
   let maxWait = 0
   let result: ReturnType<T> | undefined

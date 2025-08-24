@@ -5,7 +5,7 @@
   <notice-bar>
   </notice-bar>
   <view class="home-page-header">
-    <view class="mx-8" @tap="navToSearchPage">
+    <view class="mx-8">
       <t-search
         t-class-input="t-search__input"
         t-class-input-container="t-search__input-container"
@@ -16,7 +16,8 @@
           prefix="wr"
           name="search"
           size="40rpx"
-          color="#bbb">
+          color="#bbb"
+          bind:tap="navToSearchPage">
         </t-icon>
       </t-search>
     </view>
@@ -45,4 +46,3 @@
     <tab-bar/>
   </view>
   <t-action-sheet id="t-action-sheet" @selected="handleSelected" />
-</view>

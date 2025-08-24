@@ -83,6 +83,7 @@ Page({
   },
 
   navToSearchPage() {
+    console.log("navToSearchPage 方法被调用")
     wx.navigateTo({ url: `/pages/goods/search/search${genQueryString({ search: "测试" })}` })
   },
 })
