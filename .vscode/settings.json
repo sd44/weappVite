@@ -18,6 +18,6 @@
     "editor.defaultFormatter": "syler.sass-indented"
   },
   "[wxml]": {
-    "editor.defaultFormatter": "wxml-formatter-team.wxml-formatter"
+    "editor.defaultFormatter": "qiu8310.minapp-vscode"
   }
 }

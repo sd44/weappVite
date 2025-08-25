@@ -1,5 +1,10 @@
 * 样式
 ** TODO TailWindCSS light/dark theme 主题设定
+
 * 逻辑
 ** TODO Search
-** TODO 轮播图
+** DONE 轮播图
+
+* 页面或组件
+** TODO url: `/pages/goods/details/index?spuId=${spuId}`,
+** TODO pages/index 中设计的 load-more

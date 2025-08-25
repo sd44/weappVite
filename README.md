@@ -14,7 +14,7 @@
 
 ### 构建
 
-`bun build`
+`bun run build`
 
 ### 打开微信开发者工具
 
@@ -28,3 +28,4 @@
 
 0. `weapp-vite`: https://vite.icebreaker.top/
 1. `weapp-tailwindcss`: https://tw.icebreaker.top/
+2. TDesign 零售行业模版示例: https://github.com/Tencent/tdesign-miniprogram-starter-retail

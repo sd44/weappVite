@@ -1,5 +1,7 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
+import { fetchGoodsList } from "~/services/good/fetch-goods"
 import { fetchHome } from "~/services/home"
+import type { MockGoodLit } from "~/types/common"
 import { genQueryString } from "~/utils/url-params"
 
 export type TabItem = {
@@ -41,6 +43,9 @@ const firstGrid = [
     icon: "queue",
   },
 ]
+
+// TODO: 本页面数据均是mock this.loadGoodsList,实际情况下应当根据分页/分标签/刷新等方式设立不同获取方式。
+// TODO: goodsListLoadStatus 为 0 表示加载中，为 1 表示加载完成，为 3 表示错误。实际情况应当详细设定并有不同处理方式。
 Page({
   data: {
     mode: "light",
@@ -56,7 +61,19 @@ Page({
       navigation: { type: "dots" },
       swiperImageProps: { mode: "scaleToFill" },
     },
+    goodsList: [] as MockGoodLit[],
+    goodsListLoadStatus: 0,
   },
+
+  goodListPagination: {
+    index: 0,
+    num: 20,
+  },
+
+  privateData: {
+    tabIndex: 0,
+  },
+
   switchMode() {
     if (this.data.mode === "light") {
       this.setData({
@@ -90,6 +107,12 @@ Page({
   onLoad() {
     this.loadHomePage()
   },
+  onReachBottom() {
+    // TODO: 实际情况下，应该获取下一页数据；以下为演示方便，获取重复数据
+    if (this.data.goodsListLoadStatus === 0) {
+      this.loadGoodsList()
+    }
+  },
 
   onPullDownRefresh() {
     this.loadHomePage()
@@ -106,7 +129,7 @@ Page({
       swiper: { ...this.data.swiper, imgSrcs: swiperImgs },
       pageLoading: false,
     })
-    //TODO: this.loadGoodsList(true)
+    this.loadGoodsList(true)
   },
 
   handleAction() {
@@ -120,6 +143,7 @@ Page({
     })
   },
 
+  // TODO: search逻辑还未实现,跳转 url 应当是错误的
   navToSearchPage() {
     console.log("navToSearchPage 方法被调用")
     wx.navigateTo({ url: `/pages/goods/search/search${genQueryString({ search: "测试" })}` })
@@ -131,6 +155,62 @@ Page({
     console.log("navToActivityDetail 方法被调用", promotionID)
     wx.navigateTo({
       url: `/pages/promotion/promotion-detail/index?promotion_id=${promotionID}`,
+    })
+  },
+  tabChangeHandle(e: WechatMiniprogram.CustomEvent) {
+    this.privateData.tabIndex = e.detail.value
+
+    // FIX: data.tablist 其实应当根据 tabIndex 筛选 goods 数据。为开发方便，先如此
+    console.log("tabChangeHandle", this.privateData.tabIndex)
+    this.loadGoodsList(true)
+  },
+  onReTry() {
+    this.loadGoodsList()
+  },
+
+  loadGoodsList(fresh = false) {
+    if (fresh) {
+      wx.pageScrollTo({
+        scrollTop: 0,
+      })
+    }
+
+    this.setData({ goodsListLoadStatus: 1 })
+
+    // 获取每页需要加载的商品数量
+    const pageSize = this.goodListPagination.num
+
+    // TODO: 实际情况下，应该根据 tabIndex 筛选数据，而不是下面这种混乱的算法
+    // pageSize = 10（每页 10 条），
+    // 当前标签页索引 tabIndex = 1（第二个标签），
+    // 该标签页已加载到 index = 2（已加载 3 页：0+1=1、1+1=2、2+1=3）。
+    // 则计算结果：
+    // pageIndex = 1*10 + 2 + 1 = 13，表示下一页请求第 13 页数据。
+    let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1
+
+    if (fresh) {
+      pageIndex = 0
+    }
+
+    try {
+      const nextList = fetchGoodsList(pageIndex, pageSize)
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        goodsListLoadStatus: 0,
+      })
+
+      this.goodListPagination.index = pageIndex
+      this.goodListPagination.num = pageSize
+    } catch (_err) {
+      this.setData({ goodsListLoadStatus: 3 })
+    }
+  },
+
+  goodListClickHandle(e: WechatMiniprogram.CustomEvent) {
+    const { index } = e.detail
+    const { spuId } = this.data.goodsList[index]
+    wx.navigateTo({
+      url: `/pages/goods/details/index?spuId=${spuId}`,
     })
   },
 })
