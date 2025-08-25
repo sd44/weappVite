@@ -3,7 +3,8 @@
   "usingComponents": {
     "nav-bar": "/components/nav-bar/nav-bar",
     "notice-bar": "/components/notice-bar/notice-bar",
-    "goods-list": "/components/goods-list/goods-list"
+    "goods-list": "/components/goods-list/goods-list",
+    "load-more": "/components/load-more/load-more"
   },
   "navigationBarTitleText": "TDesign Mall Weapp-Vite",
   "onReachBottomDistance": 10,

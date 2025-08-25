@@ -1,7 +1,7 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
 import { fetchGoodsList } from "~/services/good/fetch-goods"
 import { fetchHome } from "~/services/home"
-import type { MockGoodLit } from "~/types/common"
+import type { LoadStatus, MockGoodLit } from "~/types/common"
 import { genQueryString } from "~/utils/url-params"
 
 export type TabItem = {
@@ -44,8 +44,6 @@ const firstGrid = [
   },
 ]
 
-// TODO: 本页面数据均是mock this.loadGoodsList,实际情况下应当根据分页/分标签/刷新等方式设立不同获取方式。
-// TODO: goodsListLoadStatus 为 0 表示加载中，为 1 表示加载完成，为 3 表示错误。实际情况应当详细设定并有不同处理方式。
 Page({
   data: {
     mode: "light",
@@ -62,7 +60,7 @@ Page({
       swiperImageProps: { mode: "scaleToFill" },
     },
     goodsList: [] as MockGoodLit[],
-    goodsListLoadStatus: 0,
+    goodsListLoadStatus: 0 as LoadStatus,
   },
 
   goodListPagination: {
@@ -164,6 +162,8 @@ Page({
     console.log("tabChangeHandle", this.privateData.tabIndex)
     this.loadGoodsList(true)
   },
+
+  // load-more触发retry event
   onReTry() {
     this.loadGoodsList()
   },

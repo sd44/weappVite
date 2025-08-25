@@ -68,11 +68,11 @@
       bind:click="goodListClickHandle"
       bind:addcart="goodListAddCartHandle"
     />
-    <!-- <load-more
+    <load-more
       list-is-empty="{{!goodsList.length}}"
       status="{{goodsListLoadStatus}}"
       bind:retry="onReTry"
-      /> -->
+    />
     <t-toast id="t-toast"/>
   </view>
   <view class="flex flex-col items-center pt-20 space-y-10">

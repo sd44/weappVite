@@ -123,4 +123,7 @@ export type MockGoodLit = {
   price?: number | string
   originPrice?: number | string
   tags: string[]
-}
+} // TODO: 本页面数据均是mock this.loadGoodsList,实际情况下应当根据分页/分标签/刷新等方式设立不同获取方式。
+// TODO: goodsListLoadStatus 为 0 表示加载中，为 1 表示加载完成，为 3 表示错误。实际情况应当详细设定并有不同处理方式。传递给load-more 组件
+
+export type LoadStatus = 0 | 1 | 3
