@@ -1,3 +1,14 @@
+/**
+ * 通用全局类型
+ */
+
+// biome-ignore lint/suspicious/noExplicitAny: need any
+export type PlainObject = Record<string, any>
+// export type PlainObject = { [key: string]: any }
+
+// export type StringObject = { [key: string]: string }
+export type StringObject = Record<string, string>
+
 // 价格单位，分 | 元, fen，yuan
 export type PriceUnit = "fen" | "yuan"
 //价格类型
@@ -31,32 +42,20 @@ export type SpuTag = {
   image?: string | null
 }
 
+export type SpecsArray = Record<string, string[]>
+
 export type SpecValue = {
-  // 在 cart.js 的商品数据中，specInfo 数组包含规格项：
-  // javascript
-  // 运行
-
-  // specInfo: [
-  //   { specTitle: '颜色', specValue: '经典白' }, // 对应一个 specId（如“颜色”的唯一标识）
-  //   { specTitle: '类型', specValue: '经典套装' } // 对应另一个 specId（如“类型”的唯一标识）
-  // ]
-
-  // 规格类别”
   specId: string | null
-
   specTitle?: string | null
-  // specId 规格类别中的取值ID，用于唯一标识某个规格项（specId）下的具体取值（如 “颜色” 下的 “经典白”“黑色”，“尺码” 下的 “S”“M” 等）。
   specValueId: string
-  specValue?: string | null
-
-  // SaaS 平台中的租户 / 商家标识 ID，用于在多租户系统中区分不同的商家或服务实例。
+  specValue: string | null
   saasId?: string | null
-
   image?: string | null
-  // hasStockObj?: {
-  //   hasStock: boolean
-  //   specsArray: string[][]
-  // }
+  hasStockObj?: {
+    hasStock: boolean
+    specsArray: SpecsArray
+  }
+  isSelected?: boolean
 }
 
 export type SpecItem = {
@@ -65,7 +64,7 @@ export type SpecItem = {
   specValueList: SpecValue[]
 }
 
-export type skuItem = {
+export type SkuItem = {
   skuId: string
   skuImage?: string | null
   specInfo: SpecValue[]
@@ -107,7 +106,7 @@ export type Good = PriceData & {
   specList: SpecItem[]
 
   spuTagList: SpuTag[]
-  skuList: skuItem[]
+  skuList: SkuItem[]
   limitInfo?: LimitInfo[]
   desc: string[]
   etitle: string

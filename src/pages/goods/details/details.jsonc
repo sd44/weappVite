@@ -1,10 +1,10 @@
 {
   "$schema": "https://vite.icebreaker.top/page.json",
   "usingComponents": {
-    "price": "/components/price/index",
-    "buy-bar": "./components/buy-bar/index",
-    "promotion-popup": "./components/promotion-popup/index",
-    "goods-specs-popup": "./components/goods-specs-popup/index"
+    "price": "/components/price/price",
+    "buy-bar": "./components/buy-bar/buy-bar",
+    "promotion-popup": "./components/promotion-popup/promotion-popup",
+    "goods-specs-popup": "./components/goods-specs-popup/goods-specs-popup"
   },
 
   "navigationBarTitleText": "商品详情"

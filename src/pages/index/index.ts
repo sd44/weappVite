@@ -152,7 +152,7 @@ Page({
     const { index: promotionID = 0 } = detail || {}
     console.log("navToActivityDetail 方法被调用", promotionID)
     wx.navigateTo({
-      url: `/pages/promotion/promotion-detail/index?promotion_id=${promotionID}`,
+      url: `/pages/promotion/promotion-detail/promotion-detail?promotion_id=${promotionID}`,
     })
   },
   tabChangeHandle(e: WechatMiniprogram.CustomEvent) {
@@ -210,7 +210,7 @@ Page({
     const { index } = e.detail
     const { spuId } = this.data.goodsList[index]
     wx.navigateTo({
-      url: `/pages/goods/details/index?spuId=${spuId}`,
+      url: `/pages/goods/details/details?spuId=${spuId}`,
     })
   },
 })
