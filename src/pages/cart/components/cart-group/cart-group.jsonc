@@ -1,0 +1,10 @@
+{
+  "$schema": "https://vite.icebreaker.top/component.json",
+  "styleIsolation": "apply-shared",
+  "component": true,
+  "usingComponents": {
+    "swipeout": "/components/swipeout/swipeout",
+    "goods-card": "../../components/goods-card/goods-card",
+    "specs-popup": "../../components/specs-popup/specs-popup"
+  }
+}

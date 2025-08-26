@@ -1,0 +1,11 @@
+{
+  "$schema": "https://vite.icebreaker.top/page.json",
+  "component": true,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "wr-loading-content": "/components/loading-content/loading-content",
+    "wr-price": "/components/price/price",
+    "wr-service-goods-card": "../components/order-goods-card/index",
+    "wr-after-service-button-bar": "../components/after-service-button-bar/index"
+  }
+}

@@ -33,7 +33,7 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "10012",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "米色荷叶边",
             image: null,
@@ -46,21 +46,21 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "11014",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "S",
             image: null,
           },
           {
             specValueId: "10014",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "M",
             image: null,
           },
           {
             specValueId: "11013",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "L",
             image: null,
@@ -1590,7 +1590,7 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "127904180768617216",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "奶黄色",
             image: null,
@@ -1603,21 +1603,21 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "127904862175246592",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "三件套",
             image: null,
           },
           {
             specValueId: "127904862007474176",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "六件套",
             image: null,
           },
           {
             specValueId: "127904861755815680",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "八件套",
             image: null,
@@ -1748,7 +1748,7 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "127904181322265856",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "浅灰色",
             image: null,
@@ -1761,21 +1761,21 @@ const allGoods: Good[] = [
         specValueList: [
           {
             specValueId: "127904862175246592",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "S",
             image: null,
           },
           {
             specValueId: "127904862007474176",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "M",
             image: null,
           },
           {
             specValueId: "127904861755815680",
-            specId: null,
+            specId: "10033",
             saasId: null,
             specValue: "L",
             image: null,

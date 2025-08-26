@@ -7,6 +7,7 @@
 
 * 页面或组件
 ** TODO url: `/pages/goods/details/index?spuId=${spuId}`,
+** TODO: order->cart->details
 ** DONE pages/index 中设计的 load-more
 ** DONE pages/index 中的 goods-list
 

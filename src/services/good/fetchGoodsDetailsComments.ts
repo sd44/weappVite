@@ -2,7 +2,7 @@
 import {
   getGoodsDetailsCommentsCount as getGoodsDetailsCommentsCountModel,
   getGoodsDetailsComments as getGoodsDetailsCommentsModel,
-} from "../../model/detailsComments"
+} from "~/model/detailsComments"
 
 /** 获取商品详情页评论数 */
 function mockFetchGoodDetailsCommentsCount(_spuId = 0) {

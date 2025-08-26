@@ -1,18 +1,18 @@
 import Toast from "tdesign-miniprogram/toast/index"
-import type { Activity, Good, SkuItem, SpecItem, SpecValue } from "~/types/common"
-import { cdnBase } from "../../../config/index"
-import { fetchActivityList } from "../../../services/activity/fetchActivityList"
-import { fetchGood } from "../../../services/good/fetchGood"
+import { cdnBase } from "~/config/index"
+import { fetchActivityList } from "~/services/activity/fetchActivityList"
+import { fetchGood } from "~/services/good/fetchGood"
 import {
   getGoodsDetailsCommentList,
   getGoodsDetailsCommentsCount,
-} from "../../../services/good/fetchGoodsDetailsComments"
-import type { StringObject } from "../../../types/common"
+} from "~/services/good/fetchGoodsDetailsComments"
+import type { Activity, Good, SkuItem, SpecItem, SpecValue, StringObject } from "~/types/common"
 
 const imgPrefix = `${cdnBase}/`
 
 const recLeftImg = `${imgPrefix}common/rec-left.png`
 const recRightImg = `${imgPrefix}common/rec-right.png`
+
 const obj2Params = (obj: Record<string, string>, encode = false) => {
   const result: string[] = []
   for (const key in obj) {
@@ -44,7 +44,7 @@ Page({
     activityList: [] as Activity[],
     recLeftImg,
     recRightImg,
-    details: {} as Good,
+    details: {},
     goodsTabArray: [
       {
         name: "商品",
@@ -60,12 +60,12 @@ Page({
     jumpArray: [
       {
         title: "首页",
-        url: "/pages/home/home",
+        url: "/pages/index/index",
         iconName: "home",
       },
       {
         title: "购物车",
-        url: "/pages/cart/index",
+        url: "/pages/cart/cart",
         iconName: "cart",
         showCartNum: true,
       },
@@ -93,11 +93,11 @@ Page({
     list: [] as { tag: string; label: string }[],
     spuId: "",
     navigation: { type: "fraction" },
+    soldNum: 0, // 已售数量
     current: 0,
     autoplay: true,
     duration: 500,
     interval: 5000,
-    soldNum: 0, // 已售数量
   },
 
   handlePopupHide() {
@@ -303,7 +303,7 @@ Page({
   promotionChange(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
     wx.navigateTo({
-      url: `/pages/promotion/promotion-detail/index?promotion_id=${index}`,
+      url: `/pages/promotion/promotion-detail/promotion-detail?promotion_id=${index}`,
     })
   },
 
@@ -413,7 +413,7 @@ Page({
     const customInfo = {
       imageUrl: this.data.details.primaryImage,
       title: this.data.details.title + shareSubTitle,
-      path: `/pages/goods/details/index?spuId=${this.data.spuId}`,
+      path: `/pages/goods/details/details?spuId=${this.data.spuId}`,
     }
     return customInfo
   },
@@ -442,7 +442,7 @@ Page({
   /** 跳转到评价列表 */
   navToCommentsListPage() {
     wx.navigateTo({
-      url: `/pages/goods/comments/index?spuId=${this.data.spuId}`,
+      url: `/pages/goods/comments/comments?spuId=${this.data.spuId}`,
     })
   },
 

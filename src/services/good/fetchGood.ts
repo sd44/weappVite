@@ -1,19 +1,13 @@
-import type { Good } from "~/model/someTypes"
 // import { config } from "../../config/index"
+import type { Good } from "~/types/common"
 import { genGood } from "../../model/good"
-import { delay } from "../_utils/delay"
 
 /** 获取商品列表 */
 function mockFetchGood(ID = 0) {
-  return delay().then(() => genGood(ID))
+  return genGood(ID)
 }
 
 /** 获取商品列表 */
-export function fetchGood(ID = 0): Promise<Good> {
-  // if (config.useMock) {
+export function fetchGood(ID = 0): Good {
   return mockFetchGood(ID)
-  // }
-  // return new Promise((resolve) => {
-  //   resolve("real api")
-  // })
 }
