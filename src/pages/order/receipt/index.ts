@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import Dialog from "tdesign-miniprogram/dialog/index";
-import Toast from "tdesign-miniprogram/toast/index";
-import { dispatchSupplementInvoice } from "../../../services/order/orderConfirm";
+import Dialog from "tdesign-miniprogram/dialog/index"
+import Toast from "tdesign-miniprogram/toast/index"
+import { dispatchSupplementInvoice } from "../../../services/order/orderConfirm"
 
 const invoiceJson = {
   info: [
@@ -13,7 +13,7 @@ const invoiceJson = {
     "1.什么是纳税人识别号/统一社会信用代码？ 纳税人识别号，一律由15位、17位、18或者20位码（字符型）组成，其中：企业、事业单位等组织机构纳税人，以国家质量监督检验检疫总局编制的9位码（其中区分主码位与校检位之间的“—”符省略不打印）并在其“纳税人识别号”。国家税务总局下达的纳税人代码为15位，其中：1—2位为省、市代码，3—6位为地区代码，7—8位为经济性质代码，9—10位行业代码，11—15位为各地区自设的顺序码。",
     "2.入户获取/知晓纳税人识别号/统一社会信用代码？ 纳税人识别号是税务登记证上的号码，通常简称为“税号”，每个企业的纳税人识别号都是唯一的。这个属于每个人自己且终身不变的数字代码很可能成为我们的第二张“身份证”。  ",
   ],
-};
+}
 
 Page({
   orderNo: "",
@@ -43,8 +43,8 @@ Page({
     invoiceInfo: invoiceJson,
   },
   onLoad(query) {
-    const { orderNo, invoiceData } = query;
-    const tempData = JSON.parse(invoiceData || "{}");
+    const { orderNo, invoiceData } = query
+    const tempData = JSON.parse(invoiceData || "{}")
     const invoice = {
       receiptIndex: tempData.invoiceType === 5 ? 1 : 0,
       name: tempData.buyerName || "",
@@ -54,19 +54,19 @@ Page({
       goodsClassesIndex: tempData.contentType === 2 ? 1 : 0,
       code: tempData.buyerTaxNo || "",
       componentName: tempData.titleType === 2 ? tempData.buyerName : "",
-    };
-    this.orderNo = orderNo;
-    this.setData({ ...invoice });
+    }
+    this.orderNo = orderNo
+    this.setData({ ...invoice })
   },
   onLabels(e) {
-    const { item } = e.currentTarget.dataset;
-    const nameIndex = `${item.name}Index`;
-    this.setData({ [nameIndex]: item.id });
+    const { item } = e.currentTarget.dataset
+    const nameIndex = `${item.name}Index`
+    this.setData({ [nameIndex]: item.id })
   },
   onInput(e) {
-    const { addressTagsIndex } = this.data;
-    const { item } = e.currentTarget.dataset;
-    const { value } = e.detail;
+    const { addressTagsIndex } = this.data
+    const { item } = e.currentTarget.dataset
+    const { value } = e.detail
     const key =
       item === "name"
         ? addressTagsIndex === 0
@@ -76,18 +76,18 @@ Page({
           ? addressTagsIndex === 0
             ? "phone"
             : "code"
-          : "email";
-    this.setData({ [key]: value });
+          : "email"
+    this.setData({ [key]: value })
   },
   onSure() {
-    const result = this.checkSure();
+    const result = this.checkSure()
     if (!result) {
       Dialog.alert({
         title: "请填写发票信息",
         content: "",
         confirmBtn: "确认",
-      });
-      return;
+      })
+      return
     }
     const {
       receiptIndex,
@@ -100,7 +100,7 @@ Page({
       phone,
       email,
       goodsClassesIndex,
-    } = this.data;
+    } = this.data
 
     const data = {
       buyerName: addressTagsIndex === 0 ? name : componentName,
@@ -110,18 +110,18 @@ Page({
       titleType: addressTags[addressTagsIndex].type,
       contentType: goodsClassesIndex === 0 ? 1 : 2,
       invoiceType: receiptIndex === 1 ? 5 : 0,
-    };
+    }
     if (this.orderNo) {
       if (this.submitting) {
-        return;
+        return
       }
       const params = {
         parameter: {
           orderNo: this.orderNo,
           invoiceVO: data,
         },
-      };
-      this.submitting = true;
+      }
+      this.submitting = true
       dispatchSupplementInvoice(params)
         .then(() => {
           Toast({
@@ -130,52 +130,52 @@ Page({
             message: "保存成功",
             duration: 2000,
             icon: "",
-          });
+          })
           setTimeout(() => {
-            this.submitting = false;
-            wx.navigateBack({ delta: 1 });
-          }, 1000);
+            this.submitting = false
+            wx.navigateBack({ delta: 1 })
+          }, 1000)
         })
         .catch((_err) => {
-          this.submitting = false;
-        });
+          this.submitting = false
+        })
     } else {
       Object.assign(data, {
         receipts: receipts[receiptIndex],
         addressTags: addressTags[addressTagsIndex],
-      });
-      wx.setStorageSync("invoiceData", data);
-      wx.navigateBack({ delta: 1 });
+      })
+      wx.setStorageSync("invoiceData", data)
+      wx.navigateBack({ delta: 1 })
     }
   },
   checkSure() {
-    const { name, componentName, code, phone, email, addressTagsIndex, receiptIndex } = this.data;
+    const { name, componentName, code, phone, email, addressTagsIndex, receiptIndex } = this.data
     if (receiptIndex === 0) {
-      return true;
+      return true
     }
     if (addressTagsIndex === 0) {
       if (!(name.length && phone.length)) {
-        return false;
+        return false
       }
     } else if (addressTagsIndex === 1 && !(componentName.length && code.length)) {
-      return false;
+      return false
     }
     if (!email.length) {
-      return false;
+      return false
     }
-    return true;
+    return true
   },
   onDialogTap() {
-    const { dialogShow } = this.data;
+    const { dialogShow } = this.data
     this.setData({
       dialogShow: !dialogShow,
       codeShow: false,
-    });
+    })
   },
   onKnowCode() {
     this.setData({
       dialogShow: !this.data.dialogShow,
       codeShow: true,
-    });
+    })
   },
-});
+})

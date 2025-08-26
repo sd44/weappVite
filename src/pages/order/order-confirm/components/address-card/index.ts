@@ -8,10 +8,10 @@ Component({
   },
   methods: {
     onAddressTap() {
-      this.triggerEvent("addressclick");
+      this.triggerEvent("addressclick")
     },
     onAddTap() {
-      this.triggerEvent("addclick");
+      this.triggerEvent("addclick")
     },
   },
-});
+})

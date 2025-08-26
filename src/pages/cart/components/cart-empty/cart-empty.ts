@@ -16,7 +16,7 @@ Component({
   data: {},
   methods: {
     handleClick() {
-      this.triggerEvent("handleClick");
+      this.triggerEvent("handleClick")
     },
   },
-});
+})

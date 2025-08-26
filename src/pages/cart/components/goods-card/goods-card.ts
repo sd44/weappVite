@@ -25,7 +25,7 @@ Component({
       observer(hidden) {
         // null就是代表没有设置，没有设置的话不setData，防止祖先组件触发的setHidden操作被覆盖
         if (hidden !== null) {
-          this.setHidden(!!hidden);
+          this.setHidden(!!hidden)
         }
       },
     },
@@ -35,9 +35,9 @@ Component({
       // 不能在这里写生成逻辑，如果在这里写，那么假设有多个goods-list时，他们将共享这个值
       value: "",
       observer: (id) => {
-        this.genIndependentID(id);
+        this.genIndependentID(id)
         if (this.properties.thresholds?.length) {
-          this.createIntersectionObserverHandle();
+          this.createIntersectionObserverHandle()
         }
       },
     },
@@ -46,14 +46,14 @@ Component({
       observer(goods) {
         // 有ID的商品才渲染
         if (!goods) {
-          return;
+          return
         }
 
         /** 划线价是否有效 */
-        let isValidityLinePrice = true;
+        let isValidityLinePrice = true
         // 判断一次划线价格是否合理
         if (goods.originPrice && goods.price && goods.originPrice < goods.price) {
-          isValidityLinePrice = false;
+          isValidityLinePrice = false
         }
 
         // 敲定换行数量默认值
@@ -61,13 +61,13 @@ Component({
           // tag数组长度 大于0 且 可见
           // 指定换行为1行
           if ((goods.tags?.length || 0) > 0 && !goods.hideKey?.tags) {
-            goods.lineClamp = 1;
+            goods.lineClamp = 1
           } else {
-            goods.lineClamp = 2;
+            goods.lineClamp = 2
           }
         }
 
-        this.setData({ goods, isValidityLinePrice });
+        this.setData({ goods, isValidityLinePrice })
       },
     },
     layout: {
@@ -104,9 +104,9 @@ Component({
       value: [],
       observer(current) {
         if (current?.length) {
-          this.createIntersectionObserverHandle();
+          this.createIntersectionObserverHandle()
         } else {
-          this.clearIntersectionObserverHandle();
+          this.clearIntersectionObserverHandle()
         }
       },
     },
@@ -138,99 +138,99 @@ Component({
 
   lifetimes: {
     ready() {
-      this.init();
+      this.init()
     },
     detached() {
-      this.clear();
+      this.clear()
     },
   },
 
   methods: {
     clickHandle() {
-      this.triggerEvent("click", { goods: this.data.goods });
+      this.triggerEvent("click", { goods: this.data.goods })
     },
     clickThumbHandle() {
-      this.triggerEvent("thumb", { goods: this.data.goods });
+      this.triggerEvent("thumb", { goods: this.data.goods })
     },
     clickSpecsHandle() {
-      this.triggerEvent("specs", { goods: this.data.goods });
+      this.triggerEvent("specs", { goods: this.data.goods })
     },
     clickTagHandle(evt) {
-      const { index } = evt.currentTarget.dataset;
-      this.triggerEvent("tag", { goods: this.data.goods, index });
+      const { index } = evt.currentTarget.dataset
+      this.triggerEvent("tag", { goods: this.data.goods, index })
     },
     // 加入购物车
     addCartHandle(e) {
-      const { id } = e.currentTarget;
-      const { id: cardID } = e.currentTarget.dataset;
+      const { id } = e.currentTarget
+      const { id: cardID } = e.currentTarget.dataset
       this.triggerEvent("add-cart", {
         ...e.detail,
         id,
         cardID,
         goods: this.data.goods,
-      });
+      })
     },
     genIndependentID(id, cb) {
-      let independentID;
+      let independentID
       if (id) {
-        independentID = id;
+        independentID = id
       } else {
-        independentID = `goods-card-${~~(Math.random() * 10 ** 8)}`;
+        independentID = `goods-card-${~~(Math.random() * 10 ** 8)}`
       }
-      this.setData({ independentID }, cb);
+      this.setData({ independentID }, cb)
     },
 
     init() {
-      const { thresholds, id, hidden } = this.properties;
+      const { thresholds, id, hidden } = this.properties
       if (hidden !== null) {
-        this.setHidden(!!hidden);
+        this.setHidden(!!hidden)
       }
 
       this.genIndependentID(id || "", () => {
         if (thresholds?.length) {
-          this.createIntersectionObserverHandle();
+          this.createIntersectionObserverHandle()
         }
-      });
+      })
     },
 
     clear() {
-      this.clearIntersectionObserverHandle();
+      this.clearIntersectionObserverHandle()
     },
 
     setHidden(hidden) {
-      this.setData({ hiddenInData: !!hidden });
+      this.setData({ hiddenInData: !!hidden })
     },
 
     createIntersectionObserverHandle() {
       if (this.intersectionObserverContext || !this.data.independentID) {
-        return;
+        return
       }
 
       this.intersectionObserverContext = wx
         .createIntersectionObserver(this, {
           thresholds: this.properties.thresholds,
         })
-        .relativeToViewport();
+        .relativeToViewport()
 
       this.intersectionObserverContext.observe(`#${this.data.independentID}`, (res) => {
-        this.intersectionObserverCB(res);
-      });
+        this.intersectionObserverCB(res)
+      })
     },
     intersectionObserverCB(ob) {
       this.triggerEvent("ob", {
         goods: this.data.goods,
         context: this.intersectionObserverContext,
         ob,
-      });
+      })
     },
     clearIntersectionObserverHandle() {
       if (this.intersectionObserverContext) {
         try {
-          this.intersectionObserverContext.disconnect();
+          this.intersectionObserverContext.disconnect()
         } catch (_e) {}
 
-        this.intersectionObserverContext = null;
+        this.intersectionObserverContext = null
       }
     },
   },
-});
+})

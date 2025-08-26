@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
-import { couponsData } from "./mock";
+import dayjs from "dayjs"
+import { couponsData } from "./mock"
 
 const emptyCouponImg =
-  "https://tdesign.gtimg.com/miniprogram/template/retail/coupon/ordersure-coupon-newempty.png";
+  "https://tdesign.gtimg.com/miniprogram/template/retail/coupon/ordersure-coupon-newempty.png"
 
 Component({
   properties: {
@@ -20,9 +20,9 @@ Component({
       value: false,
       observer(couponsShow) {
         if (couponsShow) {
-          const { promotionGoodsList, orderSureCouponList, storeId } = this.data;
+          const { promotionGoodsList, orderSureCouponList, storeId } = this.data
           const products = promotionGoodsList?.map((goods) => {
-            this.storeId = goods.storeId;
+            this.storeId = goods.storeId
             return {
               skuId: goods.skuId,
               spuId: goods.spuId,
@@ -32,25 +32,25 @@ Component({
               prices: {
                 sale: goods.settlePrice,
               },
-            };
-          });
+            }
+          })
           const selectedCoupons = orderSureCouponList?.map((ele) => {
             return {
               promotionId: ele.promotionId,
               storeId: ele.storeId,
               couponId: ele.couponId,
-            };
-          });
+            }
+          })
           this.setData({
             products,
-          });
+          })
           this.coupons({
             products,
             selectedCoupons,
             storeId,
           }).then((res) => {
-            this.initData(res);
-          });
+            this.initData(res)
+          })
         }
       },
     },
@@ -65,11 +65,11 @@ Component({
   },
   methods: {
     initData(data = {}) {
-      const { couponResultList = [], reduce = 0 } = data;
-      const selectedList = [];
-      let selectedNum = 0;
+      const { couponResultList = [], reduce = 0 } = data
+      const selectedList = []
+      let selectedNum = 0
       const couponsList = couponResultList?.map((coupon) => {
-        const { status, couponVO } = coupon;
+        const { status, couponVO } = coupon
         const {
           couponId,
           condition = "",
@@ -78,16 +78,16 @@ Component({
           startTime = 0,
           value,
           type,
-        } = couponVO;
+        } = couponVO
         if (status === 1) {
-          selectedNum++;
+          selectedNum++
           selectedList.push({
             couponId,
             promotionId: ruleId,
             storeId: this.storeId,
-          });
+          })
         }
-        const val = type === 2 ? value / 100 : value / 10;
+        const val = type === 2 ? value / 100 : value / 10
         return {
           key: couponId,
           title: name,
@@ -98,39 +98,39 @@ Component({
           desc: condition,
           type,
           tag: "",
-        };
-      });
+        }
+      })
       this.setData({
         selectedList,
         couponsList,
         reduce,
         selectedNum,
-      });
+      })
     },
     selectCoupon(e) {
-      const { key } = e.currentTarget.dataset;
-      const { couponsList, selectedList } = this.data;
+      const { key } = e.currentTarget.dataset
+      const { couponsList, selectedList } = this.data
       couponsList.forEach((coupon) => {
         if (coupon.key === key) {
-          coupon.isSelected = !coupon.isSelected;
+          coupon.isSelected = !coupon.isSelected
         }
-      });
+      })
 
-      const couponSelected = couponsList.filter((coupon) => coupon.isSelected === true);
+      const couponSelected = couponsList.filter((coupon) => coupon.isSelected === true)
 
       this.setData({
         selectedList: [...selectedList, ...couponSelected],
         couponsList: [...couponsList],
-      });
+      })
 
       this.triggerEvent("sure", {
         selectedList: [...selectedList, ...couponSelected],
-      });
+      })
     },
     hide() {
       this.setData({
         couponsShow: false,
-      });
+      })
     },
     coupons(coupon = {}) {
       return new Promise((resolve, reject) => {
@@ -138,13 +138,13 @@ Component({
           resolve({
             couponResultList: couponsData.couponResultList,
             reduce: couponsData.reduce,
-          });
+          })
         }
         return reject({
           couponResultList: [],
           reduce: undefined,
-        });
-      });
+        })
+      })
     },
   },
-});
+})

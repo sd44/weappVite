@@ -1,22 +1,22 @@
-import { fetchOrderDetail } from "../../../services/order/orderDetail";
+import { fetchOrderDetail } from "../../../services/order/orderDetail"
 
 Page({
   data: {
     invoice: {},
   },
   onLoad({ orderNo }) {
-    this.orderNo = orderNo;
-    this.init();
+    this.orderNo = orderNo
+    this.init()
   },
   init() {
-    this.getDetail();
+    this.getDetail()
   },
   getDetail() {
     const params = {
       parameter: this.orderNo,
-    };
+    }
     return fetchOrderDetail(params).then((res) => {
-      const order = res.data;
+      const order = res.data
 
       const invoice = {
         buyerName: order?.invoiceVO?.buyerName, //个人或公司名称
@@ -28,10 +28,10 @@ Page({
         invoiceType: order?.invoiceVO?.invoiceType === 5 ? "电子普通发票" : "不开发票", //是否开票 0-不开 5-电子发票
         isInvoice: order?.invoiceVO?.buyerName ? "已开票" : "未开票",
         money: order?.invoiceVO?.money,
-      };
+      }
       this.setData({
         invoice,
-      });
-    });
+      })
+    })
   },
-});
+})
