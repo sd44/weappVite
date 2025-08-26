@@ -30,6 +30,7 @@ export type LimitInfo = {
 }
 
 export type Price = { priceType: number; price: string; priceTypeName: string }
+
 export type Stock = {
   stockQuantity: number
   safeStockQuantity: number
@@ -45,7 +46,7 @@ export type SpuTag = {
 export type SpecsArray = Record<string, string[]>
 
 export type SpecValue = {
-  specId: string | null
+  specId: string
   specTitle?: string | null
   specValueId: string
   specValue: string | null
@@ -68,9 +69,11 @@ export type SkuItem = {
   skuId: string
   skuImage?: string | null
   specInfo: SpecValue[]
-  priceInfo: Price[]
-  stockInfo: Stock
-  weight: Weight | null
+  priceInfo?: Price[]
+  price?: number
+  quantity?: number
+  stockInfo?: Stock
+  weight?: Weight | null
   volume?: number | null
   profitPrice?: number | null
 }
@@ -126,3 +129,40 @@ export type MockGoodLit = {
 // TODO: goodsListLoadStatus 为 0 表示加载中，为 1 表示加载完成，为 3 表示错误。实际情况应当详细设定并有不同处理方式。传递给load-more 组件
 
 export type LoadStatus = 0 | 1 | 3
+
+export type Activity = {
+  promotionId: string
+  title: string
+  description: null
+  promotionCode: string
+  promotionSubCode: string
+  tag: string
+  timeType: number
+  startTime: string
+  endTime: string
+  teasingStartTime: null
+  activityLadder: {
+    label: string
+  }[]
+}
+export type CommentCount = {
+  commentCount: string
+  badCount: string
+  middleCount: string
+  goodCount: string
+  hasImageCount: string
+  goodRate: number
+  uidCount: string
+}
+export type GoodDetailsComments = {
+  homePageComments: {
+    spuId: string
+    skuId: null
+    specInfo: null
+    commentContent: string
+    commentScore: number
+    uid: string
+    userName: string
+    userHeadUrl: string
+  }[]
+}

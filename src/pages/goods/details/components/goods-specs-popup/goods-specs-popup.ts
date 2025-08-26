@@ -1,5 +1,5 @@
 import Toast from "tdesign-miniprogram/toast/index"
-import type { SkuItem, SpecItem, SpecsArray } from "~/types/common"
+import type { SkuItem, SpecItem, SpecsArray, StringObject } from "~/types/common"
 
 Component({
   options: {
@@ -73,7 +73,7 @@ Component({
     buyNum: 1,
     isAllSelectedSku: false,
     initStatus: false,
-    selectedSku: {} as Record<string, string>,
+    selectedSku: {} as StringObject,
     selectSpecObj: {} as SpecsArray,
   },
 
@@ -104,7 +104,11 @@ Component({
 
       for (const item of skuList) {
         for (const subItem of item.specInfo || []) {
-          if (subItem.specValueId === specValueId && item.stockInfo.stockQuantity > 0) {
+          if (
+            subItem.specValueId === specValueId &&
+            item.stockInfo &&
+            item.stockInfo.stockQuantity > 0
+          ) {
             const subArray: string[] = []
             for (const specItem of item.specInfo || []) {
               subArray.push(specItem.specValueId)
