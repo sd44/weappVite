@@ -1,7 +1,6 @@
 /* eslint-disable */
-
-import type { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core"
-import * as types from "./graphql"
+import * as types from './graphql';
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -15,14 +14,11 @@ import * as types from "./graphql"
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-  "\nquery MyQuery1 {\n  litemallAd {\n    id\n    name\n    }\n  }\n": typeof types.MyQuery1Document
-  "\nquery MyQuery2 {\n  litemallRole {\n    name\n    id\n    enabled\n  }\n}\n": typeof types.MyQuery2Document
-}
+    "\n  query FetchTabs {\n    litemallCategory(\n      orderBy: { sortOrder: { direction: asc, priority: 10 } }\n      where: { level: { eq: \"L1\" } }\n      limit: 8\n    ) {\n      id\n      name\n      iconUrl\n    }\n  }\n": typeof types.FetchTabsDocument,
+};
 const documents: Documents = {
-  "\nquery MyQuery1 {\n  litemallAd {\n    id\n    name\n    }\n  }\n": types.MyQuery1Document,
-  "\nquery MyQuery2 {\n  litemallRole {\n    name\n    id\n    enabled\n  }\n}\n":
-    types.MyQuery2Document,
-}
+    "\n  query FetchTabs {\n    litemallCategory(\n      orderBy: { sortOrder: { direction: asc, priority: 10 } }\n      where: { level: { eq: \"L1\" } }\n      limit: 8\n    ) {\n      id\n      name\n      iconUrl\n    }\n  }\n": types.FetchTabsDocument,
+};
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -36,24 +32,15 @@ const documents: Documents = {
  * The query argument is unknown!
  * Please regenerate the types.
  */
-export function graphql(source: string): unknown
+export function graphql(source: string): unknown;
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: "\nquery MyQuery1 {\n  litemallAd {\n    id\n    name\n    }\n  }\n"
-): (typeof documents)["\nquery MyQuery1 {\n  litemallAd {\n    id\n    name\n    }\n  }\n"]
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: "\nquery MyQuery2 {\n  litemallRole {\n    name\n    id\n    enabled\n  }\n}\n"
-): (typeof documents)["\nquery MyQuery2 {\n  litemallRole {\n    name\n    id\n    enabled\n  }\n}\n"]
+export function graphql(source: "\n  query FetchTabs {\n    litemallCategory(\n      orderBy: { sortOrder: { direction: asc, priority: 10 } }\n      where: { level: { eq: \"L1\" } }\n      limit: 8\n    ) {\n      id\n      name\n      iconUrl\n    }\n  }\n"): (typeof documents)["\n  query FetchTabs {\n    litemallCategory(\n      orderBy: { sortOrder: { direction: asc, priority: 10 } }\n      where: { level: { eq: \"L1\" } }\n      limit: 8\n    ) {\n      id\n      name\n      iconUrl\n    }\n  }\n"];
 
 export function graphql(source: string) {
-  return (documents as any)[source] ?? {}
+  return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;

@@ -1,9 +1,0 @@
-{
-  "$schema": "https://vite.icebreaker.top/page.json",
-  "usingComponents": {
-    "cart-group": "./components/cart-group/cart-group",
-    "cart-empty": "./components/cart-empty/cart-empty",
-    "cart-bar": "./components/cart-bar/cart-bar"
-  },
-  "navigationBarTitleText": "购物车"
-}

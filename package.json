@@ -28,7 +28,8 @@
     "g": "weapp-vite generate",
     "postinstall": "weapp-tw patch",
     "format": "bunx eslint --fix && bunx ultracite format",
-    "prepare": "husky"
+    "prepare": "husky",
+    "codegen": "bun graphql-codegen"
   },
   "dependencies": {
     "tdesign-miniprogram": "^1.10.1",
