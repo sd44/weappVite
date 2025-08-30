@@ -1,10 +1,8 @@
 import { cdnBase } from "~/config/index"
-import { genSwiperImageList } from "~/model/swiper"
 
 /** 获取首页数据 */
 function mockFetchHome() {
   return {
-    swiperImgs: genSwiperImageList(),
     tabList: [
       {
         text: "精选推荐",

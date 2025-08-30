@@ -5,9 +5,9 @@
     wx:key="index"
   >
     <goods-card
-      id="{{independentID}}-gd-{{index}}"
+      id="{{item.id}}-gd-{{index}}"
       data="{{item}}"
-      currency="{{item.currency || '¥'}}"
+      currency="{{'¥'}}"
       thresholds="{{thresholds}}"
       class="goods-card-inside"
       data-index="{{index}}"

@@ -49,16 +49,6 @@ Page({
     mode: "light",
     pageLoading: false,
     tablist: [] as TabItem[],
-    swiper: {
-      imgSrcs: [] as string[],
-      pageLoading: false,
-      current: 1,
-      autoplay: true,
-      duration: "500",
-      interval: 5000,
-      navigation: { type: "dots" },
-      swiperImageProps: { mode: "scaleToFill" },
-    },
     goodsList: [] as MockGoodLit[],
     goodsListLoadStatus: 0 as LoadStatus,
   },
@@ -121,10 +111,9 @@ Page({
     this.setData({
       pageLoading: true,
     })
-    const { swiperImgs, tabList } = fetchHome()
+    const { tabList } = fetchHome()
     this.setData({
       tabList,
-      swiper: { ...this.data.swiper, imgSrcs: swiperImgs },
       pageLoading: false,
     })
     this.loadGoodsList(true)
@@ -147,14 +136,6 @@ Page({
     wx.navigateTo({ url: `/pages/goods/search/search${genQueryString({ search: "测试" })}` })
   },
 
-  navToActivityDetail({ detail }: WechatMiniprogram.CustomEvent) {
-    // FIX: swiper传递时，其实应当也传递相应的 url,以便跳转。为开发方便，先如此
-    const { index: promotionID = 0 } = detail || {}
-    console.log("navToActivityDetail 方法被调用", promotionID)
-    wx.navigateTo({
-      url: `/pages/promotion/promotion-detail/promotion-detail?promotion_id=${promotionID}`,
-    })
-  },
   tabChangeHandle(e: WechatMiniprogram.CustomEvent) {
     this.privateData.tabIndex = e.detail.value
 

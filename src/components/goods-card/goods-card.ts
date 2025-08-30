@@ -1,4 +1,4 @@
-import type { MockGoodLit, PriceData } from "~/types/common"
+import type { LitemallGoodsItem } from "~/gql/graphql"
 
 Component({
   options: {
@@ -6,8 +6,10 @@ Component({
   },
 
   properties: {
-    id: String,
-    data: Object,
+    goods: {
+      type: Object,
+      value: {} as LitemallGoodsItem,
+    },
     currency: {
       type: String,
       value: "¥",
@@ -15,22 +17,22 @@ Component({
     thresholds: Array,
   },
 
+  data: {
+    independentID: "",
+    isValidityLinePrice: false,
+    _observer: null as null | WechatMiniprogram.IntersectionObserver, // 用于存储 IntersectionObserver 实例
+  },
+
   observers: {
-    id(id) {
-      this.genIndependentID(id)
-      if (this.data.thresholds?.length) {
-        this.createIntersectionObserverHandle()
-      }
-    },
-    data(data: PriceData) {
-      if (!data) {
+    goods(goods: LitemallGoodsItem) {
+      if (!goods) {
         return
       }
       let isValidityLinePrice = true
-      if (data.originPrice && data.price && data.originPrice < data.price) {
-        isValidityLinePrice = false
+      if (goods.retailPrice && goods.counterPrice && goods.retailPrice < goods.counterPrice) {
+        isValidityLinePrice = true
       }
-      this.setData({ goods: { ...this.data.goods, ...data }, isValidityLinePrice })
+      this.setData({ isValidityLinePrice })
     },
     // Note: data is both a property and observer by design
     thresholds(thresholds: number[]) {
@@ -50,14 +52,6 @@ Component({
     },
   },
 
-  data: {
-    independentID: "",
-
-    goods: {} as MockGoodLit,
-    isValidityLinePrice: false,
-    _observer: null as null | WechatMiniprogram.IntersectionObserver, // 用于存储 IntersectionObserver 实例
-  },
-
   methods: {
     clickHandle() {
       this.triggerEvent("click", { goods: this.data.goods })
@@ -67,30 +61,14 @@ Component({
       this.triggerEvent("thumb", { goods: this.data.goods })
     },
 
-    addCartHandle(e: WechatMiniprogram.CustomEvent) {
-      const { id } = e.currentTarget
-      const { id: cardID } = e.currentTarget.dataset
+    addCartHandle(_e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("add-cart", {
-        ...e.detail,
-        id,
-        cardID,
         goods: this.data.goods,
       })
     },
 
-    genIndependentID(id: string) {
-      let independentID: string
-      if (id) {
-        independentID = id
-      } else {
-        independentID = `goods-card-${~~(Math.random() * 10 ** 8)}`
-      }
-      this.setData({ independentID })
-    },
-
     init() {
-      const { thresholds, id } = this.data
-      this.genIndependentID(id)
+      const { thresholds } = this.data
       if (thresholds?.length) {
         this.createIntersectionObserverHandle()
       }
