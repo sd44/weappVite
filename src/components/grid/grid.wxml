@@ -1,10 +1,10 @@
 <view class="block">
-  <t-grid column="{{4}}" theme="card">
+  <t-grid column="{{4}}" theme="default">
     <t-grid-item
-      wx:for = "{{tabs}}"
+      wx:for = "{{tablist}}"
       wx:key = "index"
       t-class-image="image"
-      id="{{item.id}}"
+      data-id="{{item.id}}"
       text="{{item.name}}"
       image="{{item.iconUrl}}"
       @tap="onClickItem"

@@ -69,12 +69,12 @@
       "Component",
       "Page",
       "wx",
+      "global",
       "pixelRatio",
       "getApp",
       "getCurrentPages",
       "require",
       "Behavior",
-      "global",
       "__wxConfig"
     ]
   },

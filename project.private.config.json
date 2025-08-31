@@ -3,7 +3,7 @@
   "projectname": "weapp-vite-tailwindcss-template",
   "setting": {
     "compileHotReLoad": true,
-    "urlCheck": true,
+    "urlCheck": false,
     "coverView": false,
     "lazyloadPlaceholderEnable": false,
     "skylineRenderEnable": false,
@@ -20,5 +20,5 @@
     "bigPackageSizeSupport": false
   },
   "condition": {},
-  "libVersion": "2.31.0"
+  "libVersion": "3.9.2"
 }

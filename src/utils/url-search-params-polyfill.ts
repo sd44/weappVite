@@ -131,11 +131,14 @@ export class URLSearchParamsPolyfill {
       callback(value, key, this)
     }
   }
-}
 
-// 全局注册polyfill
-if (typeof URLSearchParams === "undefined") {
-  ;(globalThis as any).URLSearchParams = URLSearchParamsPolyfill
+  // Add size property to match URLSearchParams interface
+  get size(): number {
+    let count = 0
+    for (const values of this.params.values()) {
+      count += values.length
+    }
+    return count
+  }
 }
-
 export default URLSearchParamsPolyfill

@@ -45,7 +45,7 @@ Page({
   data: {
     mode: "light",
     pageLoading: false,
-    tablist: {} as FetchTabsQuery,
+    tablist: [] as FetchTabsQuery[],
     goodsList: [] as MockGoodLit[],
     goodsListLoadStatus: 0 as LoadStatus,
   },
@@ -85,8 +85,8 @@ Page({
     this.getTabBar().init()
   },
 
-  onLoad() {
-    this.loadHomePage()
+  async onLoad() {
+    await this.loadHomePage()
   },
   onReachBottom() {
     // TODO: 实际情况下，应该获取下一页数据；以下为演示方便，获取重复数据
@@ -95,8 +95,8 @@ Page({
     }
   },
 
-  onPullDownRefresh() {
-    this.loadHomePage()
+  async onPullDownRefresh() {
+    await this.loadHomePage()
   },
   async loadHomePage() {
     wx.stopPullDownRefresh()
@@ -105,12 +105,13 @@ Page({
       pageLoading: true,
     })
     const tabsData = await urqlClient.query(fetchTabs, {}).toPromise()
+    console.log("tabsData", tabsData.data.litemallCategory)
 
     this.setData({
-      tabList: tabsData,
+      tablist: tabsData.data.litemallCategory,
       pageLoading: false,
     })
-    this.loadGoodsList(true)
+    // this.loadGoodsList(true)
   },
 
   handleAction() {
@@ -153,7 +154,8 @@ Page({
     // 该标签页已加载到 index = 2（已加载 3 页：0+1=1、1+1=2、2+1=3）。
     // 则计算结果：
     // pageIndex = 1*10 + 2 + 1 = 13，表示下一页请求第 13 页数据。
-    let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1
+    // let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1
+    let pageIndex = this.goodListPagination.index + 1
 
     if (fresh) {
       pageIndex = 0
