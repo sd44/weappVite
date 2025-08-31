@@ -1,18 +1,10 @@
 import type { FetchTabsQuery } from "~/gql/graphql"
-import { fetchTabs } from "~/schema/home"
-import { urqlClient } from "~/utils/fetcher"
 
 Component({
   properties: {
     tabs: {
       type: Object,
       value: {} as FetchTabsQuery,
-    },
-  },
-  lifetimes: {
-    async attached() {
-      const tabsData = await urqlClient.query(fetchTabs, {}).toPromise()
-      this.setData({ tabs: tabsData.data })
     },
   },
   methods: {

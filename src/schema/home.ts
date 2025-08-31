@@ -13,3 +13,30 @@ export const fetchTabs = gql`
     }
   }
 `
+
+export const fetchNewGoods = gql`
+  query FetchNewGoods($limit: Int!, $offset: Int!) {
+    litemallGoods(
+      orderBy: { sortOrder: { direction: asc, priority: 10 } }
+      where: { is_on_sale: { eq: true }, is_new: { eq: true } }
+      limit: $limit
+      offset: $offset
+    ) {
+      id
+      goodsSn
+      name
+      categoryId
+      gallery
+      keywords
+      brief
+      picUrl
+      shareUrl
+      isNew
+      isHot
+      unit
+      counterPrice
+      retailPrice
+      detail
+    }
+  }
+`

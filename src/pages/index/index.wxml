@@ -30,24 +30,25 @@
     <swiper/>
   </view>
   <view class="home-page-container">
-    <view class="home-page-tabs">
+    <grid tabs="{{tablist}}"/>
+    <!-- <view class="home-page-tabs">
       <t-tabs
-        t-class="t-tabs"
-        t-class-active="tabs-external__active"
-        t-class-item="tabs-external__item"
-        defaultValue="{{0}}"
-        space-evenly="{{false}}"
-        bind:change="tabChangeHandle"
+      t-class="t-tabs"
+      t-class-active="tabs-external__active"
+      t-class-item="tabs-external__item"
+      defaultValue="{{0}}"
+      space-evenly="{{false}}"
+      bind:change="tabChangeHandle"
       >
-        <t-tab-panel
-          wx:for="{{tabList}}"
-          wx:for-index="index"
-          wx:key="index"
-          label="{{item.text}}"
-          value="{{item.key}}"
-        />
+      <t-tab-panel
+      wx:for="{{tabList}}"
+      wx:for-index="index"
+      wx:key="index"
+      label="{{item.text}}"
+      value="{{item.key}}"
+      />
       </t-tabs>
-    </view>
+      </view> -->
 
     <goods-list
       wr-class="goods-list-container"

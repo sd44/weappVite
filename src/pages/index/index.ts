@@ -1,13 +1,10 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
+import type { FetchTabsQuery } from "~/gql/graphql"
+import { fetchTabs } from "~/schema/home"
 import { fetchGoodsList } from "~/services/good/fetch-goods"
-import { fetchHome } from "~/services/home"
 import type { LoadStatus, MockGoodLit } from "~/types/common"
+import { urqlClient } from "~/utils/fetcher"
 import { genQueryString } from "~/utils/url-params"
-
-export type TabItem = {
-  text: string
-  key: number
-}
 
 const firstGrid = [
   {
@@ -48,7 +45,7 @@ Page({
   data: {
     mode: "light",
     pageLoading: false,
-    tablist: [] as TabItem[],
+    tablist: {} as FetchTabsQuery,
     goodsList: [] as MockGoodLit[],
     goodsListLoadStatus: 0 as LoadStatus,
   },
@@ -56,10 +53,6 @@ Page({
   goodListPagination: {
     index: 0,
     num: 20,
-  },
-
-  privateData: {
-    tabIndex: 0,
   },
 
   switchMode() {
@@ -105,15 +98,16 @@ Page({
   onPullDownRefresh() {
     this.loadHomePage()
   },
-  loadHomePage() {
+  async loadHomePage() {
     wx.stopPullDownRefresh()
 
     this.setData({
       pageLoading: true,
     })
-    const { tabList } = fetchHome()
+    const tabsData = await urqlClient.query(fetchTabs, {}).toPromise()
+
     this.setData({
-      tabList,
+      tabList: tabsData,
       pageLoading: false,
     })
     this.loadGoodsList(true)
@@ -134,14 +128,6 @@ Page({
   navToSearchPage() {
     console.log("navToSearchPage 方法被调用")
     wx.navigateTo({ url: `/pages/goods/search/search${genQueryString({ search: "测试" })}` })
-  },
-
-  tabChangeHandle(e: WechatMiniprogram.CustomEvent) {
-    this.privateData.tabIndex = e.detail.value
-
-    // FIX: data.tablist 其实应当根据 tabIndex 筛选 goods 数据。为开发方便，先如此
-    console.log("tabChangeHandle", this.privateData.tabIndex)
-    this.loadGoodsList(true)
   },
 
   // load-more触发retry event

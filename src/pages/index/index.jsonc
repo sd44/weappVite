@@ -5,7 +5,8 @@
     "notice-bar": "/components/notice-bar/notice-bar",
     "goods-list": "/components/goods-list/goods-list",
     "load-more": "/components/load-more/load-more",
-    "swiper": "/components/swiper/swiper"
+    "swiper": "/components/swiper/swiper",
+    "grid": "/components/grid/grid"
   },
   "navigationBarTitleText": "TDesign Mall Weapp-Vite",
   "onReachBottomDistance": 10,
