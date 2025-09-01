@@ -61,6 +61,7 @@ Component({
       this.triggerEvent("thumb", { goods: this.data.goods })
     },
 
+    //TODO: 购物车点击事件处理
     addCartHandle(_e: WechatMiniprogram.CustomEvent) {
       this.triggerEvent("add-cart", {
         goods: this.data.goods,

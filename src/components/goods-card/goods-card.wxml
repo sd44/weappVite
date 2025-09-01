@@ -19,16 +19,20 @@
         <view wx:if="{{ goods.name }}" class="goods-card__title">
           {{ goods.name }}
         </view>
-        <view wx:if="{{ goods.keywords && !!goods.keywords.length }}" class="goods-card__tags">
+        <!-- litemall模板中没有提供keywrods,暂用 brief 代替  -->
+        <!-- <view wx:if="{{ goods.keywords && !!goods.keywords.length }}" class="goods-card__tags">
           <view
-            wx:for="{{ goods.keywords }}"
-            wx:key="index"
-            wx:for-item="tag"
-            class="goods-card__tag"
-            data-index="{{index}}"
+          wx:for="{{ goods.keywords }}"
+          wx:key="index"
+          wx:for-item="tag"
+          class="goods-card__tag"
+          data-index="{{index}}"
           >
-            {{tag}}
+          {{tag}}
           </view>
+          </view> -->
+        <view wx:if="{{ goods.brief }}" class="goods-card__tags">
+          {{ goods.brief }}
         </view>
       </view>
       <view class="goods-card__down">
@@ -48,12 +52,11 @@
         />
         <t-icon
           class="goods-card__add-cart"
-          prefix="wr"
-          name="cartAdd"
+          name="cart-add"
           id="{{goods.id}}-cart"
           data-id="{{goods.id}}"
           catchtap="addCartHandle"
-          size="48rpx"
+          size="42rpx"
           color="#FA550F"
         />
       </view>
