@@ -1,4 +1,4 @@
-import type { LitemallGoodsItem } from "~/gql/graphql"
+import type { LitemallGoodsSelectItem } from "~/gql/graphql"
 
 Component({
   externalClasses: ["wr-class"],
@@ -6,7 +6,7 @@ Component({
   properties: {
     goodsList: {
       type: Array,
-      value: [] as LitemallGoodsItem[],
+      value: [] as LitemallGoodsSelectItem[],
     },
     thresholds: {
       type: Array,

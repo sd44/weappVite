@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/correctness/noUnusedVariables: graphql code is used */
-
 import { gql } from "@urql/core"
 import type { FetchNewGoodsQuery, FetchTabsQuery } from "~/gql/graphql"
 import { urqlClient } from "~/utils/fetcher"
@@ -23,7 +21,9 @@ export async function fetchTabList() {
   return tabsData.data
 }
 
-const GoodsItemFragment = gql`
+// WARNING: 如果使用片段，注意何时使用片段名 GoodsItem，何时使用 GoodsItemFragment
+// 因为小程序支持不全，使用Fragment时类型麻烦，所以不使用！
+const _GoodsItemFragment = gql`
   fragment GoodsItem on LitemallGoodsSelectItem{
       id
       goodsSn
@@ -40,7 +40,7 @@ const GoodsItemFragment = gql`
       counterPrice
       retailPrice
       detail
-}
+      }
       `
 
 const fetchNewGoods = gql`
@@ -51,12 +51,26 @@ const fetchNewGoods = gql`
       limit: $limit
       offset: $offset
     ) {
-      ...GoodsItem # 注意这里使用片段名GoodsItem，不是GoodsItemFragment
+      id
+      goodsSn
+      name
+      categoryId
+      gallery
+      keywords
+      brief
+      picUrl
+      shareUrl
+      isNew
+      isHot
+      unit
+      counterPrice
+      retailPrice
+      detail
     }
   }
 `
 
-export async function fetchNewGoodList(limit: number, offset: number) {
+export async function fetchNewGoodsList(limit: number, offset: number) {
   const res = await urqlClient
     .query<FetchNewGoodsQuery>(fetchNewGoods, { limit, offset })
     .toPromise()

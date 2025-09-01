@@ -6,7 +6,7 @@
   >
     <goods-card
       id="{{item.id}}-gd-{{index}}"
-      data="{{item}}"
+      goods="{{item}}"
       currency="{{'¥'}}"
       thresholds="{{thresholds}}"
       class="goods-card-inside"

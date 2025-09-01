@@ -1,11 +1,8 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
-import type { FetchTabsQuery } from "~/gql/graphql"
-import { fetchTabList } from "~/schema/home"
-import { fetchGoodsList } from "~/services/good/fetch-goods"
-import type { MockGoodLit } from "~/types/common"
+import type { LoadStatus } from "~/components/load-more/load-more"
+import type { FetchTabsQuery, LitemallGoodsSelectItem } from "~/gql/graphql"
+import { fetchNewGoodsList, fetchTabList } from "~/schema/home"
 import { genQueryString } from "~/utils/url-params"
-
-export type LoadStatus = 0 | 1 | 3
 
 const firstGrid = [
   {
@@ -47,13 +44,12 @@ Page({
     mode: "light",
     pageLoading: false,
     tablist: {} as FetchTabsQuery,
-    goodsList: [] as MockGoodLit[],
+    goodsList: [] as LitemallGoodsSelectItem[],
     goodsListLoadStatus: 0 as LoadStatus,
-  },
 
-  goodListPagination: {
-    page: 0,
-    num: 12,
+    goodsEnd: false,
+    goodsPage: 0,
+    num: 6,
   },
 
   switchMode() {
@@ -90,7 +86,7 @@ Page({
     await this.loadHomePage()
   },
   onReachBottom() {
-    // TODO: 实际情况下，应该获取下一页数据；以下为演示方便，获取重复数据
+    // 触底则获取下一页商品数据
     if (this.data.goodsListLoadStatus === 0) {
       this.loadGoodsList()
     }
@@ -112,7 +108,7 @@ Page({
       tablist: await fetchTabList(),
       pageLoading: false,
     })
-    // this.loadGoodsList(true)
+    this.loadGoodsList(true)
   },
 
   handleAction() {
@@ -137,7 +133,7 @@ Page({
     this.loadGoodsList()
   },
 
-  loadGoodsList(fresh = false) {
+  async loadGoodsList(fresh = false) {
     if (fresh) {
       wx.pageScrollTo({
         scrollTop: 0,
@@ -146,40 +142,46 @@ Page({
 
     this.setData({ goodsListLoadStatus: 1 })
 
-    // 获取每页需要加载的商品数量
-    const pageSize = this.goodListPagination.num
-
-    // pageSize = 12（每页 10 条），
-    // 当前标签页索引 tabIndex = 1（第二个标签），
-    // 该标签页已加载到 index = 2（已加载 3 页：0+1=1、1+1=2、2+1=3）。
-    // 则计算结果：
-    // pageIndex = 1*10 + 2 + 1 = 13，表示下一页请求第 13 页数据。
-    // let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1
-    let pageIndex = this.goodListPagination.page + 1
-
-    if (fresh) {
-      pageIndex = 0
+    if (this.data.goodsEnd) {
+      return
     }
 
-    try {
-      const nextList = fetchGoodsList(pageIndex, pageSize)
+    const nextList = await fetchNewGoodsList(this.data.num, this.data.goodsPage * this.data.num)
+    const litemallGoods = nextList?.litemallGoods ?? []
+    if (litemallGoods?.length > 0) {
       this.setData({
-        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-        goodsListLoadStatus: 0,
+        goodsList: this.data.goodsList.concat(litemallGoods),
       })
 
-      this.goodListPagination.page = pageIndex
-      this.goodListPagination.num = pageSize
-    } catch (_err) {
-      this.setData({ goodsListLoadStatus: 3 })
+      if (litemallGoods.length < this.data.num) {
+        this.setData({
+          goodsEnd: true,
+          goodsListLoadStatus: 2,
+        })
+      } else {
+        this.setData({
+          goodsListLoadStatus: 0,
+          goodsPage: this.data.goodsPage + 1,
+        })
+      }
+    } else {
+      this.setData({
+        goodsListLoadStatus: 2,
+        goodsEnd: true,
+      })
     }
+    console.log("fetchNewGoodsList", this.data.goodsList)
   },
 
   goodListClickHandle(e: WechatMiniprogram.CustomEvent) {
     const { index } = e.detail
-    const { spuId } = this.data.goodsList[index]
+    console.log("goodListClickHandle", this.data.goodsList[index])
+    const { id } = this.data.goodsList[index]
     wx.navigateTo({
-      url: `/pages/goods/details/details?spuId=${spuId}`,
+      url: `/pages/goods/details/details?spuId=${id}`,
     })
   },
+
+  // TODO: 添加购物车逻辑还未实现
+  goodListAddCartHandle(_e: WechatMiniprogram.CustomEvent) {},
 })

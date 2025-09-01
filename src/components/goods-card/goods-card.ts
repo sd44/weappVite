@@ -1,4 +1,4 @@
-import type { LitemallGoodsItem } from "~/gql/graphql"
+import type { LitemallGoodsSelectItem } from "~/gql/graphql"
 
 Component({
   options: {
@@ -8,7 +8,7 @@ Component({
   properties: {
     goods: {
       type: Object,
-      value: {} as LitemallGoodsItem,
+      value: {} as LitemallGoodsSelectItem,
     },
     currency: {
       type: String,
@@ -24,7 +24,7 @@ Component({
   },
 
   observers: {
-    goods(goods: LitemallGoodsItem) {
+    goods(goods: LitemallGoodsSelectItem) {
       if (!goods) {
         return
       }

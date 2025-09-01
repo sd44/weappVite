@@ -1,4 +1,5 @@
-import type { LoadStatus } from "~/types/common"
+// LoadStatus 为 0 表示正常， 1 表示加载完成，2 表示全部加载， 3 表示错误。
+export type LoadStatus = 0 | 1 | 2 | 3
 
 Component({
   externalClasses: ["wr-class", "wr-class--no-more"],
