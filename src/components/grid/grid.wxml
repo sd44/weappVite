@@ -1,7 +1,7 @@
 <view class="block">
   <t-grid column="{{4}}" theme="default">
     <t-grid-item
-      wx:for = "{{tablist}}"
+      wx:for = "{{tablist.litemallCategory}}"
       wx:key = "index"
       t-class-image="image"
       data-id="{{item.id}}"

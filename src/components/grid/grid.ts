@@ -4,7 +4,7 @@ Component({
   properties: {
     tablist: {
       type: Object,
-      value: [] as FetchTabsQuery[],
+      value: {} as FetchTabsQuery,
     },
   },
   observers: {

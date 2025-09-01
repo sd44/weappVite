@@ -1,10 +1,11 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
 import type { FetchTabsQuery } from "~/gql/graphql"
-import { fetchTabs } from "~/schema/home"
+import { fetchTabList } from "~/schema/home"
 import { fetchGoodsList } from "~/services/good/fetch-goods"
-import type { LoadStatus, MockGoodLit } from "~/types/common"
-import { urqlClient } from "~/utils/fetcher"
+import type { MockGoodLit } from "~/types/common"
 import { genQueryString } from "~/utils/url-params"
+
+export type LoadStatus = 0 | 1 | 3
 
 const firstGrid = [
   {
@@ -45,14 +46,14 @@ Page({
   data: {
     mode: "light",
     pageLoading: false,
-    tablist: [] as FetchTabsQuery[],
+    tablist: {} as FetchTabsQuery,
     goodsList: [] as MockGoodLit[],
     goodsListLoadStatus: 0 as LoadStatus,
   },
 
   goodListPagination: {
-    index: 0,
-    num: 20,
+    page: 0,
+    num: 12,
   },
 
   switchMode() {
@@ -104,11 +105,11 @@ Page({
     this.setData({
       pageLoading: true,
     })
-    const tabsData = await urqlClient.query(fetchTabs, {}).toPromise()
-    console.log("tabsData", tabsData.data.litemallCategory)
 
+    const x = await fetchTabList()
+    console.log("fetchTabList", x)
     this.setData({
-      tablist: tabsData.data.litemallCategory,
+      tablist: await fetchTabList(),
       pageLoading: false,
     })
     // this.loadGoodsList(true)
@@ -148,14 +149,13 @@ Page({
     // 获取每页需要加载的商品数量
     const pageSize = this.goodListPagination.num
 
-    // TODO: 实际情况下，应该根据 tabIndex 筛选数据，而不是下面这种混乱的算法
-    // pageSize = 10（每页 10 条），
+    // pageSize = 12（每页 10 条），
     // 当前标签页索引 tabIndex = 1（第二个标签），
     // 该标签页已加载到 index = 2（已加载 3 页：0+1=1、1+1=2、2+1=3）。
     // 则计算结果：
     // pageIndex = 1*10 + 2 + 1 = 13，表示下一页请求第 13 页数据。
     // let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1
-    let pageIndex = this.goodListPagination.index + 1
+    let pageIndex = this.goodListPagination.page + 1
 
     if (fresh) {
       pageIndex = 0
@@ -168,7 +168,7 @@ Page({
         goodsListLoadStatus: 0,
       })
 
-      this.goodListPagination.index = pageIndex
+      this.goodListPagination.page = pageIndex
       this.goodListPagination.num = pageSize
     } catch (_err) {
       this.setData({ goodsListLoadStatus: 3 })
