@@ -1,4 +1,5 @@
 import ActionSheet, { ActionSheetTheme } from "tdesign-miniprogram/action-sheet/index"
+import Toast from "tdesign-miniprogram/toast"
 import type { LoadStatus } from "~/components/load-more/load-more"
 import type { FetchTabsQuery, LitemallGoodsSelectItem } from "~/gql/graphql"
 import { fetchNewGoodsList, fetchTabList } from "~/schema/home"
@@ -183,5 +184,11 @@ Page({
   },
 
   // TODO: 添加购物车逻辑还未实现
-  goodListAddCartHandle(_e: WechatMiniprogram.CustomEvent) {},
+  goodListAddCartHandle(_e: WechatMiniprogram.CustomEvent) {
+    Toast({
+      context: this,
+      selector: "#t-toast",
+      message: "点击加入购物车",
+    })
+  },
 })
