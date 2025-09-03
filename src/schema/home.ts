@@ -76,3 +76,40 @@ export async function fetchNewGoodsList(limit: number, offset: number) {
     .toPromise()
   return res.data
 }
+
+const fetchComment = gql`
+query FetchGoodsComment($valueId: Float!, $type: Int!) {
+litemallComment(
+  orderBy: { addTime: { direction: asc, priority: 10 } }
+  where: { deleted: { eq: false }, valueId: { eq: $valueId }, type: { eq: $type } }
+) {
+  id
+  valueId
+  type
+  content
+  userId
+  hasPicture
+  picUrls
+  star
+  goods: litemallGoods(where: { id: { eq: $valueId } }) {
+    id
+    name
+    picUrl
+    retailPrice
+  }
+  user: litemallUser(where: { id: { eq: userId } }) {
+    id
+    username
+    nickname
+    avatar
+  }
+}
+}
+`
+
+// export async function fetchGoodsComment(limit: number, offset = 0) {
+//   const res = await urqlClient
+//     .query<FetchNewGoodsQuery>(fetchNewGoods, { limit, offset })
+//     .toPromise()
+//   return res.data
+// }

@@ -1,4 +1,6 @@
 {
+  "$schema": "https://vite.icebreaker.top/component.json",
+  "styleIsolation": "apply-shared",
   "component": true,
   "usingComponents": {
     "t-rate": "tdesign-miniprogram/rate/rate",

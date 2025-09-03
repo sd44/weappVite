@@ -1,4 +1,6 @@
 {
+  "$schema": "https://vite.icebreaker.top/component.json",
+  "styleIsolation": "apply-shared",
   "component": true,
   "usingComponents": {
     "my-video": "../my-video/index",

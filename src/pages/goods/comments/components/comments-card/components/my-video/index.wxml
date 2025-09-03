@@ -17,10 +17,10 @@
 >
   <view class="video_cover" wx:if="{{isShow}}">
     <view class="my-cover-img">
-      <slot name="cover-img" />
+      <slot name="cover-img"/>
     </view>
     <view class="video_play_icon my-play-icon" bindtap="bindplay">
-      <slot name="play-icon" />
+      <slot name="play-icon"/>
     </view>
   </view>
 </video>

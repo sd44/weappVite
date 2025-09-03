@@ -2,7 +2,7 @@
   <view class="comment-card">
     <view class="goods-info-container">
       <view class="goods-image-container">
-        <t-image t-class="goods-image" src="{{imgUrl}}" />
+        <t-image t-class="goods-image" src="{{imgUrl}}"/>
       </view>
       <view class="goods-title-container">
         <view class="goods-title">{{title}}</view>
@@ -43,7 +43,11 @@
     </view>
 
     <view class="anonymous-box">
-      <t-checkbox bind:change="onAnonymousChange" checked="{{isAnonymous}}" color="#FA4126" />
+      <t-checkbox
+        bind:change="onAnonymousChange"
+        checked="{{isAnonymous}}"
+        color="#FA4126"
+      />
       <view class="name">匿名评价</view>
     </view>
   </view>
@@ -87,4 +91,4 @@
     bind:tap="onSubmitBtnClick"
   />
 </view>
-<t-toast id="t-toast" />
+<t-toast id="t-toast"/>
