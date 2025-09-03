@@ -30,14 +30,8 @@ export async function xx() {
 
   // 蹩脚的微信小程序，不能使用 urql 的 useQuery hooks，只能手动带入类型，如 MyQuery1Query
   const adResult = await urqlClient.query<MyQuery1Query>(TESTQUERY1, {}).toPromise()
-  console.log("GraphQL document:", adResult.data)
-  adResult.data?.litemallAd?.forEach((ad) => {
-    console.log(`Ad ID: ${ad?.id}, Name: ${ad?.name}`)
-  })
+  adResult.data?.litemallAd?.forEach((_ad) => {})
 
   const roleResult = await urqlClient.query<MyQuery2Query>(TESTQUERY2, {}).toPromise()
-  console.log("GraphQL document:", roleResult.data)
-  roleResult.data?.litemallRole?.forEach((role) => {
-    console.log(`Role ID: ${role?.id}, Name: ${role?.name}, Enabled: ${role?.enabled}`)
-  })
+  roleResult.data?.litemallRole?.forEach((_role) => {})
 }

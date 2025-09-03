@@ -1,9 +1,8 @@
 import { debounce } from "./debounce"
 
-let TIMES = 0
-function batchLog(sss: string) {
-  TIMES++
-  console.log(TIMES, "次: batchLog", Date.now(), sss)
+let _TIMES = 0
+function batchLog(_sss: string) {
+  _TIMES++
 }
 
 const bou = debounce(batchLog, 250, { maxWait: 1000 })

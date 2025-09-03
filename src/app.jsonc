@@ -11,7 +11,7 @@
     "selectedColor": "#FF5F15",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
-    // Warning: list 必须与 src/custom-tab-bar/custom-tab-bar-data.ts 中的 tabBarData 对应
+    // Warning: list 必须与 src/custom-tab-bar/tab-bar-data.ts 中的 tabBarData 对应
     // 且 pagePath 不能以 / 开头
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },

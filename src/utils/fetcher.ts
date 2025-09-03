@@ -1,7 +1,7 @@
 import { Client, cacheExchange, fetchExchange } from "@urql/core"
 
 // 微信小程序兼容的fetch实现 - 使用原生wx.request
-const customClient = async (input: RequestInfo | URL, init?: RequestInit) => {
+const customClient = (input: RequestInfo | URL, init?: RequestInit) => {
   const url = typeof input === "string" ? input : input.toString()
   const method = (init?.method || "GET") as "GET" | "POST" | "PUT" | "DELETE" | "OPTIONS" | "HEAD"
   const headers = (init?.headers as Record<string, string>) || {}
@@ -26,13 +26,13 @@ const customClient = async (input: RequestInfo | URL, init?: RequestInit) => {
               return response.header?.[headerName] || null
             },
           },
-          text: async () => {
+          text: () => {
             if (typeof response.data === "string") {
               return response.data
             }
             return JSON.stringify(response.data)
           },
-          json: async () => {
+          json: () => {
             if (typeof response.data === "string") {
               try {
                 return JSON.parse(response.data)

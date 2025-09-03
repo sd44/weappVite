@@ -49,7 +49,6 @@ Component({
     navToActivityDetail({ detail }: WechatMiniprogram.CustomEvent) {
       // TODO: imgsrc传递时，其实应当也传递相应的 url,以便跳转。为开发方便，先如此
       const { index: promotionID = 0 } = detail || {}
-      console.log("navToActivityDetail 方法被调用", promotionID)
       wx.navigateTo({
         url: `/pages/promotion/promotion-detail/promotion-detail?promotion_id=${promotionID}`,
       })
